@@ -31,7 +31,9 @@
     .brand{font-size:19px;font-weight:900;letter-spacing:-.2px}
     .city{font-size:12px;color:var(--muted);margin-top:2px}
     .date{font-size:13px;color:#d4d9e2;margin-top:8px}
-    .iconbtn{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#101729;color:#fff;display:grid;place-items:center;font-size:18px;cursor:pointer}
+    .iconbtn{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#101729;color:#fff;display:grid;place-items:center;font-size:18px;cursor:pointer;transition:.18s ease}
+    .iconbtn.notify-on{background:#12371f;border-color:#205c33}
+    .iconbtn.notify-off{opacity:.58}
     .card{background:rgba(18,26,43,.92);border:1px solid #202a40;border-radius:24px;padding:18px;margin-bottom:14px;backdrop-filter:blur(10px)}
     .hero{padding:20px}
     .statusline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -254,7 +256,7 @@ async function loadWeather(silent=false){
     const currentRisk=riskOf(0,currentPrecip,c.wind_speed_10m??0,c.wind_gusts_10m??0);
     const old=localStorage.getItem('ridecast-current-risk');
     localStorage.setItem('ridecast-current-risk',currentRisk);
-    if(old&&rank(currentRisk)>rank(old)&&'Notification'in window&&Notification.permission==='granted'){
+    if(old&&rank(currentRisk)>rank(old)&&appNotificationsEnabled()){
       try{const reg=await navigator.serviceWorker.ready;await reg.showNotification('🏍️ وضعیت تهران بدتر شد',{body:currentRisk==='bad'?'شرایط برای موتورسواری پرریسک شده.':'شرایط نیاز به احتیاط بیشتری دارد.'})}catch(e){}
     }
   }catch(e){
@@ -303,13 +305,39 @@ function renderRoutes(){
 }
 
 $("#refreshBtn").addEventListener('click',()=>loadWeather(false));
+function appNotificationsEnabled(){
+  if(!('Notification'in window)||Notification.permission!=='granted') return false;
+  const pref=localStorage.getItem('ridecast-notifications-enabled');
+  return pref===null?true:pref==='true';
+}
+function syncNotifyButton(){
+  const btn=$("#notifyBtn");
+  const enabled=appNotificationsEnabled();
+  btn.textContent=enabled?'🔔':'🔕';
+  btn.classList.toggle('notify-on',enabled);
+  btn.classList.toggle('notify-off',!enabled);
+  btn.setAttribute('aria-label',enabled?'غیرفعال‌کردن اعلان‌ها':'فعال‌کردن اعلان‌ها');
+  btn.title=enabled?'اعلان‌ها فعال‌اند؛ برای غیرفعال‌کردن بزن':'اعلان‌ها غیرفعال‌اند؛ برای فعال‌کردن بزن';
+}
 $("#notifyBtn").addEventListener('click',async()=>{
-  if(!('Notification'in window)){return}
-  const p=await Notification.requestPermission();
-  if(p==='granted'){
-    $("#notifyBtn").textContent='✓';
-    $("#notifyBtn").setAttribute('aria-label','اعلان فعال است');
-    try{const reg=await navigator.serviceWorker.ready;await reg.showNotification('🏍️ RideCast',{body:'اعلان‌ها فعال شد.'})}catch(e){}
+  if(!('Notification'in window)) return;
+  if(appNotificationsEnabled()){
+    localStorage.setItem('ridecast-notifications-enabled','false');
+    syncNotifyButton();
+    return;
+  }
+  let permission=Notification.permission;
+  if(permission==='default') permission=await Notification.requestPermission();
+  if(permission==='granted'){
+    localStorage.setItem('ridecast-notifications-enabled','true');
+    syncNotifyButton();
+    try{
+      const reg=await navigator.serviceWorker.ready;
+      await reg.showNotification('🏍️ RideCast',{body:'اعلان‌ها دوباره فعال شد.'});
+    }catch(e){}
+  }else{
+    localStorage.setItem('ridecast-notifications-enabled','false');
+    syncNotifyButton();
   }
 });
 $("#addRouteBtn").addEventListener('click',()=>$("#routeDialog").showModal());
@@ -321,7 +349,7 @@ $("#routeForm").addEventListener('submit',e=>{
   saveRoutes(routes);e.target.reset();$("#routeDialog").close();renderRoutes();
 });
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
-if('Notification'in window&&Notification.permission==='granted'){$("#notifyBtn").textContent='✓'}
+syncNotifyButton();
 updateDate();loadWeather(false);setInterval(()=>loadWeather(true),10*60*1000);
 </script>
 </body>
