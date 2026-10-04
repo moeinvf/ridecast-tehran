@@ -96,6 +96,30 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
 .toast{position:fixed;z-index:100;top:calc(12px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-16px);width:min(calc(100% - 24px),520px);background:#33181b;border:1px solid #6f2b32;color:#ffd9dc;border-radius:14px;padding:11px 14px;font-size:13px;font-weight:750;line-height:1.7;text-align:center;opacity:0;pointer-events:none;transition:.22s ease;box-shadow:0 12px 35px rgba(0,0,0,.35)}.toast.show{opacity:1;transform:translate(-50%,0)}.field-error{border-color:#d95d65!important;box-shadow:0 0 0 3px rgba(217,93,101,.08)!important}
 .city-search-row{display:grid;grid-template-columns:1fr auto;gap:8px}.city-search-btn{min-width:76px;border:0;border-radius:13px;background:#fff;color:#111827;font-weight:900;padding:0 14px;cursor:pointer}.city-results{display:grid;gap:8px;max-height:46vh;overflow:auto;margin-top:12px}.city-result{width:100%;border:1px solid var(--line);background:#0b1726;color:#fff;border-radius:14px;padding:11px 12px;text-align:right;cursor:pointer}.city-result b{display:block;font-size:14px;margin-bottom:3px}.city-result span{font-size:11px;color:#9ba7b9}.popular-cities{display:flex;gap:7px;overflow:auto;padding:3px 0 2px;scrollbar-width:none}.popular-cities::-webkit-scrollbar{display:none}.city-chip{white-space:nowrap;border:1px solid var(--line-strong);background:#0c1929;color:#dce3ed;border-radius:999px;padding:7px 10px;font-size:12px;cursor:pointer}
 .good{background:rgba(37,147,116,.16)!important;color:#8ee7cc!important;border:1px solid rgba(86,214,176,.20)!important}.warn{background:rgba(163,122,23,.18)!important;color:#ffe08b!important;border:1px solid rgba(241,203,107,.20)!important}.bad{background:rgba(184,57,67,.17)!important;color:#ffb1b6!important;border:1px solid rgba(255,124,132,.20)!important}
+
+/* RideCast interaction polish */
+.iconbtn,.city-btn,.addbtn,.install-btn,.btn,.city-search-btn,.city-result,.city-chip,.delete{transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease,opacity .18s ease}
+#refreshBtn.refreshing{pointer-events:none;background:#173852;border-color:#589ed5;box-shadow:0 0 0 3px rgba(95,169,255,.08)}
+#refreshBtn.refreshing svg{animation:ridecast-refresh-spin .75s linear infinite}
+@keyframes ridecast-refresh-spin{to{transform:rotate(360deg)}}
+@media(hover:hover) and (pointer:fine){
+  .iconbtn:hover,.city-btn:hover{transform:translateY(-2px);background:#1b3048;border-color:rgba(125,184,245,.55);box-shadow:0 9px 24px rgba(0,0,0,.2)}
+  .addbtn:hover{transform:translateY(-2px);background:rgba(95,169,255,.12);border-color:rgba(95,169,255,.58);box-shadow:0 10px 25px rgba(0,0,0,.17)}
+  .install-btn:hover,.btn:hover,.city-search-btn:hover{transform:translateY(-2px);filter:brightness(1.1);box-shadow:0 10px 25px rgba(0,0,0,.2)}
+  .city-result:hover,.city-chip:hover{transform:translateY(-1px);background:#14263b;border-color:rgba(95,169,255,.48)}
+  .delete:hover{transform:scale(1.12);color:#ff9aa2;background:rgba(255,125,134,.08);border-radius:8px}
+}
+.notify-settings{display:grid;gap:10px;margin:14px 0}
+.notify-toggle{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:15px;background:#0b1726;cursor:pointer}
+.notify-toggle input[type="checkbox"]{width:20px;height:20px;min-height:0;flex:0 0 20px;margin:2px 0 0;padding:0;accent-color:#5fa9ff;box-shadow:none}
+.notify-toggle-copy{display:grid;gap:3px}.notify-toggle-copy b{font-size:13px}.notify-toggle-copy span{font-size:10px;line-height:1.8;color:var(--muted)}
+.daily-time-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.018)}
+.daily-time-row label{font-size:12px;font-weight:850}.daily-time-row input[type="time"]{width:132px;min-height:42px;text-align:center;direction:ltr}
+.daily-time-row input:disabled{opacity:.42}
+.notify-note{font-size:10px;color:var(--muted);line-height:1.85;margin-top:2px}
+.hero-visual{transition:opacity .35s ease,filter .35s ease,transform .55s ease}
+.hero.hero-image-loading .hero-visual{opacity:.13;filter:saturate(.55) blur(1px);transform:scale(1.02)}
+
 @media(display-mode:standalone){.install-bar{display:none!important}}
 @media(max-width:430px){
   .wrap{padding-right:calc(10px + env(safe-area-inset-right));padding-left:calc(10px + env(safe-area-inset-left))}
@@ -216,6 +240,31 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
   <div id="cityResults" class="city-results"></div>
   <div class="actions">
     <button type="button" id="closeCity" class="btn secondary">بستن</button>
+  </div>
+</dialog>
+
+
+<dialog id="notifyDialog">
+  <div class="section-title">تنظیم اعلان‌های RideCast</div>
+  <div class="install-hint">اعلان روزانه و هشدار تغییر ناگهانی هوا جدا از هم قابل تنظیم‌اند.</div>
+  <div class="notify-settings">
+    <label class="notify-toggle">
+      <input id="eventNotifyToggle" type="checkbox">
+      <span class="notify-toggle-copy"><b>هشدار تغییرات ناگهانی</b><span>اگر وضعیت هوا بدتر شود، هشدار جداگانه دریافت می‌کنی.</span></span>
+    </label>
+    <label class="notify-toggle">
+      <input id="dailyNotifyToggle" type="checkbox">
+      <span class="notify-toggle-copy"><b>اعلان روزانه</b><span>هر روز در ساعت انتخابی، خلاصه وضعیت موتورسواری شهر فعلی را می‌بینی.</span></span>
+    </label>
+    <div class="daily-time-row">
+      <label for="dailyNotifyTime">ساعت اعلان روزانه</label>
+      <input id="dailyNotifyTime" type="time" value="08:00">
+    </div>
+  </div>
+  <div class="notify-note">برای اعلان‌ها باید دسترسی Notification مرورگر فعال باشد.</div>
+  <div class="actions">
+    <button type="button" id="closeNotify" class="btn secondary">بستن</button>
+    <button type="button" id="saveNotifySettings" class="btn primary">ذخیره تنظیمات</button>
   </div>
 </dialog>
 
@@ -392,6 +441,7 @@ async function loadWeather(silent=false){
     if(old&&rank(currentRisk)>rank(old)&&appNotificationsEnabled()){
       try{const reg=await navigator.serviceWorker.ready;await reg.showNotification(`🏍️ وضعیت ${currentCity.name} بدتر شد`,{body:currentRisk==='bad'?'شرایط برای موتورسواری پرریسک شده.':'شرایط نیاز به احتیاط بیشتری دارد.'})}catch(e){}
     }
+    return true;
   }catch(e){
     if(!silent){
       $("#badge").className='status bad';$("#badge").textContent='خطا در دریافت هوا';
@@ -399,9 +449,9 @@ async function loadWeather(silent=false){
       $("#heroSubline").textContent='دریافت اطلاعات ناموفق بود';
       $("#reasons").innerHTML='<li class="reason"><span class="reason-icon">!</span><span>اینترنت را بررسی کن و دوباره به‌روزرسانی بزن</span></li>';
     }
+    return false;
   }
 }
-
 function routesKey(){return 'ridecast-routes:'+Number(currentCity.latitude).toFixed(3)+','+Number(currentCity.longitude).toFixed(3)}
 function getRoutes(){
   try{
@@ -497,13 +547,67 @@ syncInstallUI();
 function cityDisplayMeta(city){
   return [city.admin1,city.country].filter(Boolean).join(' · ');
 }
+
+const CITY_LANDMARK_TITLES={
+  'تهران':'برج آزادی',
+  'مشهد':'حرم امام رضا',
+  'اصفهان':'میدان نقش جهان',
+  'شیراز':'آرامگاه حافظ',
+  'تبریز':'ائل‌گلی',
+  'رشت':'میدان شهرداری رشت',
+  'کرج':'کاخ مروارید'
+};
+let heroImageRequest=0;
+async function wikiPageImage(title){
+  const url='https://fa.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&piprop=original&redirects=1&titles='+encodeURIComponent(title);
+  const res=await fetch(url,{cache:'force-cache'});if(!res.ok)throw new Error('wiki-image');
+  const data=await res.json();
+  const pages=Object.values(data.query?.pages||{});
+  return pages.find(p=>p.original?.source)?.original?.source||'';
+}
+async function geoPageImage(city){
+  const url='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=geosearch&ggsprimary=all&ggsnamespace=0&ggsradius=10000&ggslimit=12&ggscoord='+encodeURIComponent(city.latitude+'|'+city.longitude)+'&prop=pageimages&piprop=original';
+  const res=await fetch(url,{cache:'force-cache'});if(!res.ok)throw new Error('geo-image');
+  const data=await res.json();
+  const pages=Object.values(data.query?.pages||{});
+  return pages.find(p=>p.original?.source)?.original?.source||'';
+}
+async function updateHeroCityImage(city){
+  const img=$("#heroVisual"),hero=document.querySelector('.hero');if(!img)return;
+  const request=++heroImageRequest;
+  hero?.classList.add('hero-image-loading');
+  img.alt='نمایی شاخص از '+city.name;
+  try{
+    const landmark=CITY_LANDMARK_TITLES[city.name];
+    let src=await wikiPageImage(landmark||city.name);
+    if(!src)src=await geoPageImage(city);
+    if(request!==heroImageRequest||!src){hero?.classList.remove('hero-image-loading');return}
+    const probe=new Image();
+    probe.onload=()=>{
+      if(request!==heroImageRequest)return;
+      img.src=src;
+      img.classList.remove('generic');
+      hero?.classList.remove('hero-image-loading');
+    };
+    probe.onerror=async()=>{
+      try{
+        const fallback=await geoPageImage(city);
+        if(request===heroImageRequest&&fallback){img.src=fallback;img.classList.remove('generic')}
+      }catch(e){}
+      hero?.classList.remove('hero-image-loading');
+    };
+    probe.referrerPolicy='no-referrer';
+    probe.src=src;
+  }catch(e){hero?.classList.remove('hero-image-loading')}
+}
+
 function syncCityUI(){
   document.title='RideCast · '+currentCity.name;
   if($("#cityName"))$("#cityName").textContent=currentCity.name;
   if($("#routeCityLabel"))$("#routeCityLabel").textContent=currentCity.name;
   if($("#footerCity"))$("#footerCity").textContent=currentCity.name;
   if($("#routeDialogTitle"))$("#routeDialogTitle").textContent='مسیر جدید در '+currentCity.name;
-  if($("#heroVisual"))$("#heroVisual").classList.remove('generic');
+  updateHeroCityImage(currentCity);
   updateDate();
   renderRoutes();
 }
@@ -561,54 +665,101 @@ $("#citySearch")?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDe
 renderPopularCities();
 syncCityUI();
 
-$("#refreshBtn")?.addEventListener('click',()=>loadWeather(false));
-function appNotificationsEnabled(){
-  if(!('Notification'in window)||Notification.permission!=='granted') return false;
-  const pref=localStorage.getItem('ridecast-notifications-enabled');
-  return pref===null?true:pref==='true';
+async function refreshWeatherWithFeedback(){
+  const btn=$("#refreshBtn");if(!btn||btn.classList.contains('refreshing'))return;
+  btn.classList.add('refreshing');btn.setAttribute('aria-busy','true');btn.title='در حال به‌روزرسانی';
+  if($("#updatedAt"))$("#updatedAt").textContent='در حال به‌روزرسانی…';
+  const ok=await loadWeather(false);
+  btn.classList.remove('refreshing');btn.removeAttribute('aria-busy');btn.title='به‌روزرسانی';
+  showToast(ok?'اطلاعات هوا تازه شد.':'به‌روزرسانی انجام نشد؛ دوباره تلاش کن.');
 }
+$("#refreshBtn")?.addEventListener('click',refreshWeatherWithFeedback);
+function notificationSupported(){return 'Notification'in window}
+function permissionGranted(){return notificationSupported()&&Notification.permission==='granted'}
+function eventNotificationsEnabled(){
+  if(!permissionGranted())return false;
+  const value=localStorage.getItem('ridecast-event-notifications-enabled');
+  if(value!==null)return value==='true';
+  const legacy=localStorage.getItem('ridecast-notifications-enabled');
+  return legacy===null?true:legacy==='true';
+}
+function dailyNotificationsEnabled(){return permissionGranted()&&localStorage.getItem('ridecast-daily-notifications-enabled')==='true'}
+function dailyNotificationTime(){return localStorage.getItem('ridecast-daily-notification-time')||'08:00'}
+function appNotificationsEnabled(){return eventNotificationsEnabled()}
 function syncNotifyButton(){
-  const btn=$("#notifyBtn");
-  if(!btn)return;
-  const enabled=appNotificationsEnabled();
+  const btn=$("#notifyBtn");if(!btn)return;
+  const enabled=eventNotificationsEnabled()||dailyNotificationsEnabled();
   const status=$("#notifyStatus");
   if(status)status.textContent=enabled?'فعال':'خاموش';
   btn.classList.toggle('notify-on',enabled);
   btn.classList.toggle('notify-off',!enabled);
   btn.setAttribute('aria-pressed',enabled?'true':'false');
-  btn.setAttribute('aria-label',enabled?'اعلان‌ها فعال‌اند؛ برای خاموش‌کردن بزن':'اعلان‌ها خاموش‌اند؛ برای فعال‌کردن بزن');
-  btn.title=enabled?'اعلان‌ها فعال‌اند':'اعلان‌ها خاموش‌اند';
+  btn.setAttribute('aria-label','تنظیم اعلان‌ها؛ '+(enabled?'حداقل یک اعلان فعال است':'اعلان‌ها خاموش‌اند'));
+  btn.title='تنظیم اعلان‌ها';
 }
-$("#notifyBtn")?.addEventListener('click',async()=>{
-  if(!('Notification'in window)){
+function syncNotifyDialog(){
+  const eventToggle=$("#eventNotifyToggle"),dailyToggle=$("#dailyNotifyToggle"),time=$("#dailyNotifyTime");
+  if(eventToggle)eventToggle.checked=eventNotificationsEnabled();
+  if(dailyToggle)dailyToggle.checked=dailyNotificationsEnabled();
+  if(time){time.value=dailyNotificationTime();time.disabled=!(dailyToggle?.checked)}
+}
+async function ensureNotificationPermission(){
+  if(!notificationSupported()){
     showToast('این مرورگر از اعلان پشتیبانی نمی‌کند. در آیفون، اپ را به صفحهٔ اصلی اضافه کن و از همان‌جا باز کن.');
-    return;
-  }
-  if(appNotificationsEnabled()){
-    localStorage.setItem('ridecast-notifications-enabled','false');
-    syncNotifyButton();
-    return;
+    return false;
   }
   let permission=Notification.permission;
   if(permission==='default'){
-    try{permission=await Notification.requestPermission()}
-    catch(e){syncNotifyButton();showToast('درخواست مجوز اعلان انجام نشد. دوباره تلاش کن.');return}
+    try{permission=await Notification.requestPermission()}catch(e){permission='denied'}
   }
-  if(permission==='granted'){
-    localStorage.setItem('ridecast-notifications-enabled','true');
-    syncNotifyButton();
-    try{
-      const reg=await navigator.serviceWorker.ready;
-      await reg.showNotification('🏍️ RideCast',{body:'اعلان‌ها دوباره فعال شد.'});
-    }catch(e){}
-  }else{
-    localStorage.setItem('ridecast-notifications-enabled','false');
-    syncNotifyButton();
-    showToast(permission==='denied'?'اجازهٔ اعلان در مرورگر بسته است. از تنظیمات سایت، اعلان‌ها را مجاز کن.':'برای فعال‌شدن اعلان‌ها، اجازهٔ مرورگر را تأیید کن.');
+  if(permission!=='granted'){
+    showToast('برای فعال‌شدن اعلان‌ها، دسترسی Notification را از تنظیمات مرورگر مجاز کن.');
+    return false;
   }
+  return true;
+}
+$("#notifyBtn")?.addEventListener('click',()=>{syncNotifyDialog();$("#notifyDialog")?.showModal()});
+$("#closeNotify")?.addEventListener('click',()=>$("#notifyDialog")?.close());
+$("#dailyNotifyToggle")?.addEventListener('change',e=>{if($("#dailyNotifyTime"))$("#dailyNotifyTime").disabled=!e.target.checked});
+$("#saveNotifySettings")?.addEventListener('click',async()=>{
+  const eventOn=!!$("#eventNotifyToggle")?.checked;
+  const dailyOn=!!$("#dailyNotifyToggle")?.checked;
+  if((eventOn||dailyOn)&&!(await ensureNotificationPermission())){syncNotifyDialog();return}
+  localStorage.setItem('ridecast-event-notifications-enabled',String(eventOn));
+  localStorage.setItem('ridecast-notifications-enabled',String(eventOn));
+  localStorage.setItem('ridecast-daily-notifications-enabled',String(dailyOn));
+  localStorage.setItem('ridecast-daily-notification-time',$("#dailyNotifyTime")?.value||'08:00');
+  syncNotifyButton();
+  startDailyNotificationScheduler();
+  $("#notifyDialog")?.close();
+  showToast(dailyOn?'اعلان روزانه برای ساعت '+($("#dailyNotifyTime")?.value||'08:00')+' ذخیره شد.':'تنظیمات اعلان ذخیره شد.');
 });
-window.addEventListener('focus',syncNotifyButton);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncNotifyButton()});
+let dailyNotificationTimer=null;
+async function checkDailyNotification(){
+  if(!dailyNotificationsEnabled()||document.hidden)return;
+  const n=nowParts(),target=dailyNotificationTime(),nowClock=n.hour+':'+n.minute;
+  if(nowClock<target)return;
+  const key='ridecast-daily-last:'+currentCity.id;
+  if(localStorage.getItem(key)===n.date)return;
+  localStorage.setItem(key,n.date);
+  const rows=window.__weatherRows||[];
+  const risk=rows.length?overallVerdict(rows):null;
+  const body=risk==='bad'?'امروز ریسک موتورسواری بالاست.':risk==='warn'?'امروز با احتیاط موتورسواری کن.':risk==='good'?'امروز شرایط موتورسواری مناسب است.':'RideCast را باز کن و وضعیت امروز را ببین.';
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    await reg.showNotification('🏍️ وضعیت امروز '+currentCity.name,{body,tag:'ridecast-daily-'+currentCity.id,renotify:true});
+  }catch(e){}
+}
+function startDailyNotificationScheduler(){
+  if(dailyNotificationTimer)clearInterval(dailyNotificationTimer);
+  dailyNotificationTimer=null;
+  if(dailyNotificationsEnabled()){
+    dailyNotificationTimer=setInterval(checkDailyNotification,30*1000);
+    checkDailyNotification();
+  }
+}
+window.addEventListener('focus',()=>{syncNotifyButton();checkDailyNotification()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){syncNotifyButton();checkDailyNotification()}});
 $("#addRouteBtn")?.addEventListener('click',()=>{if($("#routeDialogTitle"))$("#routeDialogTitle").textContent='مسیر جدید در '+currentCity.name;$("#routeDialog")?.showModal()});
 $("#cancelRoute")?.addEventListener('click',()=>$("#routeDialog")?.close());
 let toastTimer=null;
@@ -660,7 +811,7 @@ if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.s
 syncCityUI();
 loadWeather(false);
 setInterval(()=>loadWeather(true),10*60*1000);
-try{syncNotifyButton()}catch(e){console.warn('notify ui',e)}
+try{syncNotifyButton();startDailyNotificationScheduler()}catch(e){console.warn('notify ui',e)}
 try{syncInstallUI()}catch(e){console.warn('install ui',e)}
 </script>
 </body>
