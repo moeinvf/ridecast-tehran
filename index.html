@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="RideCast" />
-  <title>RideCast تهران</title>
+  <title>RideCast</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
@@ -29,7 +29,10 @@
     .brandrow{display:flex;align-items:center;gap:10px}
     .logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:#111a2d;border:1px solid #293653;font-size:21px}
     .brand{font-size:19px;font-weight:900;letter-spacing:-.2px}
-    .city{font-size:12px;color:var(--muted);margin-top:2px}
+    .city-btn{border:0;background:transparent;color:#eef2f7;padding:0;margin-top:2px;font-size:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+    .city-btn:hover{color:#fff}
+    .city-sub{font-size:11px;color:var(--muted);margin-top:2px}
+    .city-chevron{color:#7f8ca2;font-size:13px}
     .date{font-size:13px;color:#d4d9e2;margin-top:8px}
     .iconbtn{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#101729;color:#fff;display:grid;place-items:center;font-size:18px;cursor:pointer;transition:.18s ease}
     .iconbtn.notify-on{background:#12371f;border-color:#205c33}
@@ -81,7 +84,16 @@
     .field-error{border-color:#b84650!important;box-shadow:0 0 0 2px rgba(239,68,68,.08)}
     .foot{text-align:center;color:#748097;font-size:11px;line-height:1.8;margin-top:18px}
     .install-bar{position:fixed;z-index:50;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));max-width:736px;margin:0 auto;padding:9px;background:rgba(10,15,28,.92);border:1px solid #2a3650;border-radius:18px;backdrop-filter:blur(18px);box-shadow:0 12px 35px rgba(0,0,0,.34)}
+    .install-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     .install-btn{width:100%;min-height:48px;border:0;border-radius:14px;background:#fff;color:#101827;font-weight:950;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+    .install-btn.android{background:#121a2b;color:#fff;border:1px solid #34415d}
+    .city-search-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+    .city-search-btn{min-width:76px;border:0;border-radius:13px;background:#fff;color:#111827;font-weight:900;padding:0 14px;cursor:pointer}
+    .city-results{display:grid;gap:8px;max-height:46vh;overflow:auto;margin-top:12px}
+    .city-result{width:100%;border:1px solid var(--line);background:#0e1525;color:#fff;border-radius:14px;padding:11px 12px;text-align:right;cursor:pointer}
+    .city-result b{display:block;font-size:14px;margin-bottom:3px}.city-result span{font-size:11px;color:#9ba7b9}
+    .popular-cities{display:flex;gap:7px;overflow:auto;padding:3px 0 2px;scrollbar-width:none}.popular-cities::-webkit-scrollbar{display:none}
+    .city-chip{white-space:nowrap;border:1px solid #34415d;background:#101729;color:#dce3ed;border-radius:999px;padding:7px 10px;font-size:12px;cursor:pointer}
     .install-hint{font-size:12px;color:#aeb8c8;line-height:1.9;margin:4px 0 12px}
     .install-steps{display:grid;gap:9px;margin:12px 0 2px}
     .install-step{display:flex;gap:10px;align-items:flex-start;background:#0e1525;border:1px solid var(--line);border-radius:14px;padding:11px;font-size:13px;line-height:1.7}
@@ -97,7 +109,8 @@
       .section-title{font-size:16px}.hour{min-width:104px}.route{padding:12px}
     }
     @media(max-width:350px){
-      .brand{font-size:16px}.city,.date{font-size:11px}.iconbtn{width:36px;height:36px;font-size:16px}
+      .brand{font-size:16px}.city-btn,.city-sub,.date{font-size:11px}.iconbtn{width:36px;height:36px;font-size:16px}
+      .install-options{grid-template-columns:1fr}
       .verdict{font-size:22px}.meta{grid-template-columns:1fr}.pill{display:flex;align-items:center;justify-content:space-between}.pill .k{margin:0}
       .section-head{align-items:flex-start}.section-note{max-width:110px;text-align:left}
     }
@@ -109,7 +122,7 @@
     <div>
       <div class="brandrow">
         <div class="logo">🏍️</div>
-        <div><div class="brand">RideCast</div><div class="city">تهران · مخصوص موتور</div></div>
+        <div><div class="brand">RideCast</div><button id="cityBtn" class="city-btn" type="button">📍 <span id="cityName">تهران</span><span class="city-chevron">⌄</span></button><div class="city-sub">مخصوص موتور</div></div>
       </div>
       <div id="todayDate" class="date">—</div>
     </div>
@@ -126,7 +139,7 @@
     </div>
     <div id="verdict" class="verdict">وضعیت امروز در حال بررسی است</div>
     <ul id="reasons" class="reasons">
-      <li class="reason"><span class="dot"></span><span>در حال دریافت پیش‌بینی تهران</span></li>
+      <li class="reason"><span class="dot"></span><span>در حال دریافت پیش‌بینی شهر انتخابی</span></li>
     </ul>
     <div class="meta">
       <div class="pill"><div class="k">دما</div><div id="tempNow" class="v">—</div></div>
@@ -149,34 +162,47 @@
       <div id="routeCount" class="section-note"></div>
     </div>
     <div id="routes" class="routes"></div>
-    <button id="addRouteBtn" class="addbtn">+ افزودن مسیر داخل تهران</button>
+    <button id="addRouteBtn" class="addbtn">+ افزودن مسیر در <span id="routeCityLabel">تهران</span></button>
   </section>
 
-  <div class="foot">داده‌های هوا از Open‑Meteo · محدوده پیش‌بینی: تهران</div>
+  <div class="foot">داده‌های هوا از Open‑Meteo · شهر انتخابی: <span id="footerCity">تهران</span></div>
 </div>
 
 <div id="formToast" class="toast" role="alert" aria-live="assertive"></div>
 
 <div id="installBar" class="install-bar">
-  <button id="installBtn" class="install-btn">📲 نصب RideCast روی گوشی</button>
+  <div class="install-options">
+    <button id="installIOSBtn" class="install-btn"> نصب در آیفون</button>
+    <button id="installAndroidBtn" class="install-btn android">🤖 نصب در اندروید</button>
+  </div>
 </div>
 
 <dialog id="installDialog">
-  <div class="section-title">نصب RideCast</div>
-  <div class="install-hint" id="installHint">راهنمای نصب روی گوشی</div>
-  <div class="install-steps">
-    <div class="install-step"><span class="stepnum">۱</span><span>در iPhone صفحه را با Safari باز کن و دکمه <b>Share</b> را بزن.</span></div>
-    <div class="install-step"><span class="stepnum">۲</span><span><b>Add to Home Screen</b> را انتخاب کن.</span></div>
-    <div class="install-step"><span class="stepnum">۳</span><span>روی <b>Add</b> بزن تا RideCast روی Home Screen نصب شود.</span></div>
-  </div>
+  <div id="installDialogTitle" class="section-title">نصب RideCast</div>
+  <div class="install-hint" id="installHint"></div>
+  <div id="installSteps" class="install-steps"></div>
   <div class="actions">
     <button type="button" id="closeInstall" class="btn primary">متوجه شدم</button>
   </div>
 </dialog>
 
+<dialog id="cityDialog">
+  <div class="section-title">انتخاب شهر</div>
+  <div class="install-hint">تهران پیش‌فرض است. نام شهر را جستجو کن یا یکی از گزینه‌های سریع را انتخاب کن.</div>
+  <div id="popularCities" class="popular-cities"></div>
+  <div class="city-search-row" style="margin-top:12px">
+    <input id="citySearch" placeholder="مثلاً تهران، شیراز یا رشت" autocomplete="off">
+    <button id="citySearchBtn" class="city-search-btn" type="button">جستجو</button>
+  </div>
+  <div id="cityResults" class="city-results"></div>
+  <div class="actions">
+    <button type="button" id="closeCity" class="btn secondary">بستن</button>
+  </div>
+</dialog>
+
 <dialog id="routeDialog">
   <form id="routeForm" novalidate>
-    <div class="section-title" style="margin-bottom:14px">مسیر جدید</div>
+    <div id="routeDialogTitle" class="section-title" style="margin-bottom:14px">مسیر جدید در تهران</div>
     <div class="grid">
       <div class="field"><label>مبدأ</label><input id="routeFrom" placeholder="مثلاً صادقیه" required maxlength="80"></div>
       <div class="field"><label>مقصد</label><input id="routeTo" placeholder="مثلاً ونک" required maxlength="80"></div>
@@ -193,15 +219,32 @@
 </dialog>
 
 <script>
-const LAT=35.6892,LON=51.3890,TZ="Asia/Tehran";
 const $=s=>document.querySelector(s);
+const DEFAULT_CITY={id:'tehran-ir',name:'تهران',latitude:35.6892,longitude:51.3890,timezone:'Asia/Tehran',country:'ایران',admin1:'تهران'};
+const POPULAR_CITIES=[
+  DEFAULT_CITY,
+  {id:'mashhad-ir',name:'مشهد',latitude:36.2605,longitude:59.6168,timezone:'Asia/Tehran',country:'ایران',admin1:'خراسان رضوی'},
+  {id:'isfahan-ir',name:'اصفهان',latitude:32.6546,longitude:51.6680,timezone:'Asia/Tehran',country:'ایران',admin1:'اصفهان'},
+  {id:'shiraz-ir',name:'شیراز',latitude:29.5918,longitude:52.5837,timezone:'Asia/Tehran',country:'ایران',admin1:'فارس'},
+  {id:'tabriz-ir',name:'تبریز',latitude:38.0800,longitude:46.2919,timezone:'Asia/Tehran',country:'ایران',admin1:'آذربایجان شرقی'},
+  {id:'rasht-ir',name:'رشت',latitude:37.2808,longitude:49.5832,timezone:'Asia/Tehran',country:'ایران',admin1:'گیلان'},
+  {id:'karaj-ir',name:'کرج',latitude:35.8400,longitude:50.9391,timezone:'Asia/Tehran',country:'ایران',admin1:'البرز'}
+];
+function loadSelectedCity(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('ridecast-city')||'null');
+    if(saved&&saved.name&&Number.isFinite(+saved.latitude)&&Number.isFinite(+saved.longitude)) return saved;
+  }catch(e){}
+  return {...DEFAULT_CITY};
+}
+let currentCity=loadSelectedCity();
 const faNum=n=>new Intl.NumberFormat('fa-IR',{maximumFractionDigits:0}).format(Number.isFinite(Number(n))?Number(n):0);
-const fmtTime=s=>new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:TZ}).format(new Date(s));
-const fmtDay=s=>new Intl.DateTimeFormat('fa-IR',{weekday:'short',timeZone:TZ}).format(new Date(s));
+const fmtTime=s=>new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:currentCity.timezone||'Asia/Tehran'}).format(new Date(s));
+const fmtDay=s=>new Intl.DateTimeFormat('fa-IR',{weekday:'short',timeZone:currentCity.timezone||'Asia/Tehran'}).format(new Date(s));
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
 function nowParts(){
-  const p=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+  const p=new Intl.DateTimeFormat('en-CA',{timeZone:currentCity.timezone||'Asia/Tehran',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
   const g=t=>p.find(x=>x.type===t)?.value;
   return {date:`${g('year')}-${g('month')}-${g('day')}`,hour:g('hour'),minute:g('minute')};
 }
@@ -209,7 +252,7 @@ function addDay(d){
   const x=new Date(d+'T00:00:00Z');x.setUTCDate(x.getUTCDate()+1);return x.toISOString().slice(0,10);
 }
 function updateDate(){
-  $("#todayDate").textContent=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',year:'numeric',month:'long',day:'numeric',timeZone:TZ}).format(new Date());
+  $("#todayDate").textContent=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',year:'numeric',month:'long',day:'numeric',timeZone:currentCity.timezone||'Asia/Tehran'}).format(new Date());
 }
 const emoji=code=>{
   if(code===0)return'☀️';if([1,2].includes(code))return'🌤️';if([3,45,48].includes(code))return'☁️';
@@ -260,7 +303,7 @@ function heroText(r){
 async function loadWeather(silent=false){
   if(!silent){$("#badge").className='status warn';$("#badge").textContent='در حال بررسی...'}
   try{
-    const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m&current=temperature_2m,precipitation,rain,showers,weather_code,wind_speed_10m,wind_gusts_10m&timezone=${encodeURIComponent(TZ)}&forecast_days=3`;
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${currentCity.latitude}&longitude=${currentCity.longitude}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m&current=temperature_2m,precipitation,rain,showers,weather_code,wind_speed_10m,wind_gusts_10m&timezone=${encodeURIComponent(currentCity.timezone||'auto')}&forecast_days=3`;
     const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw new Error('weather');
     const data=await res.json(),h=data.hourly;
     const rows=next24(h).map(({i})=>({
@@ -278,7 +321,7 @@ async function loadWeather(silent=false){
     $("#tempNow").textContent=`${faNum(c.temperature_2m)}°`;
     $("#rainNow").textContent=currentPrecip>0?`${faNum(currentPrecip)} mm`:`${faNum(rows[0]?.prob??0)}٪`;
     $("#windNow").textContent=`${faNum(c.wind_speed_10m??0)} km/h`;
-    $("#updatedAt").textContent=`به‌روز شده ${new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',timeZone:TZ}).format(new Date())}`;
+    $("#updatedAt").textContent=`به‌روز شده ${new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',timeZone:currentCity.timezone||'Asia/Tehran'}).format(new Date())}`;
 
     $("#hours").innerHTML=rows.map(x=>{
       const extra=x.prob>=20?`بارش ${faNum(x.prob)}٪`:x.wind>=25?`باد ${faNum(x.wind)}`:'شرایط پایدار';
@@ -297,7 +340,7 @@ async function loadWeather(silent=false){
     const old=localStorage.getItem('ridecast-current-risk');
     localStorage.setItem('ridecast-current-risk',currentRisk);
     if(old&&rank(currentRisk)>rank(old)&&appNotificationsEnabled()){
-      try{const reg=await navigator.serviceWorker.ready;await reg.showNotification('🏍️ وضعیت تهران بدتر شد',{body:currentRisk==='bad'?'شرایط برای موتورسواری پرریسک شده.':'شرایط نیاز به احتیاط بیشتری دارد.'})}catch(e){}
+      try{const reg=await navigator.serviceWorker.ready;await reg.showNotification(`🏍️ وضعیت ${currentCity.name} بدتر شد`,{body:currentRisk==='bad'?'شرایط برای موتورسواری پرریسک شده.':'شرایط نیاز به احتیاط بیشتری دارد.'})}catch(e){}
     }
   }catch(e){
     if(!silent){
@@ -308,8 +351,19 @@ async function loadWeather(silent=false){
   }
 }
 
-function getRoutes(){try{return JSON.parse(localStorage.getItem('ridecast-routes')||'[]')}catch{return[]}}
-function saveRoutes(r){localStorage.setItem('ridecast-routes',JSON.stringify(r))}
+function routesKey(){return 'ridecast-routes:'+Number(currentCity.latitude).toFixed(3)+','+Number(currentCity.longitude).toFixed(3)}
+function getRoutes(){
+  try{
+    const key=routesKey();
+    let raw=localStorage.getItem(key);
+    if(raw===null&&currentCity.id==='tehran-ir'){
+      const legacy=localStorage.getItem('ridecast-routes');
+      if(legacy){raw=legacy;localStorage.setItem(key,legacy)}
+    }
+    return JSON.parse(raw||'[]');
+  }catch{return[]}
+}
+function saveRoutes(r){localStorage.setItem(routesKey(),JSON.stringify(r))}
 function targetForTime(time){
   if(!time)return null;
   const n=nowParts(),nowClock=`${n.hour}:${n.minute}`,date=time>=nowClock?n.date:addDay(n.date);
@@ -324,7 +378,7 @@ function renderRoutes(){
   const routes=getRoutes(),box=$("#routes");
   $("#routeCount").textContent=routes.length?`${faNum(routes.length)} مسیر`:'';
   if(!routes.length){
-    box.innerHTML='<div class="empty">هنوز مسیری اضافه نکردی.<br>مبدأ، مقصد و ساعت رفت‌وبرگشت را ثبت کن.</div>';return;
+    box.innerHTML=`<div class="empty">هنوز در ${esc(currentCity.name)} مسیری اضافه نکردی.<br>مبدأ، مقصد و ساعت رفت‌وبرگشت را ثبت کن.</div>`;return;
   }
   box.innerHTML=routes.map((r,idx)=>{
     const go=routeRisk(r.go),back=routeRisk(r.back);
@@ -345,15 +399,12 @@ function renderRoutes(){
 }
 
 let deferredInstallPrompt=null;
-const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
 
 function syncInstallUI(){
   const bar=$("#installBar");
   if(!bar)return;
-  if(isStandalone){bar.style.display='none';return}
-  bar.style.display='block';
-  $("#installBtn").textContent=isIOS?'📲 نصب RideCast روی iPhone':'📲 نصب RideCast روی گوشی';
+  bar.style.display=isStandalone?'none':'block';
 }
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault();
@@ -362,29 +413,98 @@ window.addEventListener('beforeinstallprompt',e=>{
 });
 window.addEventListener('appinstalled',()=>{
   deferredInstallPrompt=null;
-  $("#installBar").style.display='none';
+  if($("#installBar"))$("#installBar").style.display='none';
 });
-$("#installBtn")?.addEventListener('click',async()=>{
-  if(isStandalone){$("#installBar").style.display='none';return}
+function showInstallGuide(platform){
+  const dlg=$("#installDialog"),title=$("#installDialogTitle"),hint=$("#installHint"),steps=$("#installSteps");
+  if(!dlg||!title||!hint||!steps)return;
+  if(platform==='ios'){
+    title.textContent='نصب RideCast در آیفون';
+    hint.textContent='iOS نصب مستقیم از دکمه وب را اجازه نمی‌دهد؛ این سه مرحله را در Safari انجام بده.';
+    steps.innerHTML='<div class="install-step"><span class="stepnum">۱</span><span>صفحه را در <b>Safari</b> باز کن و Share را بزن.</span></div><div class="install-step"><span class="stepnum">۲</span><span><b>Add to Home Screen</b> را انتخاب کن.</span></div><div class="install-step"><span class="stepnum">۳</span><span>روی <b>Add</b> بزن.</span></div>';
+  }else{
+    title.textContent='نصب RideCast در اندروید';
+    hint.textContent='در Chrome معمولاً پنجره نصب مستقیم باز می‌شود. اگر باز نشد:';
+    steps.innerHTML='<div class="install-step"><span class="stepnum">۱</span><span>منوی سه‌نقطه Chrome را باز کن.</span></div><div class="install-step"><span class="stepnum">۲</span><span><b>Install app</b> یا <b>Add to Home screen</b> را بزن.</span></div><div class="install-step"><span class="stepnum">۳</span><span>نصب را تأیید کن.</span></div>';
+  }
+  dlg.showModal();
+}
+$("#installIOSBtn")?.addEventListener('click',()=>showInstallGuide('ios'));
+$("#installAndroidBtn")?.addEventListener('click',async()=>{
   if(deferredInstallPrompt){
     deferredInstallPrompt.prompt();
     try{await deferredInstallPrompt.userChoice}catch(e){}
     deferredInstallPrompt=null;
-    return;
-  }
-  const dlg=$("#installDialog");
-  const hint=$("#installHint");
-  if(isIOS){
-    hint.textContent=/safari/i.test(navigator.userAgent)&&!/crios|fxios|edgios/i.test(navigator.userAgent)
-      ?'برای نصب روی آیفون، این سه مرحله را در Safari انجام بده.'
-      :'برای نصب روی آیفون، اول همین آدرس را در Safari باز کن و بعد این سه مرحله را انجام بده.';
-  }else{
-    hint.textContent='اگر پنجره نصب خودکار باز نشد، منوی مرورگر را باز کن و گزینه Install app یا Add to Home screen را بزن.';
-  }
-  dlg.showModal();
+  }else showInstallGuide('android');
 });
 $("#closeInstall")?.addEventListener('click',()=>$("#installDialog")?.close());
 syncInstallUI();
+
+function cityDisplayMeta(city){
+  return [city.admin1,city.country].filter(Boolean).join(' · ');
+}
+function syncCityUI(){
+  document.title='RideCast · '+currentCity.name;
+  if($("#cityName"))$("#cityName").textContent=currentCity.name;
+  if($("#routeCityLabel"))$("#routeCityLabel").textContent=currentCity.name;
+  if($("#footerCity"))$("#footerCity").textContent=currentCity.name;
+  if($("#routeDialogTitle"))$("#routeDialogTitle").textContent='مسیر جدید در '+currentCity.name;
+  updateDate();
+  renderRoutes();
+}
+function selectCity(city){
+  currentCity={
+    id:city.id||(`${city.latitude},${city.longitude}`),
+    name:city.name,
+    latitude:+city.latitude,
+    longitude:+city.longitude,
+    timezone:city.timezone||'auto',
+    country:city.country||'',
+    admin1:city.admin1||''
+  };
+  localStorage.setItem('ridecast-city',JSON.stringify(currentCity));
+  window.__weatherRows=[];
+  syncCityUI();
+  $("#cityDialog")?.close();
+  loadWeather(false);
+  showToast('شهر روی «'+currentCity.name+'» تنظیم شد.');
+}
+function renderCityResults(list){
+  const box=$("#cityResults");
+  if(!box)return;
+  if(!list.length){box.innerHTML='<div class="empty">شهری پیدا نشد.</div>';return}
+  box.innerHTML=list.map((city,i)=>`<button type="button" class="city-result" data-city-index="${i}"><b>${esc(city.name)}</b><span>${esc(cityDisplayMeta(city))}</span></button>`).join('');
+  box.querySelectorAll('[data-city-index]').forEach(btn=>btn.addEventListener('click',()=>selectCity(list[+btn.dataset.cityIndex])));
+}
+function renderPopularCities(){
+  const box=$("#popularCities");
+  if(!box)return;
+  box.innerHTML=POPULAR_CITIES.map((city,i)=>`<button type="button" class="city-chip" data-popular-city="${i}">${esc(city.name)}</button>`).join('');
+  box.querySelectorAll('[data-popular-city]').forEach(btn=>btn.addEventListener('click',()=>selectCity(POPULAR_CITIES[+btn.dataset.popularCity])));
+}
+async function searchCities(){
+  const q=$("#citySearch")?.value.trim();
+  if(!q){showToast('نام شهر را وارد کنید.');return}
+  const box=$("#cityResults");if(box)box.innerHTML='<div class="empty">در حال جستجو...</div>';
+  try{
+    const url=`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=10&language=fa&format=json`;
+    const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw new Error('city-search');
+    const data=await res.json();
+    const list=(data.results||[]).map(x=>({id:String(x.id||''),name:x.name,latitude:x.latitude,longitude:x.longitude,timezone:x.timezone||'auto',country:x.country||'',admin1:x.admin1||''}));
+    renderCityResults(list);
+  }catch(e){if(box)box.innerHTML='<div class="empty">جستجوی شهر انجام نشد. دوباره تلاش کن.</div>'}
+}
+$("#cityBtn")?.addEventListener('click',()=>{
+  renderPopularCities();
+  if($("#cityResults"))$("#cityResults").innerHTML='';
+  if($("#citySearch"))$("#citySearch").value='';
+  $("#cityDialog")?.showModal();
+});
+$("#closeCity")?.addEventListener('click',()=>$("#cityDialog")?.close());
+$("#citySearchBtn")?.addEventListener('click',searchCities);
+$("#citySearch")?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchCities()}});
+renderPopularCities();
+syncCityUI();
 
 $("#refreshBtn")?.addEventListener('click',()=>loadWeather(false));
 function appNotificationsEnabled(){
@@ -422,7 +542,7 @@ $("#notifyBtn")?.addEventListener('click',async()=>{
     syncNotifyButton();
   }
 });
-$("#addRouteBtn")?.addEventListener('click',()=>$("#routeDialog")?.showModal());
+$("#addRouteBtn")?.addEventListener('click',()=>{if($("#routeDialogTitle"))$("#routeDialogTitle").textContent='مسیر جدید در '+currentCity.name;$("#routeDialog")?.showModal()});
 $("#cancelRoute")?.addEventListener('click',()=>$("#routeDialog")?.close());
 let toastTimer=null;
 function showToast(message){
@@ -470,7 +590,7 @@ $("#routeForm").addEventListener('submit',e=>{
   showToast('مسیر با موفقیت ذخیره شد.');
 });
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
-updateDate();
+syncCityUI();
 loadWeather(false);
 setInterval(()=>loadWeather(true),10*60*1000);
 try{syncNotifyButton()}catch(e){console.warn('notify ui',e)}
