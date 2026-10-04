@@ -76,6 +76,9 @@
     .actions{display:flex;gap:10px;margin-top:14px}
     .btn{flex:1;border:0;border-radius:14px;padding:12px 14px;font-weight:900;cursor:pointer}
     .btn.primary{background:#fff;color:#111827}.btn.secondary{background:#0e1525;color:#fff;border:1px solid var(--line)}
+    .toast{position:fixed;z-index:100;top:calc(14px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-16px);width:min(calc(100% - 24px),520px);background:#33181b;border:1px solid #6f2b32;color:#ffd9dc;border-radius:14px;padding:11px 14px;font-size:13px;font-weight:750;line-height:1.7;text-align:center;opacity:0;pointer-events:none;transition:.22s ease;box-shadow:0 12px 35px rgba(0,0,0,.35)}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .field-error{border-color:#b84650!important;box-shadow:0 0 0 2px rgba(239,68,68,.08)}
     .foot{text-align:center;color:#748097;font-size:11px;line-height:1.8;margin-top:18px}
     .install-bar{position:fixed;z-index:50;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));max-width:736px;margin:0 auto;padding:9px;background:rgba(10,15,28,.92);border:1px solid #2a3650;border-radius:18px;backdrop-filter:blur(18px);box-shadow:0 12px 35px rgba(0,0,0,.34)}
     .install-btn{width:100%;min-height:48px;border:0;border-radius:14px;background:#fff;color:#101827;font-weight:950;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -153,7 +156,7 @@
 </div>
 
 <dialog id="routeDialog">
-  <form id="routeForm">
+  <form id="routeForm" novalidate>
     <div class="section-title" style="margin-bottom:14px">مسیر جدید</div>
     <div class="grid">
       <div class="field"><label>مبدأ</label><input id="routeFrom" placeholder="مثلاً صادقیه" required maxlength="80"></div>
@@ -402,11 +405,49 @@ $("#notifyBtn").addEventListener('click',async()=>{
 });
 $("#addRouteBtn").addEventListener('click',()=>$("#routeDialog").showModal());
 $("#cancelRoute").addEventListener('click',()=>$("#routeDialog").close());
+let toastTimer=null;
+function showToast(message){
+  const toast=$("#formToast");
+  toast.textContent=message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>toast.classList.remove('show'),2800);
+}
+function clearRouteErrors(){
+  ["#routeFrom","#routeTo","#goTime","#backTime"].forEach(sel=>$(sel)?.classList.remove('field-error'));
+}
+function routeFormValid(){
+  clearRouteErrors();
+  const fields=[
+    {el:$("#routeFrom"),message:'لطفاً مبدأ را وارد کنید.'},
+    {el:$("#routeTo"),message:'لطفاً مقصد را وارد کنید.'},
+    {el:$("#goTime"),message:'لطفاً ساعت رفت را انتخاب کنید.'}
+  ];
+  for(const item of fields){
+    if(!item.el.value.trim()){
+      item.el.classList.add('field-error');
+      item.el.focus();
+      showToast(item.message);
+      return false;
+    }
+  }
+  return true;
+}
+["#routeFrom","#routeTo","#goTime","#backTime"].forEach(sel=>{
+  $(sel).addEventListener('input',e=>e.target.classList.remove('field-error'));
+  $(sel).addEventListener('change',e=>e.target.classList.remove('field-error'));
+});
 $("#routeForm").addEventListener('submit',e=>{
   e.preventDefault();
+  if(!routeFormValid()) return;
   const routes=getRoutes();
   routes.push({from:$("#routeFrom").value.trim(),to:$("#routeTo").value.trim(),go:$("#goTime").value,back:$("#backTime").value});
-  saveRoutes(routes);e.target.reset();$("#routeDialog").close();renderRoutes();
+  saveRoutes(routes);
+  e.target.reset();
+  clearRouteErrors();
+  $("#routeDialog").close();
+  renderRoutes();
+  showToast('مسیر با موفقیت ذخیره شد.');
 });
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 syncNotifyButton();
