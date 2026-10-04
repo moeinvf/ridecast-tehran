@@ -2,10 +2,25 @@
   "name": "RideCast تهران",
   "short_name": "RideCast",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0b1020",
-  "theme_color": "#111827",
+  "theme_color": "#0b1020",
   "lang": "fa",
   "dir": "rtl",
-  "description": "هواشناسی ساده مخصوص موتورسواری در تهران"
+  "description": "هواشناسی ساده مخصوص موتورسواری در تهران",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
