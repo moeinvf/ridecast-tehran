@@ -13,169 +13,144 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
   <style>
 :root{
-  --bg:#07101d;--bg2:#0a1422;--surface:#101c2c;--surface2:#142235;--surface3:#18283d;
-  --line:rgba(164,187,219,.13);--line2:rgba(164,187,219,.22);--txt:#f5f8fc;
-  --muted:#94a3b8;--muted2:#718097;--blue:#63a9ff;--good:#56d6b0;--warn:#f1cb6b;--bad:#ff7c84;
+  --bg:#06101c;--bg-soft:#0a1524;--card:#101d2d;--card-2:#142337;--card-3:#172a40;
+  --line:rgba(168,190,220,.13);--line-strong:rgba(168,190,220,.23);
+  --text:#f6f9fd;--muted:#98a8bb;--muted-2:#6f8096;--blue:#5fa9ff;
+  --good:#55d5ad;--warn:#f3cf72;--bad:#ff7d86;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{min-height:100%;background:var(--bg);overflow-x:hidden}
-body{margin:0;min-height:100vh;min-height:100dvh;overflow-x:hidden;color:var(--txt);
+body{margin:0;min-height:100vh;min-height:100dvh;overflow-x:hidden;color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
   background:
-    radial-gradient(circle at 12% -8%,rgba(45,105,176,.16),transparent 34%),
-    radial-gradient(circle at 94% 12%,rgba(73,111,155,.10),transparent 30%),
-    linear-gradient(180deg,#081321 0%,#07101d 48%,#050b14 100%)}
+    radial-gradient(circle at 8% 0%,rgba(53,108,170,.14),transparent 28%),
+    radial-gradient(circle at 95% 8%,rgba(49,92,142,.09),transparent 24%),
+    linear-gradient(180deg,#081522 0%,#06101c 58%,#040a12 100%)}
 button,input{font:inherit}button{touch-action:manipulation}
 .wrap{width:100%;max-width:760px;min-height:100vh;min-height:100dvh;margin:auto;
-  padding:calc(14px + env(safe-area-inset-top)) calc(14px + env(safe-area-inset-right))
-          calc(30px + env(safe-area-inset-bottom)) calc(14px + env(safe-area-inset-left))}
-.top{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;margin:2px 0 12px}
-.brandrow{display:flex;align-items:center;gap:10px;min-width:0}
-.app-logo{width:46px;height:46px;border-radius:15px;object-fit:cover;border:1px solid rgba(255,255,255,.08);
-  box-shadow:0 10px 28px rgba(0,0,0,.26);flex:0 0 46px}
-.brand{font-size:20px;font-weight:900;letter-spacing:-.35px}
-.city-sub{font-size:11px;color:var(--muted);margin-top:2px}
-.header-actions{display:flex;align-items:center;gap:7px}
-.city-btn,.iconbtn{height:42px;border:1px solid var(--line2);background:rgba(20,34,53,.82);color:var(--txt);
-  border-radius:14px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.city-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;cursor:pointer;font-size:13px;font-weight:800;white-space:nowrap}
-.city-chevron{font-size:12px;color:var(--muted)}
-.iconbtn{width:42px;display:grid;place-items:center;font-size:17px;cursor:pointer;position:relative;transition:.18s ease}
-.iconbtn.notify-on{background:#142b2b;border-color:rgba(86,214,176,.24)}
-.iconbtn.notify-on::after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--bad);top:6px;right:6px;box-shadow:0 0 0 3px #162437}
-.iconbtn.notify-off{opacity:.55}
-.date{font-size:12px;color:#c4cfdd;margin:0 3px 13px}
-.card{border:1px solid var(--line);border-radius:24px}
-.hero{position:relative;overflow:hidden;padding:20px;margin-bottom:13px;
-  background:radial-gradient(circle at 10% 8%,rgba(99,169,255,.12),transparent 31%),linear-gradient(145deg,#142337,#0d1929 72%);
-  box-shadow:0 22px 55px rgba(0,0,0,.22)}
-.hero::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;bottom:-115px;
-  background:radial-gradient(circle,rgba(87,132,186,.14),transparent 68%);pointer-events:none}
-.statusline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
-.status{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:900;border:1px solid transparent}
-.good{background:rgba(37,147,116,.15)!important;color:#8ee7cc!important;border-color:rgba(86,214,176,.20)!important}
-.warn{background:rgba(163,122,23,.16)!important;color:#ffe08b!important;border-color:rgba(241,203,107,.19)!important}
-.bad{background:rgba(184,57,67,.16)!important;color:#ffb1b6!important;border-color:rgba(255,124,132,.18)!important}
-.updated{font-size:10px;color:var(--muted2)}
-.hero-main{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px;margin-top:14px;position:relative;z-index:1}
-.weather-orb{width:70px;height:70px;border-radius:22px;border:1px solid rgba(255,255,255,.08);
-  background:linear-gradient(145deg,#1d3048,#122136);display:grid;place-items:center;font-size:33px;
-  box-shadow:inset 0 1px rgba(255,255,255,.04),0 12px 30px rgba(0,0,0,.17)}
-.verdict{font-size:28px;line-height:1.35;font-weight:950;letter-spacing:-.55px;margin:0 0 9px}
-.reasons{display:grid;gap:7px;margin:0;padding:0;list-style:none}
-.reason{display:flex;gap:9px;align-items:flex-start;color:#d7e0ec;font-size:13px;line-height:1.75}
-.reason .dot{width:24px;height:24px;flex:0 0 24px;border-radius:8px;background:rgba(99,169,255,.09);margin:0;display:grid;place-items:center}
-.reason .dot::after{content:"";width:5px;height:5px;border-radius:50%;background:#77b7ff}
-.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:17px;padding-top:14px;border-top:1px solid var(--line);position:relative;z-index:1}
-.pill{background:transparent;border:0;border-left:1px solid var(--line);border-radius:0;padding:4px 10px}
-.pill:last-child{border-left:0}
-.pill .k{font-size:10px;color:var(--muted);margin-bottom:5px}.pill .v{font-size:17px;font-weight:900;direction:ltr;text-align:right}
-.section-card{padding:17px;margin-bottom:13px;background:linear-gradient(145deg,#0f1b2b,#0b1625);box-shadow:none}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
-.section-title{font-size:16px;font-weight:900}.section-note{font-size:10px;color:var(--muted)}
-.hours{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:2px 0 5px;scrollbar-width:none;direction:rtl}
-.hours::-webkit-scrollbar{display:none}
-.hour{min-width:98px;scroll-snap-align:start;padding:12px 10px;border:1px solid var(--line);border-radius:17px;background:#111f31}
-.hour:first-child{border-color:rgba(99,169,255,.62);box-shadow:inset 0 0 0 1px rgba(99,169,255,.10);background:linear-gradient(180deg,#17304b,#112238)}
-.hour .day{font-size:10px;color:#92a1b5}.hour .time{font-size:12px;color:#d8e1ec;margin-top:2px;font-weight:800}
-.hour .temp{font-size:20px;font-weight:950;margin:8px 0 6px;direction:ltr;text-align:right}
-.hour .mini{font-size:10px;color:var(--muted);line-height:1.5;white-space:nowrap}
-.tag,.risk{display:inline-flex;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900;margin-top:8px;border:1px solid transparent}
-.routes{display:grid;gap:9px}
-.empty{padding:17px;border:1px dashed rgba(160,184,216,.20);border-radius:17px;color:var(--muted);font-size:12px;line-height:1.8;text-align:center;background:rgba(255,255,255,.012)}
-.route{padding:13px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#142235,#101b2b)}
-.route-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.route-name{font-size:14px;font-weight:900;line-height:1.6;min-width:0;overflow-wrap:anywhere}
-.delete{border:0;background:transparent;color:#718097;font-size:21px;cursor:pointer;padding:1px 4px}
-.triprows{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
-.triprow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px;background:rgba(8,17,31,.42);border:1px solid rgba(164,187,219,.08);border-radius:13px}
-.triptime{font-size:11px;color:#c4cfdd}.tripresult{font-size:10px;font-weight:900;border-radius:999px;padding:4px 7px}
-.addbtn{width:100%;min-height:45px;margin-top:10px;border:1px dashed rgba(99,169,255,.28);border-radius:15px;background:rgba(99,169,255,.05);color:#dceaff;font-weight:900;cursor:pointer}
-.foot{text-align:center;color:#65748a;font-size:10px;line-height:1.8;margin:17px 0 4px}
-.install-bar{position:static;max-width:none;margin:0 0 13px;padding:13px;background:linear-gradient(145deg,#101c2c,#0b1625);border:1px solid var(--line);border-radius:22px;box-shadow:none}
-.install-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.install-btn{width:100%;min-height:56px;border-radius:16px;border:1px solid var(--line2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:900;color:#eef5ff;background:#16243a}
-.install-btn.android{background:linear-gradient(135deg,#2f8ef4,#3568ee);border-color:rgba(93,161,255,.45)}
-.install-btn::after{content:"›";font-size:21px;opacity:.75}
-.install-hint{font-size:12px;color:#aeb8c8;line-height:1.9;margin:4px 0 12px}
-.install-steps{display:grid;gap:9px;margin:12px 0 2px}
-.install-step{display:flex;gap:10px;align-items:flex-start;background:#0b1726;border:1px solid var(--line);border-radius:14px;padding:11px;font-size:13px;line-height:1.7}
-.stepnum{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#111827;font-weight:900;flex:0 0 24px}
-dialog{width:min(92vw,520px);max-height:min(82vh,700px);overflow:auto;border:1px solid var(--line2);border-radius:22px;background:#101c2c;color:#fff;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
-dialog::backdrop{background:rgba(2,7,13,.78);backdrop-filter:blur(4px)}
+  padding:calc(14px + env(safe-area-inset-top)) calc(13px + env(safe-area-inset-right))
+          calc(24px + env(safe-area-inset-bottom)) calc(13px + env(safe-area-inset-left))}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;direction:ltr;margin:0 0 5px}
+.brandrow{display:flex;align-items:center;gap:9px;direction:ltr;min-width:0}
+.app-logo{width:44px;height:44px;border-radius:14px;object-fit:cover;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 24px rgba(0,0,0,.24);flex:0 0 44px}
+.brand{font-size:20px;line-height:1;font-weight:950;letter-spacing:-.35px}.city-sub{font-size:10px;color:var(--muted);margin-top:5px;white-space:nowrap}
+.header-actions{display:flex;align-items:center;gap:6px;direction:rtl;flex:0 0 auto}
+.city-btn,.iconbtn{height:40px;border:1px solid var(--line-strong);background:rgba(18,32,49,.88);color:var(--text);border-radius:13px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.city-btn{display:flex;align-items:center;gap:6px;padding:0 11px;font-size:12px;font-weight:850;white-space:nowrap;cursor:pointer}
+.city-chevron{font-size:11px;color:var(--muted)}.iconbtn{width:40px;display:grid;place-items:center;font-size:17px;cursor:pointer;position:relative}
+.iconbtn.notify-on::after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--bad);top:5px;right:5px;box-shadow:0 0 0 3px #15243a}
+.iconbtn.notify-off{opacity:.52}.date{font-size:11px;color:#b6c3d1;margin:4px 2px 12px}
+.card{border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,var(--card),#0c1827);box-shadow:0 18px 45px rgba(0,0,0,.14)}
+.hero{position:relative;overflow:hidden;margin-bottom:13px;min-height:336px;padding:18px 18px 0;background:linear-gradient(145deg,#132339,#0c1726)}
+.hero-visual{position:absolute;z-index:0;right:0;top:0;width:48%;height:72%;background:url('/assets/hero-rider.webp') center center/cover no-repeat;opacity:.96}
+.hero-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,21,35,.08),rgba(10,21,35,.12) 38%,rgba(10,21,35,.82) 100%)}
+.hero-visual.generic{background-image:none;background:
+  radial-gradient(circle at 60% 32%,rgba(85,129,178,.24),transparent 24%),
+  linear-gradient(155deg,#1b314a,#0e1b2c)}
+.hero-scrim{position:absolute;z-index:1;inset:0;background:linear-gradient(90deg,rgba(9,19,32,.98) 0%,rgba(9,19,32,.88) 45%,rgba(9,19,32,.18) 74%,rgba(9,19,32,.02) 100%);pointer-events:none}
+.updated{position:absolute;z-index:3;top:15px;left:16px;font-size:9px;color:#9cabbc;background:rgba(6,14,25,.34);padding:5px 8px;border-radius:999px;backdrop-filter:blur(8px)}
+.hero-copy{position:relative;z-index:2;width:64%;margin-right:auto;padding-top:32px}
+.hero-title-row{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px}
+.weather-orb{width:68px;height:68px;border-radius:22px;background:rgba(23,42,64,.86);border:1px solid rgba(255,255,255,.07);display:grid;place-items:center;font-size:33px;box-shadow:inset 0 1px rgba(255,255,255,.035)}
+.verdict{font-size:27px;line-height:1.38;font-weight:950;color:var(--warn);letter-spacing:-.45px}
+.hero-subline{font-size:12px;color:#c6d1de;margin-top:5px}
+.reasons{display:grid;gap:8px;margin:17px 0 0;padding:0;list-style:none}
+.reason{display:flex;align-items:center;gap:9px;min-height:42px;padding:8px 10px;border-radius:13px;background:rgba(15,29,45,.72);border:1px solid rgba(167,190,220,.08);font-size:12px;line-height:1.65;color:#dce4ee}
+.reason-icon{width:28px;height:28px;flex:0 0 28px;border-radius:9px;background:rgba(80,145,220,.12);display:grid;place-items:center;font-size:15px}
+.meta{position:absolute;z-index:3;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(3,1fr);min-height:91px;background:rgba(16,31,48,.92);border-top:1px solid rgba(178,199,226,.14);backdrop-filter:blur(16px)}
+.pill{display:grid;align-content:center;justify-items:center;gap:3px;padding:11px 8px;border-left:1px solid var(--line)}
+.pill:last-child{border-left:0}.pill .k{font-size:10px;color:var(--muted)}.pill .v{font-size:19px;font-weight:950;direction:ltr}.pill .note{font-size:9px;color:#8da1b8;direction:rtl}
+.section-card{padding:16px;margin-bottom:13px;background:linear-gradient(145deg,#101d2d,#0b1726)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.section-title{font-size:16px;font-weight:950}.section-note{font-size:10px;color:var(--blue)}
+.forecast-shell{position:relative}.hours{display:flex;gap:7px;overflow-x:auto;scroll-snap-type:x proximity;padding:1px 0 12px;scrollbar-width:none;direction:rtl}.hours::-webkit-scrollbar{display:none}
+.hour{min-width:82px;scroll-snap-align:start;padding:10px 8px;border:1px solid rgba(166,190,220,.10);border-radius:14px;background:#111e2f;text-align:center}
+.hour.now{border-color:rgba(95,169,255,.72);box-shadow:inset 0 0 0 1px rgba(95,169,255,.08);background:linear-gradient(180deg,#16304c,#102237)}
+.hour .day{font-size:10px;color:#c9d4e0;font-weight:800}.hour .time{font-size:10px;color:#8192a8;margin-top:3px}.hour .temp{font-size:18px;font-weight:950;margin:8px 0 5px;direction:ltr;text-align:center}.hour .mini{font-size:9px;color:#8d9daf;white-space:nowrap}.tag{display:none}
+.temp-chart{display:block;width:100%;height:38px;margin-top:-2px;overflow:visible}.temp-chart path{fill:none;stroke:#5ca8ff;stroke-width:2}.temp-chart circle{fill:#66afff}
+.routes{display:grid;gap:9px}.empty{padding:16px;border:1px dashed rgba(160,184,216,.18);border-radius:16px;color:var(--muted);font-size:12px;line-height:1.85;text-align:center;background:rgba(255,255,255,.012)}
+.route{display:grid;grid-template-columns:92px minmax(0,1fr) auto;align-items:center;gap:11px;padding:9px;border:1px solid rgba(164,187,219,.10);border-radius:17px;background:#111f31;position:relative}
+.route-thumb{width:92px;height:66px;border-radius:13px;background-position:center;background-size:cover;border:1px solid rgba(255,255,255,.06)}
+.route-copy{min-width:0}.route-name{font-size:13px;font-weight:950;line-height:1.55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.route-meta{font-size:10px;color:#9aaabd;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.route-status{font-size:10px;font-weight:900;padding:7px 10px;border-radius:999px;white-space:nowrap}.delete{position:absolute;left:4px;top:1px;border:0;background:transparent;color:#6e7e92;font-size:18px;cursor:pointer;padding:2px 5px}
+.addbtn{width:100%;min-height:43px;margin-top:10px;border:1px dashed rgba(95,169,255,.28);border-radius:14px;background:rgba(95,169,255,.05);color:#dbeaff;font-weight:900;cursor:pointer}
+.install-bar{margin:0 0 13px;padding:14px;background:linear-gradient(145deg,#101d2d,#0b1726);border:1px solid var(--line);border-radius:22px}.install-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.install-btn{min-height:60px;border-radius:16px;border:1px solid var(--line-strong);cursor:pointer;color:#f2f6fb;background:#18263a;font-weight:950;font-size:13px}
+.install-btn.android{background:linear-gradient(135deg,#3b9cff,#2f68ed);border-color:rgba(93,161,255,.48)}.install-btn span{display:block;font-size:9px;font-weight:600;opacity:.65;margin-top:4px}
+.foot{text-align:center;color:#65758a;font-size:10px;line-height:1.8;margin:15px 0 2px}
+dialog{width:min(92vw,520px);max-height:min(82vh,700px);overflow:auto;border:1px solid var(--line-strong);border-radius:22px;background:#101d2d;color:#fff;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.55)}dialog::backdrop{background:rgba(2,7,13,.78);backdrop-filter:blur(4px)}
 .field{display:grid;gap:6px}.field label{font-size:11px;color:#c3cedc}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line2);background:#0a1625;color:#fff;padding:10px 12px;font-size:16px;outline:none}
-input:focus{border-color:rgba(99,169,255,.65);box-shadow:0 0 0 3px rgba(99,169,255,.08)}
-.actions{display:flex;gap:8px;margin-top:14px}.btn{flex:1;min-height:44px;border:0;border-radius:14px;padding:11px 14px;font-weight:900;cursor:pointer}
-.btn.primary{background:#fff;color:#111827}.btn.secondary{background:#0b1726;color:#fff;border:1px solid var(--line2)}
-.toast{position:fixed;z-index:100;top:calc(12px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-16px);width:min(calc(100% - 24px),520px);background:#33181b;border:1px solid #6f2b32;color:#ffd9dc;border-radius:14px;padding:11px 14px;font-size:13px;font-weight:750;line-height:1.7;text-align:center;opacity:0;pointer-events:none;transition:.22s ease;box-shadow:0 12px 35px rgba(0,0,0,.35)}
-.toast.show{opacity:1;transform:translate(-50%,0)}.field-error{border-color:#d95d65!important;box-shadow:0 0 0 3px rgba(217,93,101,.08)!important}
-.city-search-row{display:grid;grid-template-columns:1fr auto;gap:8px}.city-search-btn{min-width:76px;border:0;border-radius:13px;background:#fff;color:#111827;font-weight:900;padding:0 14px;cursor:pointer}
-.city-results{display:grid;gap:8px;max-height:46vh;overflow:auto;margin-top:12px}.city-result{width:100%;border:1px solid var(--line);background:#0b1726;color:#fff;border-radius:14px;padding:11px 12px;text-align:right;cursor:pointer}
-.city-result b{display:block;font-size:14px;margin-bottom:3px}.city-result span{font-size:11px;color:#9ba7b9}
-.popular-cities{display:flex;gap:7px;overflow:auto;padding:3px 0 2px;scrollbar-width:none}.popular-cities::-webkit-scrollbar{display:none}
-.city-chip{white-space:nowrap;border:1px solid var(--line2);background:#0c1929;color:#dce3ed;border-radius:999px;padding:7px 10px;font-size:12px;cursor:pointer}
+input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-strong);background:#0a1625;color:#fff;padding:10px 12px;font-size:16px;outline:none}input:focus{border-color:rgba(95,169,255,.65);box-shadow:0 0 0 3px rgba(95,169,255,.08)}
+.actions{display:flex;gap:8px;margin-top:14px}.btn{flex:1;min-height:44px;border:0;border-radius:14px;padding:11px 14px;font-weight:900;cursor:pointer}.btn.primary{background:#fff;color:#111827}.btn.secondary{background:#0b1726;color:#fff;border:1px solid var(--line-strong)}
+.install-hint{font-size:12px;color:#aeb8c8;line-height:1.9;margin:4px 0 12px}.install-steps{display:grid;gap:9px;margin:12px 0 2px}.install-step{display:flex;gap:10px;align-items:flex-start;background:#0b1726;border:1px solid var(--line);border-radius:14px;padding:11px;font-size:13px;line-height:1.7}.stepnum{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#111827;font-weight:900;flex:0 0 24px}
+.toast{position:fixed;z-index:100;top:calc(12px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-16px);width:min(calc(100% - 24px),520px);background:#33181b;border:1px solid #6f2b32;color:#ffd9dc;border-radius:14px;padding:11px 14px;font-size:13px;font-weight:750;line-height:1.7;text-align:center;opacity:0;pointer-events:none;transition:.22s ease;box-shadow:0 12px 35px rgba(0,0,0,.35)}.toast.show{opacity:1;transform:translate(-50%,0)}.field-error{border-color:#d95d65!important;box-shadow:0 0 0 3px rgba(217,93,101,.08)!important}
+.city-search-row{display:grid;grid-template-columns:1fr auto;gap:8px}.city-search-btn{min-width:76px;border:0;border-radius:13px;background:#fff;color:#111827;font-weight:900;padding:0 14px;cursor:pointer}.city-results{display:grid;gap:8px;max-height:46vh;overflow:auto;margin-top:12px}.city-result{width:100%;border:1px solid var(--line);background:#0b1726;color:#fff;border-radius:14px;padding:11px 12px;text-align:right;cursor:pointer}.city-result b{display:block;font-size:14px;margin-bottom:3px}.city-result span{font-size:11px;color:#9ba7b9}.popular-cities{display:flex;gap:7px;overflow:auto;padding:3px 0 2px;scrollbar-width:none}.popular-cities::-webkit-scrollbar{display:none}.city-chip{white-space:nowrap;border:1px solid var(--line-strong);background:#0c1929;color:#dce3ed;border-radius:999px;padding:7px 10px;font-size:12px;cursor:pointer}
+.good{background:rgba(37,147,116,.16)!important;color:#8ee7cc!important;border:1px solid rgba(86,214,176,.20)!important}.warn{background:rgba(163,122,23,.18)!important;color:#ffe08b!important;border:1px solid rgba(241,203,107,.20)!important}.bad{background:rgba(184,57,67,.17)!important;color:#ffb1b6!important;border:1px solid rgba(255,124,132,.20)!important}
 @media(display-mode:standalone){.install-bar{display:none!important}}
 @media(max-width:430px){
   .wrap{padding-right:calc(10px + env(safe-area-inset-right));padding-left:calc(10px + env(safe-area-inset-left))}
-  .top{grid-template-columns:1fr}.header-actions{width:100%}.city-btn{flex:1;justify-content:flex-start}.iconbtn{flex:0 0 42px}
-  .app-logo{width:42px;height:42px;flex-basis:42px}.brand{font-size:19px}.date{margin-top:2px}
-  .hero{padding:16px;border-radius:21px}.verdict{font-size:24px}.weather-orb{width:60px;height:60px;border-radius:19px;font-size:29px}
-  .reason{font-size:12px}.meta{margin-top:14px}.pill{padding:3px 7px}.pill .v{font-size:15px}
-  .section-card{padding:14px;border-radius:21px}.hour{min-width:94px}.install-bar{border-radius:21px}
+  .app-logo{width:40px;height:40px;flex-basis:40px}.brand{font-size:18px}.city-sub{font-size:9px}.city-btn{padding:0 9px;max-width:86px}.iconbtn{width:38px;height:38px}.city-btn{height:38px}
+  .hero{min-height:326px;border-radius:21px;padding:15px 14px 0}.hero-visual{width:50%;height:72%;opacity:.84}.hero-scrim{background:linear-gradient(90deg,rgba(9,19,32,.98) 0%,rgba(9,19,32,.92) 50%,rgba(9,19,32,.26) 78%,rgba(9,19,32,.04) 100%)}
+  .hero-copy{width:70%;padding-top:34px}.weather-orb{width:58px;height:58px;border-radius:18px;font-size:28px}.verdict{font-size:23px}.hero-subline{font-size:11px}.reason{min-height:39px;font-size:11px;padding:7px 8px}.reason-icon{width:25px;height:25px;flex-basis:25px}
+  .meta{min-height:82px}.pill .v{font-size:16px}.pill .note{font-size:8px}.section-card{padding:14px;border-radius:21px}.hour{min-width:76px;padding:9px 7px}.route{grid-template-columns:78px minmax(0,1fr) auto}.route-thumb{width:78px;height:58px}.install-bar{border-radius:21px}
 }
-@media(max-width:360px){
-  .hero-main{grid-template-columns:1fr}.weather-orb{display:none}.verdict{font-size:22px}
-  .meta{grid-template-columns:1fr 1fr 1fr}.pill .k{font-size:9px}.pill .v{font-size:14px}
-  .triprows{grid-template-columns:1fr}.install-options{grid-template-columns:1fr}.grid{grid-template-columns:1fr}
+@media(max-width:365px){
+  .city-sub{display:none}.brandrow{gap:7px}.app-logo{width:37px;height:37px;flex-basis:37px}.brand{font-size:17px}.city-btn{max-width:76px;font-size:11px;padding:0 7px}.iconbtn{width:36px;height:36px}.city-btn{height:36px}
+  .hero-copy{width:76%}.hero-visual{width:46%;opacity:.72}.verdict{font-size:21px}.meta{grid-template-columns:repeat(3,1fr)}.pill{padding:8px 5px}.pill .k{font-size:9px}.pill .v{font-size:14px}
+  .route{grid-template-columns:64px minmax(0,1fr)}.route-thumb{width:64px;height:54px}.route-status{grid-column:2;justify-self:start}.install-options{grid-template-columns:1fr}.grid{grid-template-columns:1fr}
 }
-@media(max-width:320px){.wrap{padding-left:8px;padding-right:8px}.card{border-radius:18px}.city-btn{font-size:12px}.hour{min-width:88px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-  <div class="brandrow">
-    <img class="app-logo" src="/icons/icon-192.png" alt="">
-    <div>
-      <div class="brand">RideCast</div>
-      <div class="city-sub">هواشناسی مخصوص موتورسواری</div>
+    <div class="brandrow">
+      <img class="app-logo" src="/icons/icon-192.png" alt="">
+      <div>
+        <div class="brand">RideCast</div>
+        <div class="city-sub">هواشناسی مخصوص موتورسواری</div>
+      </div>
     </div>
-  </div>
-  <div class="header-actions">
-    <button id="cityBtn" class="city-btn" type="button">📍 <span id="cityName">تهران</span><span class="city-chevron">⌄</span></button>
-    <button id="notifyBtn" class="iconbtn" aria-label="فعال‌کردن اعلان">🔔</button>
-    <button id="refreshBtn" class="iconbtn" aria-label="به‌روزرسانی">↻</button>
-  </div>
-</header>
+    <div class="header-actions">
+      <button id="cityBtn" class="city-btn" type="button">📍 <span id="cityName">تهران</span><span class="city-chevron">⌄</span></button>
+      <button id="notifyBtn" class="iconbtn" aria-label="فعال‌کردن اعلان">🔔</button>
+      <button id="refreshBtn" class="iconbtn" aria-label="به‌روزرسانی">↻</button>
+    </div>
+  </header>
+  <div id="todayDate" class="date">—</div>
 
   <section class="card hero">
-  <div class="statusline">
-    <div id="badge" class="status warn">در حال بررسی...</div>
+    <div id="heroVisual" class="hero-visual"></div>
+    <div class="hero-scrim"></div>
     <div id="updatedAt" class="updated">—</div>
-  </div>
-  <div class="hero-main">
-    <div>
-      <div id="verdict" class="verdict">وضعیت امروز در حال بررسی است</div>
+    <div id="badge" style="display:none"></div>
+    <div class="hero-copy">
+      <div class="hero-title-row">
+        <div id="heroWeatherIcon" class="weather-orb">🌤️</div>
+        <div>
+          <div id="verdict" class="verdict">در حال بررسی وضعیت امروز</div>
+          <div id="heroSubline" class="hero-subline">چند لحظه صبر کن</div>
+        </div>
+      </div>
       <ul id="reasons" class="reasons">
-        <li class="reason"><span class="dot"></span><span>در حال دریافت پیش‌بینی شهر انتخابی</span></li>
+        <li class="reason"><span class="reason-icon">◌</span><span>در حال دریافت پیش‌بینی شهر انتخابی</span></li>
       </ul>
     </div>
-    <div id="heroWeatherIcon" class="weather-orb">🌤️</div>
-  </div>
-  <div class="meta">
-    <div class="pill"><div class="k">دما</div><div id="tempNow" class="v">—</div></div>
-    <div class="pill"><div class="k">احتمال بارش</div><div id="rainNow" class="v">—</div></div>
-    <div class="pill"><div class="k">سرعت باد</div><div id="windNow" class="v">—</div></div>
-  </div>
-</section>
+    <div class="meta">
+      <div class="pill"><div class="v" id="tempNow">—</div><div class="k">دما</div><div id="tempRange" class="note">—</div></div>
+      <div class="pill"><div class="v" id="rainNow">—</div><div class="k">احتمال بارش</div><div id="rainNote" class="note">—</div></div>
+      <div class="pill"><div class="v" id="windNow">—</div><div class="k">سرعت باد</div><div id="windNote" class="note">—</div></div>
+    </div>
+  </section>
 
   <section class="card section-card">
     <div class="section-head">
-      <div class="section-title">۲۴ ساعت آینده</div>
-      <div class="section-note">هر ساعت یک وضعیت</div>
+      <div class="section-title">پیش‌بینی ۲۴ ساعته</div>
+      <div class="section-note">ساعت‌به‌ساعت</div>
     </div>
-    <div id="hours" class="hours"></div>
+    <div class="forecast-shell">
+      <div id="hours" class="hours"></div>
+      <svg id="tempChart" class="temp-chart" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
   </section>
 
   <section class="card section-card">
@@ -187,21 +162,17 @@ input:focus{border-color:rgba(99,169,255,.65);box-shadow:0 0 0 3px rgba(99,169,2
     <button id="addRouteBtn" class="addbtn">+ افزودن مسیر در <span id="routeCityLabel">تهران</span></button>
   </section>
 
+  <div id="installBar" class="install-bar">
+    <div class="install-options">
+      <button id="installIOSBtn" class="install-btn"> نصب در آیفون<span>Safari · Home Screen</span></button>
+      <button id="installAndroidBtn" class="install-btn android">🤖 نصب در اندروید<span>Chrome · Install app</span></button>
+    </div>
+  </div>
+
   <div class="foot">داده‌های هوا از Open‑Meteo · شهر انتخابی: <span id="footerCity">تهران</span></div>
 </div>
 
 <div id="formToast" class="toast" role="alert" aria-live="assertive"></div>
-
-<div id="installBar" class="install-bar">
-  <div class="section-head" style="margin-bottom:10px">
-    <div class="section-title">نصب RideCast</div>
-    <div class="section-note">دسترسی سریع مثل یک اپ</div>
-  </div>
-  <div class="install-options">
-    <button id="installIOSBtn" class="install-btn"> نصب در آیفون</button>
-    <button id="installAndroidBtn" class="install-btn android">🤖 نصب در اندروید</button>
-  </div>
-</div>
 
 <dialog id="installDialog">
   <div id="installDialogTitle" class="section-title">نصب RideCast</div>
@@ -294,7 +265,16 @@ function riskOf(prob,precip,wind,gust){
   return s>=5?'bad':s>=2?'warn':'good';
 }
 const rank=r=>({good:0,warn:1,bad:2}[r]??0);
-const detail=r=>r==='good'?'مناسب':r==='warn'?'احتیاط':'ریسک بالا';
+const detail=r=>r==='good'?'شرایط مناسب':r==='warn'?'با احتیاط':'ریسک بالا';
+const heroSub=r=>r==='good'?'شرایط امروز پایدار است':r==='warn'?'شرایط نسبتاً ناپایدار است':'ریسک موتورسواری بالاست';
+function reasonIcon(t){return /بارش|بارون|برف/.test(t)?'🌧️':/باد|تندباد/.test(t)?'💨':'•'}
+function drawTempChart(rows){
+  const svg=$("#tempChart"); if(!svg||!rows?.length)return;
+  const sample=rows.slice(0,8),temps=sample.map(x=>+x.temp),min=Math.min(...temps),max=Math.max(...temps),span=Math.max(1,max-min);
+  const pts=sample.map((x,i)=>{const px=(i/(sample.length-1))*100;const py=29-((x.temp-min)/span)*19;return [px,py]});
+  const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  svg.innerHTML='<path d="'+d+'"/>'+pts.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="1.4"/>').join('');
+}
 
 function next24(h){
   const n=nowParts(),key=`${n.date}T${n.hour}:00`;
@@ -341,12 +321,17 @@ async function loadWeather(silent=false){
     $("#badge").className='status '+overall;
     $("#badge").textContent=overall==='good'?'🟢 مناسب موتور':overall==='warn'?'🟡 با احتیاط':'🔴 نامناسب موتور';
     $("#verdict").textContent=heroText(overall);
-    $("#reasons").innerHTML=buildReasons(rows).map(t=>`<li class="reason"><span class="dot"></span><span>${t}</span></li>`).join('');
+    $("#heroSubline").textContent=heroSub(overall);
+    $("#reasons").innerHTML=buildReasons(rows).map(t=>`<li class="reason"><span class="reason-icon">${reasonIcon(t)}</span><span>${t}</span></li>`).join('');
 
     const c=data.current||{},currentPrecip=(c.precipitation??0)+(c.rain??0)+(c.showers??0);
     $("#tempNow").textContent=`${faNum(c.temperature_2m)}°`;
     $("#rainNow").textContent=currentPrecip>0?`${faNum(currentPrecip)} mm`:`${faNum(rows[0]?.prob??0)}٪`;
     $("#windNow").textContent=`${faNum(c.wind_speed_10m??0)} km/h`;
+    const temps=rows.map(x=>x.temp),maxProb=Math.max(...rows.map(x=>x.prob)),maxGust=Math.max(...rows.map(x=>x.gust));
+    $("#tempRange").textContent=`${faNum(Math.min(...temps))}° / ${faNum(Math.max(...temps))}°`;
+    $("#rainNote").textContent=`بیشینه ${faNum(maxProb)}٪`;
+    $("#windNote").textContent=maxGust>=40?'تندباد نسبتاً شدید':maxGust>=30?'باد قابل‌توجه':'باد ملایم';
     $("#updatedAt").textContent=`به‌روز شده ${new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',timeZone:currentCity.timezone||'Asia/Tehran'}).format(new Date())}`;
     if($("#heroWeatherIcon")) $("#heroWeatherIcon").textContent=emoji(c.weather_code??rows[0]?.code);
 
@@ -359,6 +344,7 @@ async function loadWeather(silent=false){
         <span class="tag ${x.risk}">${detail(x.risk)}</span>
       </div>`
     }).join('');
+    drawTempChart(rows);
 
     window.__weatherRows=rows;
     renderRoutes();
@@ -373,7 +359,8 @@ async function loadWeather(silent=false){
     if(!silent){
       $("#badge").className='status bad';$("#badge").textContent='خطا در دریافت هوا';
       $("#verdict").textContent='داده هوا در دسترس نیست';
-      $("#reasons").innerHTML='<li class="reason"><span class="dot"></span><span>اینترنت را بررسی کن و دوباره به‌روزرسانی بزن</span></li>';
+      $("#heroSubline").textContent='دریافت اطلاعات ناموفق بود';
+      $("#reasons").innerHTML='<li class="reason"><span class="reason-icon">!</span><span>اینترنت را بررسی کن و دوباره به‌روزرسانی بزن</span></li>';
     }
   }
 }
@@ -405,19 +392,22 @@ function renderRoutes(){
   const routes=getRoutes(),box=$("#routes");
   $("#routeCount").textContent=routes.length?`${faNum(routes.length)} مسیر`:'';
   if(!routes.length){
-    box.innerHTML=`<div class="empty">هنوز در ${esc(currentCity.name)} مسیری اضافه نکردی.<br>مبدأ، مقصد و ساعت رفت‌وبرگشت را ثبت کن.</div>`;return;
+    box.innerHTML=`<div class="empty">هنوز در ${esc(currentCity.name)} مسیری اضافه نکردی.<br>برای ساعت رفت‌وبرگشت خودت یک مسیر بساز.</div>`;return;
   }
   box.innerHTML=routes.map((r,idx)=>{
     const go=routeRisk(r.go),back=routeRisk(r.back);
+    const risks=[go?.risk,back?.risk].filter(Boolean);
+    const overall=risks.includes('bad')?'bad':risks.includes('warn')?'warn':'good';
+    const thumb=idx%2===0?'/assets/route-city.webp':'/assets/route-mountain.webp';
+    const meta=`رفت ${esc(r.go||'—')}${r.back?' · برگشت '+esc(r.back):''}`;
     return `<div class="route">
-      <div class="route-top">
+      <div class="route-thumb" style="background-image:url('${thumb}')"></div>
+      <div class="route-copy">
         <div class="route-name">${esc(r.from||'مبدأ')} ← ${esc(r.to||'مقصد')}</div>
-        <button data-del="${idx}" class="delete" aria-label="حذف">×</button>
+        <div class="route-meta">${meta}</div>
       </div>
-      <div class="triprows">
-        <div class="triprow"><span class="triptime">رفت · ${esc(r.go||'—')}</span><span class="tripresult ${go?.risk||'good'}">${detail(go?.risk||'good')}</span></div>
-        ${r.back?`<div class="triprow"><span class="triptime">برگشت · ${esc(r.back)}</span><span class="tripresult ${back?.risk||'good'}">${detail(back?.risk||'good')}</span></div>`:''}
-      </div>
+      <span class="route-status ${overall}">${detail(overall)}</span>
+      <button data-del="${idx}" class="delete" aria-label="حذف مسیر">×</button>
     </div>`
   }).join('');
   box.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
@@ -476,6 +466,7 @@ function syncCityUI(){
   if($("#routeCityLabel"))$("#routeCityLabel").textContent=currentCity.name;
   if($("#footerCity"))$("#footerCity").textContent=currentCity.name;
   if($("#routeDialogTitle"))$("#routeDialogTitle").textContent='مسیر جدید در '+currentCity.name;
+  if($("#heroVisual"))$("#heroVisual").classList.toggle('generic',currentCity.id!=='tehran-ir');
   updateDate();
   renderRoutes();
 }
