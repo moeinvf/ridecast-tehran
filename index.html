@@ -155,6 +155,25 @@
   <div class="foot">داده‌های هوا از Open‑Meteo · محدوده پیش‌بینی: تهران</div>
 </div>
 
+<div id="formToast" class="toast" role="alert" aria-live="assertive"></div>
+
+<div id="installBar" class="install-bar">
+  <button id="installBtn" class="install-btn">📲 نصب RideCast روی گوشی</button>
+</div>
+
+<dialog id="installDialog">
+  <div class="section-title">نصب RideCast</div>
+  <div class="install-hint" id="installHint">راهنمای نصب روی گوشی</div>
+  <div class="install-steps">
+    <div class="install-step"><span class="stepnum">۱</span><span>در iPhone صفحه را با Safari باز کن و دکمه <b>Share</b> را بزن.</span></div>
+    <div class="install-step"><span class="stepnum">۲</span><span><b>Add to Home Screen</b> را انتخاب کن.</span></div>
+    <div class="install-step"><span class="stepnum">۳</span><span>روی <b>Add</b> بزن تا RideCast روی Home Screen نصب شود.</span></div>
+  </div>
+  <div class="actions">
+    <button type="button" id="closeInstall" class="btn primary">متوجه شدم</button>
+  </div>
+</dialog>
+
 <dialog id="routeDialog">
   <form id="routeForm" novalidate>
     <div class="section-title" style="margin-bottom:14px">مسیر جدید</div>
@@ -345,7 +364,7 @@ window.addEventListener('appinstalled',()=>{
   deferredInstallPrompt=null;
   $("#installBar").style.display='none';
 });
-$("#installBtn").addEventListener('click',async()=>{
+$("#installBtn")?.addEventListener('click',async()=>{
   if(isStandalone){$("#installBar").style.display='none';return}
   if(deferredInstallPrompt){
     deferredInstallPrompt.prompt();
@@ -364,10 +383,10 @@ $("#installBtn").addEventListener('click',async()=>{
   }
   dlg.showModal();
 });
-$("#closeInstall").addEventListener('click',()=>$("#installDialog").close());
+$("#closeInstall")?.addEventListener('click',()=>$("#installDialog")?.close());
 syncInstallUI();
 
-$("#refreshBtn").addEventListener('click',()=>loadWeather(false));
+$("#refreshBtn")?.addEventListener('click',()=>loadWeather(false));
 function appNotificationsEnabled(){
   if(!('Notification'in window)||Notification.permission!=='granted') return false;
   const pref=localStorage.getItem('ridecast-notifications-enabled');
@@ -382,7 +401,7 @@ function syncNotifyButton(){
   btn.setAttribute('aria-label',enabled?'غیرفعال‌کردن اعلان‌ها':'فعال‌کردن اعلان‌ها');
   btn.title=enabled?'اعلان‌ها فعال‌اند؛ برای غیرفعال‌کردن بزن':'اعلان‌ها غیرفعال‌اند؛ برای فعال‌کردن بزن';
 }
-$("#notifyBtn").addEventListener('click',async()=>{
+$("#notifyBtn")?.addEventListener('click',async()=>{
   if(!('Notification'in window)) return;
   if(appNotificationsEnabled()){
     localStorage.setItem('ridecast-notifications-enabled','false');
@@ -403,11 +422,12 @@ $("#notifyBtn").addEventListener('click',async()=>{
     syncNotifyButton();
   }
 });
-$("#addRouteBtn").addEventListener('click',()=>$("#routeDialog").showModal());
-$("#cancelRoute").addEventListener('click',()=>$("#routeDialog").close());
+$("#addRouteBtn")?.addEventListener('click',()=>$("#routeDialog")?.showModal());
+$("#cancelRoute")?.addEventListener('click',()=>$("#routeDialog")?.close());
 let toastTimer=null;
 function showToast(message){
   const toast=$("#formToast");
+  if(!toast) return;
   toast.textContent=message;
   toast.classList.add('show');
   clearTimeout(toastTimer);
@@ -450,8 +470,11 @@ $("#routeForm").addEventListener('submit',e=>{
   showToast('مسیر با موفقیت ذخیره شد.');
 });
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
-syncNotifyButton();
-updateDate();loadWeather(false);setInterval(()=>loadWeather(true),10*60*1000);
+updateDate();
+loadWeather(false);
+setInterval(()=>loadWeather(true),10*60*1000);
+try{syncNotifyButton()}catch(e){console.warn('notify ui',e)}
+try{syncInstallUI()}catch(e){console.warn('install ui',e)}
 </script>
 </body>
 </html>
