@@ -113,6 +113,40 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
 .hero.risk-good .verdict{color:#9ee8cf}
 .hero.risk-warn .verdict{color:#f3cf72}
 .hero.risk-bad .verdict{color:#ff9aa2}
+[hidden]{display:none!important}
+button,a,input{transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+button:focus-visible,a:focus-visible{outline:2px solid #9bd0ff;outline-offset:3px}
+button:disabled{cursor:wait;opacity:.7}
+@media(hover:hover) and (pointer:fine){
+  button:not(:disabled):hover{filter:brightness(1.14);border-color:#6595c2;box-shadow:0 6px 18px rgba(0,0,0,.22);transform:translateY(-2px)}
+  .install-btn.android:hover{background:linear-gradient(135deg,#62b0ff,#427afb);box-shadow:0 8px 24px #2663bb40}
+  .addbtn:hover{background:#17304a;border-color:#79bdff;color:#fff}
+  .city-result:hover,.city-chip:hover{background:#203b57}
+  .delete:hover{color:#ffb1b6;background:#5c2635;box-shadow:none}
+  .hero-credit:hover{background:#172e47;color:#fff}
+}
+button:not(:disabled):active{transform:translateY(0) scale(.97)}
+.iconbtn.refresh-action{height:46px;width:44px;flex:0 0 44px;display:flex;flex-direction:column;gap:3px;padding:4px 1px;justify-content:center;align-items:center}
+.refresh-action svg{width:21px;height:21px;flex:0 0 21px}.refresh-label{font-size:8px;line-height:11px;white-space:nowrap}
+.refresh-action.is-refreshing svg{animation:refresh-spin .75s linear infinite}.refresh-action.is-success{color:#a3eed5;background:#163b37;border-color:#55b899}
+@keyframes refresh-spin{to{transform:rotate(360deg)}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.toast[data-type="success"]{background:#12372e;border-color:#3b8a73;color:#d3ffed}.toast[data-type="info"]{background:#162d47;border-color:#466c92;color:#e1f0ff}
+.hero{padding-bottom:119px;min-height:384px}.hero-visual{inset:0 0 auto auto;width:46%;height:calc(100% - 103px);object-position:center;opacity:.9}
+.hero-scrim{bottom:103px;background:linear-gradient(90deg,#111d2d 43%,rgba(17,29,45,.97) 52%,rgba(17,29,45,.45) 65%,rgba(17,29,45,.06) 100%)}
+.hero-copy{width:64%;padding-top:42px}.hero-title-row{grid-template-columns:auto 1fr;gap:10px}.hero .verdict{font-size:27px}
+.hero-placeholder{position:absolute;inset:0 0 103px auto;width:38%;display:grid;place-items:center;padding:16px;text-align:center;font-size:11px;color:#a9bdd2;background:radial-gradient(ellipse at 60% 35%,#254c6d,#13263c 70%)}
+.hero-credit{position:absolute;right:10px;bottom:114px;z-index:3;max-width:33%;padding:5px 8px;border-radius:8px;background:#08131dcc;color:#deebf7;font-size:9px;line-height:1.5;text-decoration:none;text-align:right;backdrop-filter:blur(8px)}
+.notification-summary{display:flex;align-items:center;gap:10px;width:100%;padding:12px 15px;margin:0 0 13px;border-radius:18px;border:1px solid var(--line-strong);background:#122238;color:var(--text);text-align:right;cursor:pointer}
+.notification-summary svg{width:23px;height:23px;color:#8ec7fb;flex-shrink:0}.notification-summary b{font-size:12px;display:block}.notification-summary small{font-size:10px;color:#a7b8cd;display:block;margin-top:4px}.notification-summary .chevron{margin-right:auto;color:#97c9f4;font-size:22px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 0;border-bottom:1px solid var(--line);cursor:pointer}.setting-row strong{display:block;font-size:13px}.setting-row small{display:block;color:#a4b5ca;font-size:11px;line-height:1.9;margin-top:5px}
+.setting-toggle{appearance:none;-webkit-appearance:none;position:relative;width:44px;min-width:44px;height:26px;min-height:26px;padding:0;border:1px solid #627389;border-radius:20px;background:#26384d;cursor:pointer}
+.setting-toggle::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#c7d4e3;transition:transform .18s ease}
+.setting-toggle:checked{background:#327ece;border-color:#70b8ff}.setting-toggle:checked::after{transform:translateX(18px);background:white}
+.daily-time-field{margin:15px 0 4px}.daily-time-field input{direction:ltr;text-align:center;max-width:175px;min-height:48px;color-scheme:dark;font-size:20px}.settings-note{font-size:11px;line-height:1.85;color:#a9b9cd;margin:12px 0 0}.settings-status{font-size:11px;color:#a8d8ff;line-height:1.9;min-height:21px;margin-top:8px}
+@media(max-width:430px){.hero{min-height:382px;padding-bottom:108px}.hero-visual{height:calc(100% - 92px);width:47%}.hero-scrim{bottom:92px;background:linear-gradient(90deg,#111d2d 39%,rgba(17,29,45,.96) 52%,rgba(17,29,45,.46) 70%,rgba(17,29,45,.1) 100%)}.hero-copy{width:70%;padding-top:36px}.hero .verdict{font-size:22px}.weather-orb{width:48px;height:48px;border-radius:16px}.weather-orb svg{width:34px;height:34px}.hero-placeholder{bottom:92px;width:36%}.hero-credit{bottom:102px;max-width:31%;font-size:8px;padding:4px}.reason{font-size:10px}.header-actions{gap:5px}.top{gap:7px}}
+@media(max-width:365px){.hero .verdict{font-size:20px}.hero-copy{width:73%}.hero-title-row{gap:7px}.weather-orb{width:40px;height:44px}.header-actions{gap:4px}.brandrow{gap:5px}.iconbtn.notify-btn,.iconbtn.refresh-action{width:40px;flex-basis:40px}.city-btn{max-width:70px;padding:0 5px}.hero-credit{max-width:28%}}
+@media(prefers-reduced-motion:reduce){button,a,input,.setting-toggle::after{transition:none!important}.refresh-action.is-refreshing svg{animation:none}}
 </style>
 </head>
 <body>
@@ -135,10 +169,11 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
         </svg>
         <span id="notifyStatus" class="notify-status" aria-hidden="true">خاموش</span>
       </button>
-      <button id="refreshBtn" class="iconbtn" aria-label="به‌روزرسانی"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M20 6v5h-5M4 18v-5h5M6.2 9A7 7 0 0 1 18 6.8L20 11M4 13l2 4.2A7 7 0 0 0 17.8 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button id="refreshBtn" class="iconbtn refresh-action" type="button" aria-label="به‌روزرسانی آب‌وهوا"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="M20 6v5h-5M4 18v-5h5M6.2 9A7 7 0 0 1 18 6.8L20 11M4 13l2 4.2A7 7 0 0 0 17.8 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="refreshLabel" class="refresh-label" aria-hidden="true">تازه‌سازی</span></button>
     </div>
   </header>
   <div id="todayDate" class="date">—</div>
+  <div id="refreshFeedback" class="sr-only" role="status" aria-live="polite"></div>
 
   <section class="card hero">
     <img id="heroVisual" class="hero-visual" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wgARCAFoARgDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAgMAAQQFBgf/xAAYAQEBAQEBAAAAAAAAAAAAAAAAAQIDBP/aAAwDAQACEAMQAAAB8GXrL7cvIj6008ePt4viS9sw8SftQPKT2FS+Ov1oJ5FXsDrxd+1eeEL3Qx4m/c518fXo12cB3ZecGep6WdfPw9dzrPN135rPn1emA83OlD1VXMbmUsdhnkZZ0N3O6mdDTKlXTCRVutVNJ0JXOXXT5dpsJBhrKCdqMJbAFaUiuvn6cZQlVzcGwpIunTy9GddDFqzmbXhfZ09IBjWmoyUIZQsjtaW9YrLMup0BVpTmB07M/RK8b5eHtcfWc4QenOhuFSyBK9c1U1zGuZ0uLr3nqcLUgAr6yZ9LazpHTB+dWUuWodAg0UDOaKVe3Oky6dk0nSS5S5WwrMF9S147OkebyA7UXit7NmSbJnXgXZj9fk0ORozrT0eVtxvYeMc3oli0DZndATPi1OuGFVm2J6mdLJo5uZjiVRwlopUtlLzZdWXUskqi4MjwzFu9nmc5HQxoF6pm0ShB2YxB18d2s9jnacoFqm89DpcG8b73PwhHS6fm2HWz46lcu20vSqs3dq5r8b35sSh+jPVnQmOS+YdnL0+fUzGR0NXHLOtp4bOrnRJSvFvEBvEyB2cxzycGsgLrFtEhujCeN9bJmHOuvM3hY63DyI68teTOyxm7C6PUTiTn165KLlwaSjUzWQ40lLpFOWXNt4brPT0gpX2g86aS9cuE96IRbds1zz3txvNodxc3zPF0r9HBOdtXOWnKIVFZpi5L6Ill05sJZSsJZqxi2RfnvRpXysLWnS6hnnYkerOkbNjePbmo6pHE09Vkc/U6Y6F829p846cllirrypIBqPihRx5mmmZYerMS687MSi2LJXMQcr7QcvC6PL6Fz2Dzsz0c/KzN6y8efn07OzzOqX0I8vLjXdDlLD8P6nynTHHB+XfJRmADELrYznyTrTnRfZGJ9cWUIomvzrKWqlzsbZ5vbj3ax1WW3n1UZXF1UUrqog3LLjKMXhPonzkDO/GySWSVV6r1lBaDME68l9AxZ9Iw1HK9ucpplrJlhCS+Y6XL6uufaJCs9N5cgU6s5N3PanI1Z1sLnmuysb5S8h6/BZ4DFrCQwYVLMtGs53ulgy5L3mJmmm81moVWhku0azNZxN+DZZ0Lq7DgEpVLi7lkuFLfPxcCXup5EOinKYpO1Yg8zZepnyxGREX05rLphhAUHayorqyyGzjbMmyOjRUUVEUUshVYWLX42aWA1mnQEMtNjoqzMQBLptLrAhQ9FeO943ln0BXKDIWLRXScbbg3r0So4gsEkAySlnJ4NXna4aYhUUXLupRVZmC5KTksGSpZ1iA950aM5ygJGMaC5rbmHNc1oU1d2jnSGQHGfZl0KflfT+UkwDvCXM+ssrTQA2pQRLYiiE1piyRsqancsD0s8lxpaGgGEuVLGVZlpGiz0/ofkf1CONzvbeNaAGeVxp6UJuWoIIlUcoFJDDqaQRtFsolqxtHQZXaZl0byo+ty+fQtfHPeOsHKAcSjua34+lLm6GFcvrvIv5VLBic2kAEsqpE9Fm6u88fmeg4OaM0RVESCGtgJCSHJK6ilTWHGhlacmnLNTo8zXJTMhU2KNGOyiunHnVjdCsIMaIHvM2dOeU9NbivO9zh8uiaKs2iqyrkLursZFQ7+XYO4JsCHxemayo6CrOS/W85IPwpRYSzpojUNQTC9OPXXcLnzpz69cDcvNw+l8/z0uyFaIbkqoCnQQOBI9CIX1jF1cbtOBU1sReROhTdud8vB3w1nyB+jzZcCu6xniN6nIa1YOtm1nBALN0K6ufTM5iIGGAICwAXWZ48RUdI7R4y3nUzPJrfz7y2VFRnR1eJozrp6eZU1v5yMFm0uXqTRmWEqRklLQPW3G9bPzt5RztOPFKhmbR00lDWpVHcBGQ1yTWSZIqbkRdyBHJAVIGMgTZBOSTOsuqRr0fBk3lpSazWGTFgyTUkiFclWUhckr//EACcQAAICAQQBAwUBAQAAAAAAAAECAAMRBBASIRMFIDEUIjAyQTMj/9oACAEBAAEFAvDbBp7oaLhPDbPBbPBdPBdPp7oNPdPBdBpdRPpdRPpr59PdGothptnhtngungun098+mvn0uon0uon090+nvg0mpn0eqh0Wrn0eqjaXUCeC6eC6Gm0b8ZnExyi1QIs4CBIFhWcNjsROGZ4otUFYnEToQESy7Ea9p5WM5GLc4i6k5FgZLbzlmJ9jori7TlIJxmAI9hzygYyt+98TExMQCYhGByGX+LDluUc52G4lZaWIEB+T7Myv4Y4hyY2yyr5HsG+IoE1TFgmRGLGcWnEzESvkfAYasDjD1A2C75U+3ES3EDBgMS4CKsrrzFXpfj3tkmziAMTj0y9PFXMrrOeOFYFjZ1MwmZ9ola7Vg54MBayccytyCj8wPsZGDTExMexo4Yz7gUeBuUaufaIuCCMywdMIRCDMTExMTErTM4QYlBSaj7wfmDMq5S5xjTt93efbiYliiCrvHBnaAMWVGXY/DqOfjnjg0/f08NGJ4Z4IlTCCvqIcRm2C5lVXRXoU5grURfcY7YgY5BzLVyKVMCjJ2Zcxa++IgXEIghGYEnGY2zMwQKZTBsNgZZ/nnANk8k5TlD3AIvwfjBwqkATExviYmJj24gizlkLkRXhaByCLMwTUMBTgEWjoPiLcRC55JZFwRx2G2QICDsSBBj3Z2zsBFUQINu4ks7g+VM1lhFa3mFwyMMTME6xp2XDvGs+5LTz8qx+y7YnmaNYzRWM8zzznCmFgJZdPqHiXAzOdhFi/GJiM2IGhzPuxq8+JYv2rY2TMzM5TlMwGZMBMwSVqYzwmeMiD5Jgzhr9PPNpjOIaeMiAlYIIDOUSwiGxRC/auJyUhGw2u705HWTjE4nfEIPsXEBWJYAGuPKrDi16qU1fqVjFnZ2e9a4dTc05aiJqtbRNF6yHaZ2zAZncT+6xz9OjZHAQBYFXDoJgb8ZiY3z0Ac+ZdNRqtS91kd2aBQIJyi2GKKbvwCZhM1zEnR2E18pmBpnbx5hEG2IJwgq6rrnqep+ot4zxkx1I9glec+7O+ot8YJ7osVHRgywb1dx61nCDEUKwWrsUypDn1fWCucl5kRvnyNGZTMGcROKxa1/ANtXWUs20NZAgExEQmKhAYQzBi8xPviZjuK6r+eo1VxzqLGjNtmZmZmK34BtcgsrYcTpKvJZgQbVEGIoxiNVmLUBPGs4iY29Tz9Je5rblnUsSYTM+xUsMOQfcIN9b/AL6H/IGDav5THI28W+pWV2BpmZzDt6v/AI+rDj6gMhG6n9OEgBM4zCTkJ913vG2YDNZ/voP8oJmKZyhO1XRe4zkci1hPK89RcnTerstl7HZG4w8Vhc+wD3YmJiYgBms/20A/5hJwxMRROpgQAbZ9ms70tzeS9lcIIz78TBWZ452sHsXbr2az/b039BP5iYmJiYmNsTrYjMdeFjjMdpWjWHj2FAHKchFdc2KttUGwg92r/wBvTf13yBBYk8iQYO+NzPVKuGquPFYGC1CYM4QIIqLFrR4PbnYb6n/X079SwEN05sZkncEiC9seZ8+Z55zBasLTW0tqNPfkuqQhdswDM4gTM8hEHtzMmZMyZyMuP3aQ9fixLNZQgPqV8+s1JKseVnEk1zsbK3Gc0KsyTyqVmZk+3MztbNN+P1G5izHcTMEsXkM8YJicZ1sPw2/Gl/Frb/CrEsYNhtmchLOzmZhz+S39dL+F3Wuu6w2PO9uUyfY3z/R8/wA2B/B/LP1034fULCbGImdxgTMG5/Y/MXZz3KoNxu36v8UQezku9hIq8ZmKlhsWF4PjqDO3UMPydlhln7SuJkx2MD95M5d5htXBCmVsqxLFMHZJPLM+HDZbuau2y2wqZxMCEzCoAczkBGcmfyZn9M/g2PzF+FDQqTPHG4hAY1+R0YFzAkSymll1FeQwJIAjSv8A0vdaaSRM5nQhshOTnqAQnME7n92GwbAUAjOIHgJz3CDkYn/MtkKrWtLbj4/SbtPdT0R6lo1QJgwoxmptOlDvXZC1CxnzDuYJhYFWDEZ/YN1lh++vPLKSspGPf9VFMtCKsuq/413W0Waa4XUwr9PqdRrnq01rM0K5nGY3rUu7DDCYWZ/AYss/cfPeaG8b3PkvqVch2y7liPlT1qtI09L1S6QN6lo8DWWed8ms/BIELQnfRUiueooo1G+JiE97DYsYrxU0nlfIh5ZDsCzFpiYMVSYi96nTPp7Hd3gMUzUsXfUfuf1zM7CaelUg6mrr8qCYWfZCYcmY9toNb8jA7Q2O0CnxE7aei29jkFMRj3kmCAS9sAFSS/Ikg+zT1KtZqQyteEu6Qj7Nu59079ve9YLM1LR1K7UX2UuSScz+ieTENrxmJg7jjB2UFjRpkSYhQgiahxWpbltidzv25mIw7Vcqo4kHM6goUxqcbOhTaw4jNNRabLNmIIxKqLLJpn+ntF+nIS7Sk+WiCyljrLFsYHA9+dgJ1BjA+6cYmmtYlY5xFwAvEzieVyny5md/k1fLgq3Br10+dLNXQbD9FdKLLNKLatEyePEIA3HuycYneBkHl0dRYTa/QbvM+TZfSp1Q1Dr4n4vS6KO4QVKZMSwKKqdRqCyOjkmJyjNdg8xFRuPBRMTEJmCZgezEYHGDjJz2Jwad82Ai/tX80VG2y1ONzJOIj9xVVYqiatglNODZfrDatl33GL0QtBSrR6i1ba2qedRjsPjr2YgIx1Os9TIlz4IczMRyDXdxnkLEnivlUrbwDeUTyoJbfWW8nJm+YMmIGaUaK1wAtQ19itqszMOw2JE5TJmTBmd4R8TqNjNvzMwQEwWjNtuVRjxsrblweeESyrgyjrZa2xoBLbzDYZcvI9TGw2IPs6mZmA98hjMPcxMQTPtG2o/V+qpp6+b20GvTq7VjyZmY/aYExMGdwTBnfs//xAAhEQADAAIDAAIDAQAAAAAAAAAAARECEBIgMCExA0BBE//aAAgBAwEBPwHUITcITpENdH5MhNN7nnBIyXRI4iGTS6zS1xOKOKJuC6UovnzRN35HpODyFmU+RUpelFkUuocCE0ijyiG29UWfZFKIgsRYESH4wgkJUWJxosCH5Ok7/wBKJjzMcx5pH+iMsk+0IcTicT+kROk3PilL0u19nKDzOYsjkjkhtayyuqUpSlL+wl+kvFLU1NTzpRbQzFjnm8GhZRnJn2JP7GLo8oW9mIZjL8l0kTeWQmLvBY04ixpCbZxREL68E2tcaTVH7LJlGydL7rbMe3//xAAiEQADAAIDAAICAwAAAAAAAAAAARECEBIgMAMhMUETQFD/2gAIAQIBAT8BKUpS6pyL0bYn3fS9KXS6rutUpi+jZyGIpR9btHI5s5nIu30SpxGUviy7n0LWSosR4kPo+hixPom2iE1TkUumiCxpJqUeHaE0zkNjzK2xedGx5nIeZT4+t8GhYmXxoWDP42Y4zdL0pyKfopfCEXf9EOBwOJxZCMgsZqE1CannfW/4N63zemJvzxzWQ1UcdNoQ+ixpJ2WkZWfW6N7xxGkPtdPKFG51RyZyY/z4RPTZ+ezXWdppdEQf9Bay7f/EADYQAAEDAgMGBQMDAwUBAAAAAAEAAhEhMQMQEiAiMDIzQUBRYXGBBEKhE1KRFCOxUHJyosHR/9oACAEBAAY/AumV0yuQrkK5CuQrkK6ZXTK6ZXScui5dJy6blyFchXIV0yum5dJy6Tl0nLpOXTcum5dF66D10HroPVcJy6ZXTKrhnw91QK+V1dWUqirsbwlahVv+NimV1B4UlRwoUnw1VDfEwfGVyopJVL+CrnRRxKHarxKcaucDYoq8Syqp8QfHVVFXMqc6qVXaqqHKqv4N0KqptHespV1dVKorqpyurKcqcY5X8DJoPVQfqcNddi3SHey8uDUKMico40la8Uho7eZUYMYQ87uVS5x9SqnU7yC3Yb7LqP8A5X9v6l59Chh/VNDD+8W+eGfdQc6cR2I/4HmUXuMk5Q3db/nZ04rfkcPQDRQbjakcCXUAUtowUaFUwqVCqOP6qVNVI2q7VU/6RvOWS49mosqD2nvnWo9VRtVfKy8uFqmhz1nvsypKpsVTnn7RKq4SblxgSsH2zrxy0rSRUIUpsQeCWNMF7g1HDxG74NQnO8htyGOj2VjxPnZ1SqFWVNnB/wCULEf9pAcVJu5R/OUCru5yurrn/wCyAOIXAWrMcNyPvwJlQFOV0yTZ6Y3uG73srwT+Mj6534zkeK4eoKc79zkMX7XWyhtvPZtxHo8WPNOb+0wmwZ/8UCyhqoVVUGV0Q2C4W4b0dipV1dUO3r7Ylflf7st0ne5lbK+V/wArne0+08N/unZbqvsUK886jKiIA321agPRVcNq3EcfXi7s4h/C3NDB6BT/AFOIpcZm5REKhVc6mFzK3DPE/SDtGG3mPmeBGxbw0N6h/Ckmf9BdiOsEXOucrqPCHh/pfa3175W8Mchs3zc4dmlS4hvuqv1FUUDZvwBlRXyCpbKJXMuZXUK+UkSoAjIw46ew2PXYngjOVMhTNctJy7KwTtZZMUUl8KRBCFjOQTiTvHlCGVVQbFeD2XrlE7FoRkwiQZjKBdy/t4TMNwu0BQQF/VfTsgt52j7gqG9sgYDibLexTPdUBcdu6urqnBrkUKSjursVBvkHNqRVa8N2k9k3EbYjLEwW8rHS32KOFTzAhBz3FxO0GNuURnTK3DDyxrvQouiPRFww2tpYKVJyAUt79inYf1AxGgmRuyt3Ec8+TWFfUY78IQT3/CBdd+8dvU7nP4RLbGuzfaqrLexzyzbugS0oobWjELZiaGVvPmMpJonD4CjyG1qLml3lNlZbvMNim3pN8950wv1NQvbPRgsL3KFU7OlSVJ2RqYNXquUKhOnuE8eiHFgZVy14by13opOxQShqoLjagCSpO87KDlW/L/8AE1rW24s51KMHIT3yhBS7OuW6FJGoEfK6ke4UHGA+FJxWqGvn2W7NFTj0b2n4y0gLkW+1QiDTaLaD1PZXnyKBadTvuCnFwxX7omEMXXhanGIb39VXSPlaRibpNSBylYmI/wCoP6hBNBQlbxr5ZW4dMhXtC3VU5huGzExHd5otTmBoHYKdJWp1FRQUNMyDKcS0/qE3laWYTnz6LSQQ7yUElQFVz/5Qk3Qf5mAqnUdm+Vs5UqMrqMhkGtbJTgb5XULdaAqgFBraalDrJocThkeVkNLy7zpl5I72ID/MrU1m7+4mAtBc10D7TI8BAylUUiQ6Oykmq1Gvojuq+r5XJ+VzqjGuixKAIEeg2LKSW4bfZAOwfp8YD0IKe5rdIPby4poK5STtWzpVWXdRKLs9ULUeUZzs0yt4QFNb51zJdcrT2zKrwv/EACcQAQACAgICAQQDAQEBAAAAAAEAESExEEFRYXEggZGhscHh0fHw/9oACAEBAAE/IZiI7w+KeWKjhzl80n9fGoNfph476TKMSR/5MF/4w/w5/wCHH/OhKWWN8EP8OVP6o/8AkQbC+ajxmBX+DcSsMCE9ARvgZgNpL9VAqoZ1ASqlLg0RLKljM2CVgjwKovcSvpNGhiY7HG1sbCKF1DvGpt0YPFAGCLXs8wIm4ZrCVWItbWdSG/kQJUSPJOIQukI4RuKoP0ShpjrkQ4KEuGAMlx2ngcDNaln3njRrZEjmdy0OKzIiSpUECVCBNvE6xRLbmPdxaMlxYg9R7mAlAkSzil9BLRLT3qGksYls6UroUyukqVKlQIEBhCXiYG4b4qU0IhmEboInSBmlzF9aIL7uPIL9IlgJTQ4BEBR3F5a4eWiOwdS0DqMHAE1wscKnpykzmHjLM1CbIE7jGGGXWot8K0tBQgjYggxMmZfqPw0CLgJxAAgPeUyyglSpUqNpSKjYQUEfeVRIpjXFbXxVL1EpibDiWeFlL+Ixqox5IMLbUx2tRtjqqghXcLCBdxqSCOCEqVwioIxHZRhdRkgMjoSLEWJ3gw1QhiOsFFShMkpKRhBY4UrhHHiPqFEeYtQ+M5kB7leswSTTUN9StviECLhAe4GAOA4EUlIypXFpaYEtRLuIddGMkeGJZ1K7lq+okekqaEc4OKKyRYN84aagtiR2FQ7ZxsARrIIwZcGLGLjwGomE6lARF1MSdENVlZBDKYOFVEENk8N5j7zs6ZngfAszDI+Np0mUaVQEo4gHMLwihahMCWyje5U6guTMxWQYooCtsTUKnHd2XO+CqBcBuxND4hLMLh7IsEMJt5i/Mc+WQ1ca6Naj4+CK8ohTVQaDzKv5h9r6bgij9kD2F7R6DwhxQLl/M7SVncFWJpwaUxao8P2QA0dTuJdYNER4EwXBCooN8y1Vc7m40hmXcjTfwHcXB/8AMXolsb93SzF+0nyz9ORBuj4pKBH8C/pj15g/gOoMIF4IQi2FwxxBw6pAPwQrcwblm4DAqsZalyiTGOGICTMthFaRAl9fqItvteDweCXe2iEXeR7j2EVQpDu4B2PmIMGHAwhMIGZYM84wEt4ppwY0yzuFdxosijw3LcLeYPe/tDDQLX1Lv8BBPQEb7QNAzZh9H2fmUekGDBgwYMIuXBoMrxLey5YePpg57GXFBgwaQDln1EBdypzK5UFRUAfMtKdyi6g6Iun3GylC/AjEUAFL1ZTdx6OJZ4HgnlF+WejOiPwYQgwYMGHJlY5x8S4T7TBAWLLwfE86EquKXEecnUJeIQY2gjCLFv20BNrXwQ3nk/aBogWsW/6QBHjOIQ4IQhBKn2QJZ5RmZM67YAUFEFQ4I0UL6lnM6AizqAdSkxHSIlcyOwYUuDZ8X3isO8Z9y8bN49S5cBEVpN5gkPkqEOCEOCl8UtXiVFXAUuIAxjQlq2kLsqB58K6JFUuNxQYHdvth7M3KiufL+pSkC10To32A9H/Zn6fvCpk/aeX9yeJlGMpXydJ+zcIQ5GKXDgbkUAx8Hjc7jahHXZU9AmUGpuG5ay/2Vsy9CX68PvBW/Cekf1LgBs1Zs+I2cZ8Xce+It7jHmYl5YwhCVAYKCloKXoJs/JGe4VXfAZQikDFKipbBhD6j9iUH2V8GCPQLKVwLfQbXqYM527MuZYJ1wVdKUnh4EIQ5gECkwyiDTHfzTR98B0lJriWluDFQgwjUqZ+H5lJt2h+IFCLsdf5hvj/v3KzX59R12HmWaAejzDyE3FPtFwDurn2Q4HIOIsIQj/JwSEIguiIdYgzVuyJKhCcGWoKD/tEp7/hAmBRFf5l+kv8AEv3V+4W252F/MGWu/G0Yo8g1H3MxQgwcy4Rc2hmVM4sIDZZ4kcphRlvlu0IaiQpawj6oC40jfJEW6M8BQ/Pj7yrhcaKl7gergHBBemHnOprgINCCcSkIEr3BPMfGEvZDySojPlQg89cH0H0BD4gZV6jioPGPyicLwrX9xIRPpl6E5dkwwT+JSa420KYNxFY/aGBLeeplUFqFhcZYT1nugsuEvhaXDj5T+vNw+ojO8Mn4vdS22Y6jTB7xLRQMkUrfma6lGINkQ+nIhLl/QT+ef0lcnJwSnfDh8fMZuT2txmmX8TetcqHca9xGCHWE4NkRrfAw5PoO/iaPmHP25r6SakXXl8RJrTMfmo+Mi27HdTDwS1wfmZdv4xMeJccrUrD4m46qXAuDCEIc/wAU1fMwT44CVK+glWVXlDn/AD/2D7uCdQ30Z7lRBLPJeYOSd50TRz9ISph8U1w5+PAmI1CyqE+IwNm2Y+J/OhmA/wABqUseEs2Y09wLqiYurOCnDvPEweGyOo1YFdqLgXwiuDKXLHcEst4XKhccsFwIGafDEfo2icoIxWmoIcMwO41NIEFNEXAFomL3KOOyDTCv14hmJMYNEqvJCrzPXUeIjfcZnabgJBG7izYigPwYi2+sLDczcUaxMlkvf8S6qgJe0LzMEPkJLEMd3cNd5mmbnzKZPEGHVXZ8wuHUSJ3P7QTEmlhQmVhGVLE9o20RKnqdcCNVWUwh/rFYMHS1y51Mk1GaCe5lyKeJRUQBVkU2AQpWkq/Ur2H/ANxcSyXyEVgzz0drXkjIbKX7RMrBe+pptMLMglNpMwT7yjXSiJdsWHCnbUG4xRFmIN5+gRTsI/iNhABSFmauNLbNROqnVgRBwk1s9eH3yqQivYjxO7RcY7IPWF1LwOnxC+Y2gVqzqmYu5huO4wdLaiOzsale4V7iTAjLYd8EIalsahYO4yoNnzMtCKcB0YYKwu3TRBVJTpgKmWJt4GyMXFtAOV1Z9S2/HwHnU/PEBiELT2GsI1+2f6JSt6qaiILXcZ3xVsJtoJu1BD/crgYWmGWLceO5txYoaZT2icANT+mXhA6vuL5URN1FG+5eEh8RdmoGtAGJTDhaii2P5YWVA8R4OIaxoAjN4wqMFuIwePkPKo5ovSeSINy7uAHcIuLWZa4Mdw4eqPkSqI7hAIdL6jFmFPOItwyzF6LojWykwy28XiLDsMOYziVZdbnZ+MjYm0+0XlzQstIVn8cJfIrZ8kGTMKBZ5I3NfMye5UXbMJR7g1Bsl9rYQ4QaOInQhMWWq1FKKrasIXgp+2cTMnHqq5mFmaolDLlwS5NBAw/a6IXaumIMCbIKgyl0aeYrUx0O2VmPYhGW2VCdx4aYqLlVQ/hmDwAUsS9NMuGv4jhAhAtmCapZx8LPkZghLar7S/L9pfuoOMXzGusk/sdqCoKB6HxLZ9qFZY+XUEKH2u4jOwtos6zLb3MJhe4ONcdvDCLWY3mPJN9zv6gyEqcNVB+ZnLjb+09kzEsHYMTpirEbwMSzRTNvRFXCx7vcvzLlAC1Be4SbF7BPaerT8xoe6Q/tigG6QDwoaifQg1izZwoVeVeJjqNJSLwzEvPxL8Rl6na2PpmZvkCm4eU6J21IW1jY6/jmgsxjch3M+pfRKuL00HxOpeBiNtEr6ZavMKgFrHJ0kGIdYnUSJuf5S6Uz6X7jA4aaZuBu01VxZW58cEFS1QszC07wfuI1878ysIqwRLmglMIe5XtK9cBGzDbMSNnMbqVlhd4UCY5SCmvTM3m4lbwygVBplhuVMEyUnYzMIRpdR5IXInbR1AaLpyz/AFdQKcXnhcstssFqHdQUoNIh+zZMd/iv2QRn0NJfvi4w4i5lHK58ZjqVKlpQ3BpiGKyXemNQXHwiSxuKeHhZRMFQsUrawBYtDTwLFSy91Qlf/ElV7deJWjDQ2XKtslU25vi5QLNLYnyxuzNPbb/YYhojlEDSM0iubj6gQcfA5pogjCNRZTvqFnepZIO8Gng8wDcrFEOkJUTIGjLnrCsttLDIbJR0DnxRLVQP2M1BiHccig93KrvMR7lfMPkn2SxsZT3FHhgEr2lgl5VaZXmZbii0pMHgsHMIuZvNsH6M94yQnR2HXmMIeHxK47ah3wtBQb+zMBTMo6Z7GUO5a56YElypU//aAAwDAQACAAMAAAAQb3SqPev1h/SmvJ3LDxv/AF99mwo0Dg4+yBMXcVJOG3H+BOIcfcz5v383mDsXANNS5zlWYY2rAoftIocVLZi7McZq3YQwEb/jrdeBAgVbbzRo/wCYHDW3aVL4Zl4Lm9RMxcCRSY0l62eZJdCcYj827yVZ5D3iCPBeoA4YEGMBy7tDDaplFg7JTML7UPTzb0cz55GK3d+/PPqC2f8ARqP3gLlnzipzMMSy3VdoT16XPvN9TAlbJoE1Sq2tclVdqoVwvlP61NPSH9EBzOpZ3/Mh0G1IjHy+9s8gbIjMkSpfDhfcvB9FjYZ4rPQHzZwpCBJ6FNaEEwnxjl8Os7C2tB/+hfTyrD2D3Qt266l8msX0nm5DoGIjO4yFqkvMeSQa0DjWEVfW08KeoAMuaB3Dgeh+c8+BDchAjchh8A//xAAdEQEBAQADAQEBAQAAAAAAAAABABEQITFBIFFh/9oACAEDAQE/EMsu3AmWfhIEpAfYSA8s5HIdQWWQT1Jdodshzg2zgKzCfY4yyTJvYmnA2QWr1alPYbA5kMs5eGXSTYHMBPIODUsM4Eb7kge7MDxZAXVln5CH4bnc23jI+SE77suEf1OzC1IdONyZd5piy/Jebw7QJLGWw4Ht6lp8tnk+Wx1wMuS72U2rL1LLTgQaw13h6g/BEw1YmRrIQlxD1jBLsJbLOGWcEOWwwnZYSLjOYQhEJylnIhuTYg8Rlxy1LF4JnGzTyYPghgEvKj1fxtsD7wH9JXVoSYl5ck7l8d/og42Fs4w/CWfrTjOfZM/CWWQWWcBsM5fxtnd/SBseXW4WrMyNmkdGQcBZt5znB0tfLtfZOtm/YQeN09XnGfh5GN3dk0L279nZm/iYPV3NmyyZdQ+7y85XSTYfJYfMYd40jFll8yQ+xPnnGy85Al8kiDpEMc9jIF7n5WeHvGWWRCYPssLGfZQ4z0bHB3ZEvHltttthktsQv9WhkDlbpDv43j7HOssP4PDxHLbf/8QAHhEBAQEBAQEBAQEBAQAAAAAAAQARECExQSBRYXH/2gAIAQIBAT8QXf6NtieOrev2R/IUj9hl6WS9lttmHpEWLE+wzm2yBL2dndnm28ak/wCZczFtsASGGwyQSd2Xu29HL19tllluQtS+lvbZI35JNWjxmKvttvd4zSJt9sQ+2cX+sbBPvLqJ+X+kiscwhXbOZF+F5jca4UYGwSvX5A+ZV/bP1HsnEk2CZgkPySQLE20vKJYZLDbLx6MuT6nDyRYMTO4YL+923reZx+SWpD+2DycTtIfe46W2c2ocsVPnOeNoWwTDrln95Pj1IOM2wv2xLPnBREaYIA2CS2dM6zn3jb1/5wt7z5/O29eNhvb4/wA7/G9W3ZTh0t4ttq82Hd4/7LZxVrFscS8lw4Xn5DD3y/RPN4eRBDbN4h5/7DgwTP8Alofb4v2K+w4ucIazpllnDngxkP20Xq/dmns3gkWW+37soyeZ/vDhbxsH1G5fUuy8fb60+ypA/SC6bOrbxcn2pfIT1+Q42zbIJz/Y+2H7ZbzOMvkLvcP2d/Lwy8Y2GKPfb2ybImb9/gvEK31E/wAf/8QAJhABAAICAgIBBQADAQAAAAAAAQARITFBUWFxgRCRobHRweHx8P/aAAgBAQABPxBd/jNFj8H9lJnNWH9gv+n+z/n5/wCsh/y5/op/Z/rJ/YUH4yWg+0/s/wCYf2JFcbw/s5HtB/YBrX5P7A7H7f2Z6G9EE19uf6dCE0n/AKe4nTR2lA9n7H9iv5H9gob4H/MX/D/YL98H+Z/p39S9k9r+oz+5/Z/0z+ylCeP8ERUImxJZxPDHjlbzKgqql62fiDoV6uZOQ9wwwlzg3MBJQGjEOpgm45ZmYIpGCwNEtqEp3DHDcBzjmeFXiZVM5YsCmo7Ix4hxI+ZQiR4Rvu4ExUyXqJwpjto/Mdt/QvEqGvJn7xVeNWPuePMxRF6gWoIwpCWArKGQjDz6iriMWQVuX4gnZKW0uZcFTFPlksUQpg3auUBcINHLFisXOYomKLBGDGyNCMXiBUUM4fRdSniK0CJSPJFQSxuJzJKQoeYxpmKqzNcALs/UqCTwQUfCW5uKQUZqGAEDtAq5ZRUbhQ6qZBGCzU1GVS/xOFNy1YHqd/8AEYQhQMMh2Y3KGLf03BBtEoRzncaDQJt6DmXQSAbSpQpEB0hLCLUfCYfQUlkXghuKi7QOoLAHuZZKW2AWOmChgymtwXeD1HqKG6w6mApTqClLKNRTEu4P0CHmWzHqIAsWipXMvRiTA+3qApmAi45I3ClcTlRYwjMXGMMXmekENSzhBEu5S6y1MW5jq8RRWpyQhRxCpwMNAgYjuNygGAmIqiLAQNS0DqMHAE1wscKnpykzmHjLM1CbIE7jGGGXWot8K0tBQgjYggxMmZfqPw0CLgJxAAgPeUyyglSpUqNpSKjYQUEfeVRIpjXFbXxVL1EpibDiWeFlL+Ixqox5IMLbUx2tRtjqqghXcLCBdxqSCOCEqVwioIxHZRhdRkgMjoSLEWJ3gw1QhiOsFFShMkpKRhBY4UrhHHiPqFEeYtQ+M5kB7leswSTTUN9StviECLhAe4GAOA4EUlIypXFpaYEtRLuIddGMkeGJZ1K7lq+okekqaEc4OKKyRYN84aagtiR2FQ7ZxsARrIIwZcGLGLjwGomE6lARF1MSdENVlZBDKYOFVEENk8N5j7zs6ZngfAszDI+Np0mUaVQEo4gHMLwihahMCWyje5U6guTMxWQYooCtsTUKnHd2XO+CqBcBuxND4hLMLh7IsEMJt5i/Mc+WQ1ca6Naj4+CK8ohTVQaDzKv5h9r6bgij9kD2F7R6DwhxQLl/M7SVncFWJpwaUxao8P2QA0dTuJdYNER4EwXBCooN8y1Vc7m40hmXcjTfwHcXB/8AMXolsb93SzF+0nyz9ORBuj4pKBH8C/pj15g/gOoMIF4IQi2FwxxBw6pAPwQrcwblm4DAqsZalyiTGOGICTMthFaRAl9fqItvteDweCXe2iEXeR7j2EVQpDu4B2PmIMGHAwhMIGZYM84wEt4ppwY0yzuFdxosijw3LcLeYPe/tDDQLX1Lv8BBPQEb7QNAzZh9H2fmUekGDBgwYMIuXBoMrxLey5YePpg57GXFBgwaQDln1EBdypzK5UFRUAfMtKdyi6g6Iun3GylC/AjEUAFL1ZTdx6OJZ4HgnlF+WejOiPwYQgwYMGHJlY5x8S4T7TBAWLLwfE86EquKXEecnUJeIQY2gjCLFv20BNrXwQ3nk/aBogWsW/6QBHjOIQ4IQhBKn2QJZ5RmZM67YAUFEFQ4I0UL6lnM6AizqAdSkxHSIlcyOwYUuDZ8X3isO8Z9y8bN49S5cBEVpN5gkPkqEOCEOCl8UtXiVFXAUuIAxjQlq2kLsqB58K6JFUuNxQYHdvth7M3KiufL+pSkC10To32A9H/Zn6fvCpk/aeX9yeJlGMpXydJ+zcIQ5GKXDgbkUAx8Hjc7jahHXZU9AmUGpuG5ay/2Vsy9CX68PvBW/Cekf1LgBs1Zs+I2cZ8Xce+It7jHmYl5YwhCVAYKCloKXoJs/JGe4VXfAZQikDFKipbBhD6j9iUH2V8GCPQLKVwLfQbXqYM527MuZYJ1wVdKUnh4EIQ5gECkwyiDTHfzTR98B0lJriWluDFQgwjUqZ+H5lJt2h+IFCLsdf5hvj/v3KzX59R12HmWaAejzDyE3FPtFwDurn2Q4HIOIsIQj/JwSEIguiIdYgzVuyJKhCcGWoKD/tEp7/hAmBRFf5l+kv8AEv3V+4W252F/MGWu/G0Yo8g1H3MxQgwcy4Rc2hmVM4sIDZZ4kcphRlvlu0IaiQpawj6oC40jfJEW6M8BQ/Pj7yrhcaKl7gergHBBemHnOprgINCCcSkIEr3BPMfGEvZDySojPlQg89cH0H0BD4gZV6jioPGPyicLwrX9xIRPpl6E5dkwwT+JSa420KYNxFY/aGBLeeplUFqFhcZYT1nugsuEvhaXDj5T+vNw+ojO8Mn4vdS22Y6jTB7xLRQMkUrfma6lGINkQ+nIhLl/QT+ef0lcnJwSnfDh8fMZuT2txmmX8TetcqHca9xGCHWE4NkRrfAw5PoO/iaPmHP25r6SakXXl8RJrTMfmo+Mi27HdTDwS1wfmZdv4xMeJccrUrD4m46qXAuDCEIc/wAU1fMwT44CVK+glWVXlDn/AD/2D7uCdQ30Z7lRBLPJeYOSd50TRz9ISph8U1w5+PAmI1CyqE+IwNm2Y+J/OhmA/wABqUseEs2Y09wLqiYurOCnDvPEweGyOo1YFdqLgXwiuDKXLHcEst4XKhccsFwIGafDEfo2icoIxWmoIcMwO41NIEFNEXAFomL3KOOyDTCv14hmJMYNEqvJCrzPXUeIjfcZnabgJBG7izYigPwYi2+sLDczcUaxMlkvf8S6qgJe0LzMEPkJLEMd3cNd5mmbnzKZPEGHVXZ8wuHUSJ3P7QTEmlhQmVhGVLE9o20RKnqdcCNVWUwh/rFYMHS1y51Mk1GaCe5lyKeJRUQBVkU2AQpWkq/Ur2H/ANxcSyXyEVgzz0drXkjIbKX7RMrBe+pptMLMglNpMwT7yjXSiJdsWHCnbUG4xRFmIN5+gRTsI/iNhABSFmauNLbNROqnVgRBwk1s9eH3yqQivYjxO7RcY7IPWF1LwOnxC+Y2gVqzqmYu5huO4wdLaiOzsale4V7iTAjLYd8EIalsahYO4yoNnzMtCKcB0YYKwu3TRBVJTpgKmWJt4GyMXFtAOV1Z9S2/HwHnU/PEBiELT2GsI1+2f6JSt6qaiILXcZ3xVsJtoJu1BD/crgYWmGWLceO5txYoaZT2icANT+mXhA6vuL5URN1FG+5eEh8RdmoGtAGJTDhaii2P5YWVA8R4OIaxoAjN4wqMFuIwePkPKo5ovSeSINy7uAHcIuLWZa4Mdw4eqPkSqI7hAIdL6jFmFPOItwyzF6LojWykwy28XiLDsMOYziVZdbnZ+MjYm0+0XlzQstIVn8cJfIrZ8kGTMKBZ5I3NfMye5UXbMJR7g1Bsl9rYQ4QaOInQhMWWq1FKKrasIXgp+2cTMnHqq5mFmaolDLlwS5NBAw/a6IXaumIMCbIKgyl0aeYrUx0O2VmPYhGW2VCdx4aYqLlVQ/hmDwAUsS9NMuGv4jhAhAtmCapZx8LPkZghLar7S/L9pfuoOMXzGusk/sdqCoKB6HxLZ9qFZY+XUEKH2u4jOwtos6zLb3MJhe4ONcdvDCLWY3mPJN9zv6gyEqcNVB+ZnLjb+09kzEsHYMTpirEbwMSzRTNvRFXCx7vcvzLlAC1Be4SbF7BPaerT8xoe6Q/tigG6QDwoaifQg1izZwoVeVeJjqNJSLwzEvPxL8Rl6na2PpmZvkCm4eU6J21IW1jY6/jmgsxjch3M+pfRKuL00HxOpeBiNtEr6ZavMKgFrHJ0kGIdYnUSJuf5S6Uz6X7jA4aaZuBu01VxZW58cEFS1QszC07wfuI1878ysIqwRLmglMIe5XtK9cBGzDbMSNnMbqVlhd4UCY5SCmvTM3m4lbwygVBplhuVMEyUnYzMIRpdR5IXInbR1AaLpyz/AFdQKcXnhcstssFqHdQUoNIh+zZMd/iv2QRn0NJfvi4w4i5lHK58ZjqVKlpQ3BpiGKyXemNQXHwiSxuKeHhZRMFQsUrawBYtDTwLFSy91Qlf/ElV7deJWjDQ2XKtslU25vi5QLNLYnyxuzNPbb/YYhojlEDSM0iubj6gQcfA5pogjCNRZTvqFnepZIO8Gng8wDcrFEOkJUTIGjLnrCsttLDIbJR0DnxRLVQP2M1BiHccig93KrvMR7lfMPkn2SxsZT3FHhgEr2lgl5VaZXmZbii0pMHgsHMIuZvNsH6M94yQnR2HXmMIeHxK47ah3wtBQb+zMBTMo6Z7GUO5a56YElypU//aAAwDAQACAAMAAAAQb3SqPev1h/SmvJ3LDxv/AF99mwo0Dg4+yBMXcVJOG3H+BOIcfcz5v383mDsXANNS5zlWYY2rAoftIocVLZi7McZq3YQwEb/jrdeBAgVbbzRo/wCYHDW3aVL4Zl4Lm9RMxcCRSY0l62eZJdCcYj827yVZ5D3iCPBeoA4YEGMBy7tDDaplFg7JTML7UPTzb0cz55GK3d+/PPqC2f8ARqP3gLlnzipzMMSy3VdoT16XPvN9TAlbJoE1Sq2tclVdqoVwvlP61NPSH9EBzOpZ3/Mh0G1IjHy+9s8gbIjMkSpfDhfcvB9FjYZ4rPQHzZwpCBJ6FNaEEwnxjl8Os7C2tB/+hfTyrD2D3Qt266l8msX0nm5DoGIjO4yFqkvMeSQa0DjWEVfW08KeoAMuaB3Dgeh+c8+BDchAjchh8A//xAAdEQEBAQADAQEBAQAAAAAAAAABABEQITFBIFFh/9oACAEDAQE/EMsu3AmWfhIEpAfYSA8s5HIdQWWQT1Jdodshzg2zgKzCfY4yyTJvYmnA2QWr1alPYbA5kMs5eGXSTYHMBPIODUsM4Eb7kge7MDxZAXVln5CH4bnc23jI+SE77suEf1OzC1IdONyZd5piy/Jebw7QJLGWw4Ht6lp8tnk+Wx1wMuS72U2rL1LLTgQaw13h6g/BEw1YmRrIQlxD1jBLsJbLOGWcEOWwwnZYSLjOYQhEJylnIhuTYg8Rlxy1LF4JnGzTyYPghgEvKj1fxtsD7wH9JXVoSYl5ck7l8d/og42Fs4w/CWfrTjOfZM/CWWQWWcBsM5fxtnd/SBseXW4WrMyNmkdGQcBZt5znB0tfLtfZOtm/YQeN09XnGfh5GN3dk0L279nZm/iYPV3NmyyZdQ+7y85XSTYfJYfMYd40jFll8yQ+xPnnGy85Al8kiDpEMc9jIF7n5WeHvGWWRCYPssLGfZQ4z0bHB3ZEvHltttthktsQv9WhkDlbpDv43j7HOssP4PDxHLbf/8QAHhEBAQEBAQEBAQEBAQAAAAAAAQARECExQSBRYXH/2gAIAQIBAT8QXf6NtieOrev2R/IUj9hl6WS9lttmHpEWLE+wzm2yBL2dndnm28ak/wCZczFtsASGGwyQSd2Xu29HL19tllluQtS+lvbZI35JNWjxmKvttvd4zSJt9sQ+2cX+sbBPvLqJ+X+kiscwhXbOZF+F5jca4UYGwSvX5A+ZV/bP1HsnEk2CZgkPySQLE20vKJYZLDbLx6MuT6nDyRYMTO4YL+923reZx+SWpD+2DycTtIfe46W2c2ocsVPnOeNoWwTDrln95Pj1IOM2wv2xLPnBREaYIA2CS2dM6zn3jb1/5wt7z5/O29eNhvb4/wA7/G9W3ZTh0t4ttq82Hd4/7LZxVrFscS8lw4Xn5DD3y/RPN4eRBDbN4h5/7DgwTP8Alofb4v2K+w4ucIazpllnDngxkP20Xq/dmns3gkWW+37soyeZ/vDhbxsH1G5fUuy8fb60+ypA/SC6bOrbxcn2pfIT1+Q42zbIJz/Y+2H7ZbzOMvkLvcP2d/Lwy8Y2GKPfb2ybImb9/gvEK31E/wAf/8QAJhABAAICAgIBBQADAQAAAAAAAQARITFBUWFxgRCRobHRweHx8P/aAAgBAQABPxBd/jNFj8H9lJnNWH9gv+n+z/n5/wCsh/y5/op/Z/rJ/YUH4yWg+0/s/wCYf2JFcbw/s5HtB/YBrX5P7A7H7f2Z6G9EE19uf6dCE0n/AKe4nTR2lA9n7H9iv5H9gob4H/MX/D/YL98H+Z/p39S9k9r+oz+5/Z/0z+ylCeP8ERUImxJZxPDHjlbzKgqql62fiDoV6uZOQ9wwwlzg3MBJQGjEOpgm45ZmYIpGCwNEtqEp3DHDcBzjmeFXiZVM5YsCmo7Ix4hxI+ZQiR4Rvu4ExUyXqJwpjto/Mdt/QvEqGvJn7xVeNWPuePMxRF6gWoIwpCWArKGQjDz6iriMWQVuX4gnZKW0uZcFTFPlksUQpg3auUBcINHLFisXOYomKLBGDGyNCMXiBUUM4fRdSniK0CJSPJFQSxuJzJKQoeYxpmKqzNcALs/UqCTwQUfCW5uKQUZqGAEDtAq5ZRUbhQ6qZBGCzU1GVS/xOFNy1YHqd/8AEYQhQMMh2Y3KGLf03BBtEoRzncaDQJt6DmXQSAbSpQpEB0hLCLUfCYfQUlkXghuKi7QOoLAHuZZKW2AWOmChgymtwXeD1HqKG6w6mApTqClLKNRTEu4P0CHmWzHqIAsWipXMvRiTA+3qApmAi45I3ClcTlRYwjMXGMMXmekENSzhBEu5S6y1MW5jq8RRWpyQhRxCpwMNAgYjuNygGAmIqiLAQNS0DqMHAE1wscKnpykzmHjLM1CbIE7jGGGXWot8K0tBQgjYggxMmZfqPw0CLgJxAAgPeUyyglSpUqNpSKjYQUEfeVRIpjXFbXxVL1EpibDiWeFlL+Ixqox5IMLbUx2tRtjqqghXcLCBdxqSCOCEqVwioIxHZRhdRkgMjoSLEWJ3gw1QhiOsFFShMkpKRhBY4UrhHHiPqFEeYtQ+M5kB7leswSTTUN9StviECLhAe4GAOA4EUlIypXFpaYEtRLuIddGMkeGJZ1K7lq+okekqaEc4OKKyRYN84aagtiR2FQ7ZxsARrIIwZcGLGLjwGomE6lARF1MSdENVlZBDKYOFVEENk8N5j7zs6ZngfAszDI+Np0mUaVQEo4gHMLwihahMCWyje5U6guTMxWQYooCtsTUKnHd2XO+CqBcBuxND4hLMLh7IsEMJt5i/Mc+WQ1ca6Naj4+CK8ohTVQaDzKv5h9r6bgij9kD2F7R6DwhxQLl/M7SVncFWJpwaUxao8P2QA0dTuJdYNER4EwXBCooN8y1Vc7m40hmXcjTfwHcXB/8AMXolsb93SzF+0nyz9ORBuj4pKBH8C/pj15g/gOoMIF4IQi2FwxxBw6pAPwQrcwblm4DAqsZalyiTGOGICTMthFaRAl9fqItvteDweCXe2iEXeR7j2EVQpDu4B2PmIMGHAwhMIGZYM84wEt4ppwY0yzuFdxosijw3LcLeYPe/tDDQLX1Lv8BBPQEb7QNAzZh9H2fmUekGDBgwYMIuXBoMrxLey5YePpg57GXFBgwaQDln1EBdypzK5UFRUAfMtKdyi6g6Iun3GylC/AjEUAFL1ZTdx6OJZ4HgnlF+WejOiPwYQgwYMGHJlY5x8S4T7TBAWLLwfE86EquKXEecnUJeIQY2gjCLFv20BNrXwQ3nk/aBogWsW/6QBHjOIQ4IQhBKn2QJZ5RmZM67YAUFEFQ4I0UL6lnM6AizqAdSkxHSIlcyOwYUuDZ8X3isO8Z9y8bN49S5cBEVpN5gkPkqEOCEOCl8UtXiVFXAUuIAxjQlq2kLsqB58K6JFUuNxQYHdvth7M3KiufL+pSkC10To32A9H/Zn6fvCpk/aeX9yeJlGMpXydJ+zcIQ5GKXDgbkUAx8Hjc7jahHXZU9AmUGpuG5ay/2Vsy9CX68PvBW/Cekf1LgBs1Zs+I2cZ8Xce+It7jHmYl5YwhCVAYKCloKXoJs/JGe4VXfAZQikDFKipbBhD6j9iUH2V8GCPQLKVwLfQbXqYM527MuZYJ1wVdKUnh4EIQ5gECkwyiDTHfzTR98B0lJriWluDFQgwjUqZ+H5lJt2h+IFCLsdf5hvj/v3KzX59R12HmWaAejzDyE3FPtFwDurn2Q4HIOIsIQj/JwSEIguiIdYgzVuyJKhCcGWoKD/tEp7/hAmBRFf5l+kv8AEv3V+4W252F/MGWu/G0Yo8g1H3MxQgwcy4Rc2hmVM4sIDZZ4kcphRlvlu0IaiQpawj6oC40jfJEW6M8BQ/Pj7yrhcaKl7gergHBBemHnOprgINCCcSkIEr3BPMfGEvZDySojPlQg89cH0H0BD4gZV6jioPGPyicLwrX9xIRPpl6E5dkwwT+JSa420KYNxFY/aGBLeeplUFqFhcZYT1nugsuEvhaXDj5T+vNw+ojO8Mn4vdS22Y6jTB7xLRQMkUrfma6lGINkQ+nIhLl/QT+ef0lcnJwSnfDh8fMZuT2txmmX8TetcqHca9xGCHWE4NkRrfAw5PoO/iaPmHP25r6SakXXl8RJrTMfmo+Mi27HdTDwS1wfmZdv4xMeJccrUrD4m46qXAuDCEIc/wAU1fMwT44CVK+glWVXlDn/AD/2D7uCdQ30Z7lRBLPJeYOSd50TRz9ISph8U1w5+PAmI1CyqE+IwNm2Y+J/OhmA/wABqUseEs2Y09wLqiYurOCnDvPEweGyOo1YFdqLgXwiuDKXLHcEst4XKhccsFwIGafDEfo2icoIxWmoIcMwO41NIEFNEXAFomL3KOOyDTCv14hmJMYNEqvJCrzPXUeIjfcZnabgJBG7izYigPwYi2+sLDczcUaxMlkvf8S6qgJe0LzMEPkJLEMd3cNd5mmbnzKZPEGHVXZ8wuHUSJ3P7QTEmlhQmVhGVLE9o20RKnqdcCNVWUwh/rFYMHS1y51Mk1GaCe5lyKeJRUQBVkU2AQpWkq/Ur2H/ANxcSyXyEVgzz0drXkjIbKX7RMrBe+pptMLMglNpMwT7yjXSiJdsWHCnbUG4xRFmIN5+gRTsI/iNhABSFmauNLbNROqnVgRBwk1s9eH3yqQivYjxO7RcY7IPWF1LwOnxC+Y2gVqzqmYu5huO4wdLaiOzsale4V7iTAjLYd8EIalsahYO4yoNnzMtCKcB0YYKwu3TRBVJTpgKmWJt4GyMXFtAOV1Z9S2/HwHnU/PEBiELT2GsI1+2f6JSt6qaiILXcZ3xVsJtoJu1BD/crgYWmGWLceO5txYoaZT2icANT+mXhA6vuL5URN1FG+5eEh8RdmoGtAGJTDhaii2P5YWVA8R4OIaxoAjN4wqMFuIwePkPKo5ovSeSINy7uAHcIuLWZa4Mdw4eqPkSqI7hAIdL6jFmFPOItwyzF6LojWykwy28XiLDsMOYziVZdbnZ+MjYm0+0XlzQstIVn8cJfIrZ8kGTMKBZ5I3NfMye5UXbMJR7g1Bsl9rYQ4QaOInQhMWWq1FKKrasIXgp+2cTMnHqq5mFmaolDLlwS5NBAw/a6IXaumIMCbIKgyl0aeYrUx0O2VmPYhGW2VCdx4aYqLlVQ/hmDwAUsS9NMuGv4jhAhAtmCapZx8LPkZghLar7S/L9pfuoOMXzGusk/sdqCoKB6HxLZ9qFZY+XUEKH2u4jOwtos6zLb3MJhe4ONcdvDCLWY3mPJN9zv6gyEqcNVB+ZnLjb+09kzEsHYMTpirEbwMSzRTNvRFXCx7vcvzLlAC1Be4SbF7BPaerT8xoe6Q/tigG6QDwoaifQg1izZwoVeVeJjqNJSLwzEvPxL8Rl6na2PpmZvkCm4eU6J21IW1jY6/jmgsxjch3M+pfRKuL00HxOpeBiNtEr6ZavMKgFrHJ0kGIdYnUSJuf5S6Uz6X7jA4aaZuBu01VxZW58cEFS1QszC07wfuI1878ysIqwRLmglMIe5XtK9cBGzDbMSNnMbqVlhd4UCY5SCmvTM3m4lbwygVBplhuVMEyUnYzMIRpdR5IXInbR1AaLpyz/AFdQKcXnhcstssFqHdQUoNIh+zZMd/iv2QRn0NJfvi4w4i5lHK58ZjqVKlpQ3BpiGKyXemNQXHwiSxuKeHhZRMFQsUrawBYtDTwLFSy91Qlf/ElV7deJWjDQ2XKtslU25vi5QLNLYnyxuzNPbb/YYhojlEDSM0iubj6gQcfA5pogjCNRZTvqFnepZIO8Gng8wDcrFEOkJUTIGjLnrCsttLDIbJR0DnxRLVQP2M1BiHccig93KrvMR7lfMPkn2SxsZT3FHhgEr2lgl5VaZXmZbii0pMHgsHMIuZvNsH6M94yQnR2HXmMIeHxK47ah3wtBQb+zMBTMo6Z7GUO5a56YElypU" alt="" loading="eager" decoding="sync">
@@ -184,6 +219,10 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
     <button id="addRouteBtn" class="addbtn">+ افزودن مسیر در <span id="routeCityLabel">تهران</span></button>
   </section>
 
+  <button id="notificationSettingsBtn" class="notification-summary" type="button" aria-haspopup="dialog">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/></svg>
+    <span><b>تنظیم اعلان‌ها</b><small id="notificationSummary">ساعت گزارش روزانه و هشدار تغییر هوا</small></span><span class="chevron" aria-hidden="true">‹</span>
+  </button>
   <div id="installBar" class="install-bar">
     <div class="install-options">
       <button id="installIOSBtn" class="install-btn"> نصب در آیفون<span>Safari · Home Screen</span></button>
@@ -195,6 +234,18 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
 </div>
 
 <div id="formToast" class="toast" role="alert" aria-live="assertive"></div>
+
+<dialog id="notificationDialog" aria-labelledby="notificationDialogTitle">
+  <form id="notificationForm" novalidate>
+    <div class="section-title" id="notificationDialogTitle">اعلان‌های RideCast</div>
+    <label class="setting-row" for="dailyEnabled"><span><strong>گزارش روزانه</strong><small>خلاصهٔ هوا و مسیرها در ساعت دلخواه، حتی وقتی اپ بسته است</small></span><input id="dailyEnabled" class="setting-toggle" type="checkbox" role="switch"></label>
+    <div id="dailyTimeField" class="field daily-time-field"><label for="dailyTime">ساعت دریافت گزارش</label><input id="dailyTime" type="time" value="06:00" required step="60"><small id="dailyTimezone" class="settings-note"></small></div>
+    <label class="setting-row" for="suddenEnabled"><span><strong>هشدار تغییر ناگهانی هوا</strong><small>بررسی هر ۱۰ دقیقه هنگام بازبودن اپ؛ مستقل از گزارش روزانه</small></span><input id="suddenEnabled" class="setting-toggle" type="checkbox" role="switch"></label>
+    <p id="notificationPermissionHint" class="settings-note"></p>
+    <div id="notificationSaveStatus" class="settings-status" role="status" aria-live="polite"></div>
+    <div class="actions"><button id="closeNotifications" type="button" class="btn secondary">بستن</button><button id="saveNotifications" type="submit" class="btn primary">ذخیرهٔ تنظیمات</button></div>
+  </form>
+</dialog>
 
 <dialog id="installDialog">
   <div id="installDialogTitle" class="section-title">نصب RideCast</div>
@@ -341,12 +392,17 @@ function heroText(r){
   return r==='good'?'امروز شرایط برای موتور خوبه':r==='warn'?'امروز با احتیاط برو':'امروز بهتره موتور نبری';
 }
 
+let weatherRequestId=0,weatherController=null;
 async function loadWeather(silent=false){
+  const requestId=++weatherRequestId;weatherController?.abort();weatherController=new AbortController();
+  const controller=weatherController;const timeout=setTimeout(()=>controller.abort(),18000);
   if(!silent){$("#badge").className='status warn';$("#badge").textContent='در حال بررسی...'}
   try{
     const url=`https://api.open-meteo.com/v1/forecast?latitude=${currentCity.latitude}&longitude=${currentCity.longitude}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m&current=temperature_2m,precipitation,rain,showers,weather_code,wind_speed_10m,wind_gusts_10m&timezone=${encodeURIComponent(currentCity.timezone||'auto')}&forecast_days=3`;
-    const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw new Error('weather');
+    const res=await fetch(url,{cache:'no-store',signal:controller.signal});if(!res.ok)throw new Error('weather');
     const data=await res.json(),h=data.hourly;
+    if(requestId!==weatherRequestId)return null;
+    if(currentCity.timezone==='auto'&&data.timezone){currentCity.timezone=data.timezone;localStorage.setItem('ridecast-city',JSON.stringify(currentCity))}
     const rows=next24(h).map(({i})=>({
       time:h.time[i],temp:h.temperature_2m[i],prob:h.precipitation_probability[i]??0,
       precip:h.precipitation[i]??0,code:h.weather_code[i],wind:h.wind_speed_10m[i]??0,gust:h.wind_gusts_10m[i]??0
@@ -387,19 +443,23 @@ async function loadWeather(silent=false){
     renderRoutes();
 
     const currentRisk=riskOf(0,currentPrecip,c.wind_speed_10m??0,c.wind_gusts_10m??0);
-    const old=localStorage.getItem('ridecast-current-risk');
-    localStorage.setItem('ridecast-current-risk',currentRisk);
+    const riskKey='ridecast-current-risk:'+currentCity.latitude+','+currentCity.longitude;
+    const old=localStorage.getItem(riskKey);
+    localStorage.setItem(riskKey,currentRisk);
     if(old&&rank(currentRisk)>rank(old)&&appNotificationsEnabled()){
       try{const reg=await navigator.serviceWorker.ready;await reg.showNotification(`🏍️ وضعیت ${currentCity.name} بدتر شد`,{body:currentRisk==='bad'?'شرایط برای موتورسواری پرریسک شده.':'شرایط نیاز به احتیاط بیشتری دارد.'})}catch(e){}
     }
+    return true;
   }catch(e){
+    if(requestId!==weatherRequestId)return null;
     if(!silent){
       $("#badge").className='status bad';$("#badge").textContent='خطا در دریافت هوا';
       $("#verdict").textContent='داده هوا در دسترس نیست';
       $("#heroSubline").textContent='دریافت اطلاعات ناموفق بود';
       $("#reasons").innerHTML='<li class="reason"><span class="reason-icon">!</span><span>اینترنت را بررسی کن و دوباره به‌روزرسانی بزن</span></li>';
     }
-  }
+    return false;
+  }finally{clearTimeout(timeout)}
 }
 
 function routesKey(){return 'ridecast-routes:'+Number(currentCity.latitude).toFixed(3)+','+Number(currentCity.longitude).toFixed(3)}
@@ -414,7 +474,7 @@ function getRoutes(){
     return JSON.parse(raw||'[]');
   }catch{return[]}
 }
-function saveRoutes(r){localStorage.setItem(routesKey(),JSON.stringify(r))}
+function saveRoutes(r){localStorage.setItem(routesKey(),JSON.stringify(r));syncDailyPlan()}
 function targetForTime(time){
   if(!time)return null;
   const n=nowParts(),nowClock=`${n.hour}:${n.minute}`,date=time>=nowClock?n.date:addDay(n.date);
@@ -494,6 +554,30 @@ $("#installAndroidBtn")?.addEventListener('click',async()=>{
 $("#closeInstall")?.addEventListener('click',()=>$("#installDialog")?.close());
 syncInstallUI();
 
+let heroCityKey='',heroImageRequest=0,heroImageController=null;
+async function updateHeroImage(force=false){
+  const key=currentCity.latitude+','+currentCity.longitude;
+  if(!force&&heroCityKey===key)return;
+  heroCityKey=key;const request=++heroImageRequest;
+  heroImageController?.abort();heroImageController=new AbortController();
+  const image=$("#heroVisual"),placeholder=$("#heroPlaceholder"),credit=$("#heroCredit");
+  image.hidden=true;image.removeAttribute('src');credit.hidden=true;placeholder.hidden=false;placeholder.textContent='در حال دریافت تصویر '+currentCity.name+'…';
+  const city={...currentCity};
+  try{
+    const query=new URLSearchParams({name:city.name,lat:String(city.latitude),lon:String(city.longitude)});
+    const response=await fetch('/api/city-image?'+query,{signal:heroImageController.signal});if(!response.ok)throw new Error('image');
+    const data=await response.json();if(request!==heroImageRequest)return;
+    const picture=new Image();picture.decoding='async';picture.src=data.src;
+    await new Promise((resolve,reject)=>{picture.onload=resolve;picture.onerror=reject;if(picture.complete&&picture.naturalWidth)resolve()});
+    if(request!==heroImageRequest)return;
+    image.src=data.src;image.alt=data.label;image.hidden=false;placeholder.hidden=true;
+    credit.textContent=data.label+' ↗';credit.title='منبع و مشخصات عکس';credit.href=data.source;credit.hidden=false;
+  }catch(error){
+    if(request!==heroImageRequest)return;
+    placeholder.textContent='تصویر '+city.name+' فعلاً در دسترس نیست';
+  }
+}
+
 function cityDisplayMeta(city){
   return [city.admin1,city.country].filter(Boolean).join(' · ');
 }
@@ -503,7 +587,7 @@ function syncCityUI(){
   if($("#routeCityLabel"))$("#routeCityLabel").textContent=currentCity.name;
   if($("#footerCity"))$("#footerCity").textContent=currentCity.name;
   if($("#routeDialogTitle"))$("#routeDialogTitle").textContent='مسیر جدید در '+currentCity.name;
-  if($("#heroVisual"))$("#heroVisual").classList.remove('generic');
+  updateHeroImage();
   updateDate();
   renderRoutes();
 }
@@ -523,6 +607,8 @@ function selectCity(city){
   $("#cityDialog")?.close();
   loadWeather(false);
   showToast('شهر روی «'+currentCity.name+'» تنظیم شد.');
+  syncDailyPlan();
+  syncNotifyButton();
 }
 function renderCityResults(list){
   const box=$("#cityResults");
@@ -561,61 +647,138 @@ $("#citySearch")?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDe
 renderPopularCities();
 syncCityUI();
 
-$("#refreshBtn")?.addEventListener('click',()=>loadWeather(false));
-function appNotificationsEnabled(){
-  if(!('Notification'in window)||Notification.permission!=='granted') return false;
-  const pref=localStorage.getItem('ridecast-notifications-enabled');
-  return pref===null?true:pref==='true';
+let refreshResetTimer=null;
+async function refreshWeather(){
+  const btn=$("#refreshBtn"),label=$("#refreshLabel");
+  if(btn.disabled)return;
+  clearTimeout(refreshResetTimer);
+  btn.disabled=true;btn.classList.remove('is-success');btn.classList.add('is-refreshing');btn.setAttribute('aria-busy','true');
+  label.textContent='در حال…';$("#refreshFeedback").textContent='در حال به‌روزرسانی آب‌وهوا';
+  const ok=await loadWeather(false);
+  btn.disabled=false;btn.classList.remove('is-refreshing');btn.setAttribute('aria-busy','false');
+  if(ok){btn.classList.add('is-success');label.textContent='به‌روز شد';showToast('آب‌وهوا و پیش‌بینی صفحه به‌روز شد.','success');$("#refreshFeedback").textContent='صفحه با تازه‌ترین اطلاعات آب‌وهوا به‌روز شد.';}
+  else if(ok===false){label.textContent='تلاش دوباره';showToast('به‌روزرسانی انجام نشد؛ اینترنت را بررسی کن و دوباره بزن.','error');$("#refreshFeedback").textContent='به‌روزرسانی ناموفق بود.';}
+  else label.textContent='تازه‌سازی';
+  refreshResetTimer=setTimeout(()=>{btn.classList.remove('is-success');label.textContent='تازه‌سازی'},2600);
+  if($("#heroVisual").hidden)updateHeroImage(true);
 }
+$("#refreshBtn")?.addEventListener('click',refreshWeather);
+
+function loadNotificationPrefs(){
+  try{const p=JSON.parse(localStorage.getItem('ridecast-notification-settings')||'null');if(p)return {daily:p.daily===true,sudden:p.sudden===true,time:/^([01]\d|2[0-3]):[0-5]\d$/.test(p.time)?p.time:'06:00'};}catch(e){}
+  return {daily:false,sudden:localStorage.getItem('ridecast-notifications-enabled')!=='false',time:'06:00'};
+}
+let notificationPrefs=loadNotificationPrefs();
+let notificationConfig=null;
+let notificationConfigPromise=null;
+let scheduleQueue=Promise.resolve();
+let dailySyncError=false;
+const notifyPermission=()=>('Notification'in window)?Notification.permission:'unsupported';
+function appNotificationsEnabled(){return notifyPermission()==='granted'&&notificationPrefs.sudden;}
+function timeInPersian(t){return t.replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);}
 function syncNotifyButton(){
-  const btn=$("#notifyBtn");
-  if(!btn)return;
-  const enabled=appNotificationsEnabled();
-  const status=$("#notifyStatus");
-  if(status)status.textContent=enabled?'فعال':'خاموش';
-  btn.classList.toggle('notify-on',enabled);
-  btn.classList.toggle('notify-off',!enabled);
-  btn.setAttribute('aria-pressed',enabled?'true':'false');
-  btn.setAttribute('aria-label',enabled?'اعلان‌ها فعال‌اند؛ برای خاموش‌کردن بزن':'اعلان‌ها خاموش‌اند؛ برای فعال‌کردن بزن');
-  btn.title=enabled?'اعلان‌ها فعال‌اند':'اعلان‌ها خاموش‌اند';
+  const btn=$("#notifyBtn");if(!btn)return;
+  const enabled=notifyPermission()==='granted'&&(notificationPrefs.sudden||(notificationPrefs.daily&&!dailySyncError&&localStorage.getItem('ridecast-daily-token')));
+  $("#notifyStatus").textContent=enabled?'فعال':'خاموش';
+  btn.classList.toggle('notify-on',!!enabled);btn.classList.toggle('notify-off',!enabled);
+  btn.setAttribute('aria-pressed',enabled?'true':'false');btn.setAttribute('aria-haspopup','dialog');
+  btn.setAttribute('aria-label','تنظیم اعلان‌ها؛ '+(enabled?'اعلان فعال است':'اعلان خاموش است'));
+  btn.title='تنظیم ساعت و نوع اعلان‌ها';
+  const summary=$("#notificationSummary");
+  if(dailySyncError)summary.textContent='زمان‌بندی نیاز به همگام‌سازی دارد؛ تنظیمات را باز کن';
+  else if(notificationPrefs.daily)summary.textContent='گزارش روزانه ساعت '+timeInPersian(notificationPrefs.time)+' · '+currentCity.name;
+  else summary.textContent=appNotificationsEnabled()?'هشدار تغییر هوا فعال است · گزارش روزانه خاموش':'ساعت گزارش روزانه و هشدار تغییر هوا';
 }
-$("#notifyBtn")?.addEventListener('click',async()=>{
-  if(!('Notification'in window)){
-    showToast('این مرورگر از اعلان پشتیبانی نمی‌کند. در آیفون، اپ را به صفحهٔ اصلی اضافه کن و از همان‌جا باز کن.');
-    return;
-  }
-  if(appNotificationsEnabled()){
-    localStorage.setItem('ridecast-notifications-enabled','false');
-    syncNotifyButton();
-    return;
-  }
-  let permission=Notification.permission;
-  if(permission==='default'){
-    try{permission=await Notification.requestPermission()}
-    catch(e){syncNotifyButton();showToast('درخواست مجوز اعلان انجام نشد. دوباره تلاش کن.');return}
-  }
-  if(permission==='granted'){
-    localStorage.setItem('ridecast-notifications-enabled','true');
-    syncNotifyButton();
-    try{
-      const reg=await navigator.serviceWorker.ready;
-      await reg.showNotification('🏍️ RideCast',{body:'اعلان‌ها دوباره فعال شد.'});
-    }catch(e){}
-  }else{
-    localStorage.setItem('ridecast-notifications-enabled','false');
-    syncNotifyButton();
-    showToast(permission==='denied'?'اجازهٔ اعلان در مرورگر بسته است. از تنظیمات سایت، اعلان‌ها را مجاز کن.':'برای فعال‌شدن اعلان‌ها، اجازهٔ مرورگر را تأیید کن.');
-  }
+function getNotificationConfig(){
+  if(notificationConfig)return Promise.resolve(notificationConfig);
+  if(notificationConfigPromise)return notificationConfigPromise;
+  notificationConfigPromise=fetch('/api/notifications/config',{cache:'no-store'}).then(async r=>{if(!r.ok)throw new Error('دریافت تنظیمات اعلان انجام نشد.');const data=await r.json();if(!data.ready)throw new Error('سرویس گزارش روزانه هنوز آماده نیست.');notificationConfig=data;return data}).finally(()=>{notificationConfigPromise=null});
+  return notificationConfigPromise;
+}
+function updateDailyField(){
+  $("#dailyTime").disabled=!$("#dailyEnabled").checked;
+  $("#dailyTimeField").style.opacity=$("#dailyEnabled").checked?'1':'.55';
+}
+function openNotificationSettings(){
+  $("#dailyEnabled").checked=notificationPrefs.daily;$("#suddenEnabled").checked=notificationPrefs.sudden;$("#dailyTime").value=notificationPrefs.time;
+  $("#dailyTimezone").textContent='به وقت محلی '+currentCity.name+'؛ تغییر شهر، زمان‌بندی را هم به‌روز می‌کند.';
+  const permission=notifyPermission();
+  $("#notificationPermissionHint").textContent=permission==='unsupported'?'برای اعلان در آیفون، اپ را از Safari به صفحهٔ اصلی اضافه کن و از همان‌جا باز کن.':permission==='denied'?'اجازهٔ اعلان در مرورگر بسته است؛ از تنظیمات این سایت، اعلان‌ها را مجاز کن.':'برای دریافت اعلان، اجازهٔ مرورگر لازم است. گزارش روزانه و هشدار تغییر هوا جداگانه روشن یا خاموش می‌شوند.';
+  $("#notificationSaveStatus").textContent=dailySyncError?'زمان‌بندی را دوباره ذخیره کن.':'';
+  updateDailyField();$("#notificationDialog").showModal();
+  getNotificationConfig().catch(()=>{});
+}
+$("#notifyBtn")?.addEventListener('click',openNotificationSettings);
+$("#notificationSettingsBtn")?.addEventListener('click',openNotificationSettings);
+$("#closeNotifications")?.addEventListener('click',()=>$("#notificationDialog").close());
+$("#dailyEnabled")?.addEventListener('change',updateDailyField);
+function publicKeyBytes(key){const raw=atob(key.replace(/-/g,'+').replace(/_/g,'/').padEnd(Math.ceil(key.length/4)*4,'='));return Uint8Array.from(raw,c=>c.charCodeAt(0));}
+async function pushSubscription(){
+  if(!('serviceWorker'in navigator)||!('PushManager'in window))throw new Error('این مرورگر اعلان در حالت بسته‌بودن اپ را پشتیبانی نمی‌کند. در آیفون از نسخهٔ نصب‌شده روی صفحهٔ اصلی استفاده کن.');
+  const config=await getNotificationConfig();
+  const reg=await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(new Error('آماده‌سازی اعلان طول کشید؛ صفحه را یک‌بار تازه‌سازی کن.')),12000))]);
+  let subscription=await reg.pushManager.getSubscription();
+  if(!subscription)subscription=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:publicKeyBytes(config.publicKey)});
+  return subscription.toJSON();
+}
+function scheduleSettings(prefs){
+  return {time:prefs.time,city:{name:currentCity.name,latitude:currentCity.latitude,longitude:currentCity.longitude,timezone:currentCity.timezone||'Asia/Tehran'},routes:getRoutes()};
+}
+function updateRemoteSchedule(prefs,subscription){
+  const settings=scheduleSettings(prefs);
+  const task=async()=>{
+    const token=localStorage.getItem('ridecast-daily-token');
+    if(!prefs.daily&&!token)return;
+    const response=await fetch('/api/notifications/schedule',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify({enabled:prefs.daily,settings,subscription})});
+    const data=await response.json();if(!response.ok)throw new Error(data.error||'ذخیرهٔ زمان‌بندی انجام نشد.');
+    if(data.token)localStorage.setItem('ridecast-daily-token',data.token);else localStorage.removeItem('ridecast-daily-token');
+    dailySyncError=false;
+    return data;
+  };
+  scheduleQueue=scheduleQueue.catch(()=>{}).then(task);return scheduleQueue;
+}
+async function syncDailyPlan(){
+  if(!notificationPrefs.daily||notifyPermission()!=='granted')return;
+  try{const subscription=await pushSubscription();await updateRemoteSchedule({...notificationPrefs},subscription);}
+  catch(e){dailySyncError=true;showToast('تغییرات ذخیره شد؛ همگام‌سازی گزارش روزانه انجام نشد. تنظیمات اعلان را باز کن.','error');}
+  syncNotifyButton();
+}
+$("#notificationForm").addEventListener('submit',async e=>{
+  e.preventDefault();const save=$("#saveNotifications"),status=$("#notificationSaveStatus");
+  if(save.disabled)return;
+  const prefs={daily:$("#dailyEnabled").checked,sudden:$("#suddenEnabled").checked,time:$("#dailyTime").value};
+  if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(prefs.time)){status.textContent='ساعت دریافت گزارش را انتخاب کن.';$("#dailyTime").focus();return;}
+  save.disabled=true;$("#closeNotifications").disabled=true;status.textContent='در حال ذخیرهٔ تنظیمات…';
+  try{
+    if(prefs.daily||prefs.sudden){
+      if(notifyPermission()==='unsupported')throw new Error('این مرورگر اعلان را پشتیبانی نمی‌کند؛ در آیفون اپ را روی صفحهٔ اصلی نصب کن.');
+      // Request permission directly from the save click, before making network requests.
+      const permission=Notification.permission==='default'?await Notification.requestPermission():Notification.permission;
+      if(permission!=='granted')throw new Error(permission==='denied'?'مجوز اعلان بسته است؛ آن را از تنظیمات مرورگر فعال کن.':'برای فعال‌شدن اعلان، درخواست مجوز مرورگر را تأیید کن.');
+    }
+    const subscription=prefs.daily?await pushSubscription():null;
+    await updateRemoteSchedule(prefs,subscription);
+    notificationPrefs=prefs;localStorage.setItem('ridecast-notification-settings',JSON.stringify(prefs));localStorage.setItem('ridecast-notifications-enabled',String(prefs.sudden));
+    syncNotifyButton();$("#notificationDialog").close();
+    showToast(prefs.daily?'گزارش روزانه برای ساعت '+timeInPersian(prefs.time)+' به وقت '+currentCity.name+' تنظیم شد.':'تنظیمات اعلان ذخیره شد.','success');
+  }catch(error){status.textContent=error.message||'ذخیره انجام نشد؛ دوباره تلاش کن.';}
+  finally{save.disabled=false;$("#closeNotifications").disabled=false;}
 });
 window.addEventListener('focus',syncNotifyButton);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncNotifyButton()});
+getNotificationConfig().catch(()=>{});
+if(notificationPrefs.daily&&localStorage.getItem('ridecast-daily-token')){
+  fetch('/api/notifications/status',{method:'POST',headers:{Authorization:'Bearer '+localStorage.getItem('ridecast-daily-token'),'Content-Type':'application/json'},body:'{}'}).then(r=>r.json()).then(state=>{dailySyncError=!state.active;syncNotifyButton()}).catch(()=>{});
+}
+
 $("#addRouteBtn")?.addEventListener('click',()=>{if($("#routeDialogTitle"))$("#routeDialogTitle").textContent='مسیر جدید در '+currentCity.name;$("#routeDialog")?.showModal()});
 $("#cancelRoute")?.addEventListener('click',()=>$("#routeDialog")?.close());
 let toastTimer=null;
-function showToast(message){
+function showToast(message,type='info'){
   const toast=$("#formToast");
   if(!toast) return;
   toast.textContent=message;
+  toast.dataset.type=type;
   toast.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>toast.classList.remove('show'),2800);

@@ -1,0 +1,21 @@
+{
+  "name": "ridecast-tehran",
+  "version": "1.0.0",
+  "description": "RideCast weather, city landmarks and durable daily Web Push",
+  "scripts": {
+    "dev": "node scripts/prepare-public.mjs && nitro dev --host 0.0.0.0 --port 4173",
+    "build": "node scripts/prepare-public.mjs && nitro build",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "dependencies": {
+    "express": "5.2.1",
+    "nitro": "3.0.260903-beta",
+    "rollup": "4.64.0",
+    "web-push": "3.6.7",
+    "workflow": "5.0.1"
+  },
+  "private": true
+}

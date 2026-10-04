@@ -1,0 +1,9 @@
+node_modules/
+.public/
+.output/
+.vercel/
+.nitro/
+.workflow-data/
+.env*
+*.log
+/.swc
