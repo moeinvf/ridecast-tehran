@@ -17,14 +17,14 @@
       --txt:#f8fafc;--muted:#98a3b5;--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;
     }
     *{box-sizing:border-box}
-    html{background:var(--bg)}
-    body{margin:0;background:
+    html{background:var(--bg);min-height:100%;overflow-x:hidden}
+    body{margin:0;min-height:100vh;min-height:100dvh;overflow-x:hidden;background:
       radial-gradient(circle at 80% -10%,rgba(68,91,135,.26),transparent 34%),
       linear-gradient(180deg,#0b1020 0%,#090e19 100%);
       color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}
     button,input{font:inherit}
     button{touch-action:manipulation}
-    .wrap{max-width:760px;margin:auto;padding:18px 14px 72px}
+    .wrap{width:100%;max-width:760px;min-height:100vh;min-height:100dvh;margin:auto;padding-top:calc(18px + env(safe-area-inset-top));padding-right:calc(14px + env(safe-area-inset-right));padding-bottom:calc(118px + env(safe-area-inset-bottom));padding-left:calc(14px + env(safe-area-inset-left))}
     .top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin:4px 0 14px}
     .brandrow{display:flex;align-items:center;gap:10px}
     .logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:#111a2d;border:1px solid #293653;font-size:21px}
@@ -77,8 +77,26 @@
     .btn{flex:1;border:0;border-radius:14px;padding:12px 14px;font-weight:900;cursor:pointer}
     .btn.primary{background:#fff;color:#111827}.btn.secondary{background:#0e1525;color:#fff;border:1px solid var(--line)}
     .foot{text-align:center;color:#748097;font-size:11px;line-height:1.8;margin-top:18px}
-    @media(max-width:430px){
-      .verdict{font-size:27px}.meta{grid-template-columns:1fr 1fr 1fr}.grid{grid-template-columns:1fr}.card{border-radius:21px}
+    .install-bar{position:fixed;z-index:50;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom));max-width:736px;margin:0 auto;padding:9px;background:rgba(10,15,28,.92);border:1px solid #2a3650;border-radius:18px;backdrop-filter:blur(18px);box-shadow:0 12px 35px rgba(0,0,0,.34)}
+    .install-btn{width:100%;min-height:48px;border:0;border-radius:14px;background:#fff;color:#101827;font-weight:950;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+    .install-hint{font-size:12px;color:#aeb8c8;line-height:1.9;margin:4px 0 12px}
+    .install-steps{display:grid;gap:9px;margin:12px 0 2px}
+    .install-step{display:flex;gap:10px;align-items:flex-start;background:#0e1525;border:1px solid var(--line);border-radius:14px;padding:11px;font-size:13px;line-height:1.7}
+    .stepnum{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#111827;font-weight:900;flex:0 0 24px}
+    @media(display-mode:standalone){.install-bar{display:none!important}}
+    @media(max-width:520px){
+      .wrap{padding-right:calc(10px + env(safe-area-inset-right));padding-left:calc(10px + env(safe-area-inset-left))}
+      .top{gap:8px}.brandrow{gap:8px}.logo{width:38px;height:38px;border-radius:12px}.brand{font-size:18px}
+      .iconbtn{width:40px;height:40px;border-radius:12px}
+      .card{padding:15px;border-radius:20px;margin-bottom:11px}.hero{padding:16px}
+      .verdict{font-size:25px}.reason{font-size:13px}.status{font-size:12px;padding:7px 10px}
+      .meta{gap:6px}.pill{padding:9px 8px}.pill .v{font-size:14px}
+      .section-title{font-size:16px}.hour{min-width:104px}.route{padding:12px}
+    }
+    @media(max-width:350px){
+      .brand{font-size:16px}.city,.date{font-size:11px}.iconbtn{width:36px;height:36px;font-size:16px}
+      .verdict{font-size:22px}.meta{grid-template-columns:1fr}.pill{display:flex;align-items:center;justify-content:space-between}.pill .k{margin:0}
+      .section-head{align-items:flex-start}.section-note{max-width:110px;text-align:left}
     }
   </style>
 </head>
@@ -303,6 +321,48 @@ function renderRoutes(){
     const r=getRoutes();r.splice(+b.dataset.del,1);saveRoutes(r);renderRoutes();
   }));
 }
+
+let deferredInstallPrompt=null;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+
+function syncInstallUI(){
+  const bar=$("#installBar");
+  if(!bar)return;
+  if(isStandalone){bar.style.display='none';return}
+  bar.style.display='block';
+  $("#installBtn").textContent=isIOS?'📲 نصب RideCast روی iPhone':'📲 نصب RideCast روی گوشی';
+}
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredInstallPrompt=e;
+  syncInstallUI();
+});
+window.addEventListener('appinstalled',()=>{
+  deferredInstallPrompt=null;
+  $("#installBar").style.display='none';
+});
+$("#installBtn").addEventListener('click',async()=>{
+  if(isStandalone){$("#installBar").style.display='none';return}
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    try{await deferredInstallPrompt.userChoice}catch(e){}
+    deferredInstallPrompt=null;
+    return;
+  }
+  const dlg=$("#installDialog");
+  const hint=$("#installHint");
+  if(isIOS){
+    hint.textContent=/safari/i.test(navigator.userAgent)&&!/crios|fxios|edgios/i.test(navigator.userAgent)
+      ?'برای نصب روی آیفون، این سه مرحله را در Safari انجام بده.'
+      :'برای نصب روی آیفون، اول همین آدرس را در Safari باز کن و بعد این سه مرحله را انجام بده.';
+  }else{
+    hint.textContent='اگر پنجره نصب خودکار باز نشد، منوی مرورگر را باز کن و گزینه Install app یا Add to Home screen را بزن.';
+  }
+  dlg.showModal();
+});
+$("#closeInstall").addEventListener('click',()=>$("#installDialog").close());
+syncInstallUI();
 
 $("#refreshBtn").addEventListener('click',()=>loadWeather(false));
 function appNotificationsEnabled(){
