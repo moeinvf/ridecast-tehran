@@ -88,7 +88,10 @@
       </div>
       <div id="todayDate" class="date">—</div>
     </div>
-    <button id="refreshBtn" class="iconbtn" aria-label="به‌روزرسانی">↻</button>
+    <div style="display:flex;gap:8px">
+      <button id="notifyBtn" class="iconbtn" aria-label="فعال‌کردن اعلان">🔔</button>
+      <button id="refreshBtn" class="iconbtn" aria-label="به‌روزرسانی">↻</button>
+    </div>
   </header>
 
   <section class="card hero">
@@ -298,6 +301,15 @@ function renderRoutes(){
 }
 
 $("#refreshBtn").addEventListener('click',()=>loadWeather(false));
+$("#notifyBtn").addEventListener('click',async()=>{
+  if(!('Notification'in window)){return}
+  const p=await Notification.requestPermission();
+  if(p==='granted'){
+    $("#notifyBtn").textContent='✓';
+    $("#notifyBtn").setAttribute('aria-label','اعلان فعال است');
+    try{new Notification('🏍️ RideCast',{body:'اعلان‌ها فعال شد.'})}catch(e){}
+  }
+});
 $("#addRouteBtn").addEventListener('click',()=>$("#routeDialog").showModal());
 $("#cancelRoute").addEventListener('click',()=>$("#routeDialog").close());
 $("#routeForm").addEventListener('submit',e=>{
@@ -307,6 +319,7 @@ $("#routeForm").addEventListener('submit',e=>{
   saveRoutes(routes);e.target.reset();$("#routeDialog").close();renderRoutes();
 });
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if('Notification'in window&&Notification.permission==='granted'){$("#notifyBtn").textContent='✓'}
 updateDate();loadWeather(false);setInterval(()=>loadWeather(true),10*60*1000);
 </script>
 </body>
