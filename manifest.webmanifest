@@ -4,11 +4,11 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b1020",
-  "theme_color": "#0b1020",
+  "background_color": "#07101d",
+  "theme_color": "#07101d",
   "lang": "fa",
   "dir": "rtl",
-  "description": "هواشناسی ساده مخصوص موتورسواری",
+  "description": "هواشناسی مخصوص موتورسواری",
   "icons": [
     {
       "src": "/icons/icon-192.png",
