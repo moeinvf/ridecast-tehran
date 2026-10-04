@@ -10,89 +10,99 @@
   <title>RideCast تهران</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <style>
-    :root{
-      --bg:#0b1020; --card:#141b2d; --muted:#9aa4b2; --txt:#f8fafc;
-      --good:#22c55e; --warn:#f59e0b; --bad:#ef4444; --line:#28324a;
-    }
+    :root{--bg:#0b1020;--card:#141b2d;--muted:#9aa4b2;--txt:#f8fafc;--good:#22c55e;--warn:#f59e0b;--bad:#ef4444;--line:#28324a}
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,#0b1020,#0a0f1c);color:var(--txt);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}
-    .wrap{max-width:720px;margin:auto;padding:18px 14px 80px}
+    body{margin:0;background:linear-gradient(180deg,#0b1020,#0a0f1c);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}
+    .wrap{max-width:760px;margin:auto;padding:18px 14px 80px}
     .top{display:flex;justify-content:space-between;align-items:center;margin:6px 0 16px}
-    .brand{font-weight:800;font-size:20px}.small{color:var(--muted);font-size:13px}
+    .brand{font-weight:800;font-size:20px}.small{color:var(--muted);font-size:13px}.date{margin-top:5px;color:#cbd5e1;font-size:13px}
     .card{background:var(--card);border:1px solid #202a40;border-radius:22px;padding:18px;margin-bottom:14px}
     .hero{padding:22px}.status{display:inline-flex;gap:8px;align-items:center;border-radius:999px;padding:8px 12px;font-weight:700}
     .good{background:#12371f;color:#82f2a7}.warn{background:#3c2b0d;color:#ffd071}.bad{background:#3d161a;color:#ff959d}
     h1{font-size:30px;margin:14px 0 8px;line-height:1.4}.lead{font-size:16px;line-height:1.9;color:#e7ebf2;margin:0}
     .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.pill{background:#0d1424;border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px}
-    .hours{display:flex;gap:10px;overflow:auto;padding-bottom:4px;scrollbar-width:none}.hours::-webkit-scrollbar{display:none}
-    .hour{min-width:116px;background:#0f1627;border:1px solid var(--line);border-radius:18px;padding:12px}
-    .hour .t{font-size:13px;color:var(--muted)}.hour .temp{font-size:22px;font-weight:800;margin:8px 0}
+    .hours{display:flex;gap:10px;overflow:auto;padding-bottom:7px;scrollbar-width:none;direction:rtl}.hours::-webkit-scrollbar{display:none}
+    .hour{min-width:122px;background:#0f1627;border:1px solid var(--line);border-radius:18px;padding:12px}
+    .hour .day{font-size:11px;color:#cbd5e1;margin-bottom:3px}.hour .t{font-size:13px;color:var(--muted)}.hour .temp{font-size:22px;font-weight:800;margin:8px 0}
     .risk{font-size:12px;margin-top:8px}.section-title{font-size:17px;font-weight:800;margin:2px 0 12px}
+    .section-sub{font-size:12px;color:var(--muted);margin-top:-7px;margin-bottom:12px;line-height:1.7}
     button,input{font:inherit}.btn{width:100%;border:0;border-radius:16px;padding:14px 16px;background:#fff;color:#111827;font-weight:800;cursor:pointer}
     .btn.secondary{background:#0f1627;color:#fff;border:1px solid var(--line)}
-    .routes{display:grid;gap:9px}.route{display:flex;justify-content:space-between;gap:10px;background:#0f1627;border:1px solid var(--line);border-radius:16px;padding:12px}
-    .route b{display:block;margin-bottom:4px}
+    .routes{display:grid;gap:9px}.route{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;background:#0f1627;border:1px solid var(--line);border-radius:16px;padding:12px}
+    .route b{display:block;margin-bottom:5px}.route-text{min-width:0;flex:1}.route-side{display:flex;align-items:center;gap:6px;white-space:nowrap}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:grid;gap:6px}
-    input{width:100%;padding:12px;border-radius:13px;border:1px solid var(--line);background:#0f1627;color:#fff}
-    dialog{border:0;border-radius:20px;background:#141b2d;color:#fff;width:min(92vw,500px);padding:18px}
+    input{width:100%;padding:12px;border-radius:13px;border:1px solid var(--line);background:#0f1627;color:#fff;min-height:46px}
+    dialog{border:0;border-radius:20px;background:#141b2d;color:#fff;width:min(92vw,520px);padding:18px}
     dialog::backdrop{background:#0009}.actions{display:flex;gap:10px;margin-top:12px}.actions .btn{width:auto;flex:1}
     .notice{padding:12px;border-radius:14px;background:#0f1627;border:1px dashed #33415f;color:#cbd5e1;font-size:13px;line-height:1.8}
+    .live-alert{display:none;margin-top:12px;padding:12px 14px;border-radius:14px;line-height:1.8}
+    .live-alert.show{display:block}
+    .count{font-size:12px;color:var(--muted);font-weight:400}
     .foot{color:var(--muted);font-size:12px;text-align:center;margin-top:18px;line-height:1.8}
-    @media(max-width:420px){h1{font-size:26px}.grid{grid-template-columns:1fr}}
+    @media(max-width:420px){h1{font-size:26px}.grid{grid-template-columns:1fr}.route{flex-direction:column}.route-side{width:100%;justify-content:space-between}}
   </style>
 </head>
 <body>
 <div class="wrap">
   <div class="top">
-    <div><div class="brand">🏍️ RideCast</div><div class="small">تهران · مخصوص موتور</div></div>
-    <button id="refreshBtn" class="btn secondary" style="width:auto;padding:10px 13px">↻</button>
+    <div>
+      <div class="brand">🏍️ RideCast</div>
+      <div class="small">تهران · مخصوص موتور</div>
+      <div id="todayDate" class="date">—</div>
+    </div>
+    <button id="refreshBtn" class="btn secondary" style="width:auto;padding:10px 13px" aria-label="به‌روزرسانی">↻</button>
   </div>
 
   <section class="card hero">
     <div id="badge" class="status warn">در حال بررسی...</div>
     <h1 id="headline">هوا رو داریم چک می‌کنیم</h1>
-    <p id="summary" class="lead">چند لحظه صبر کن تا وضعیت امروز تهران رو جمع‌بندی کنم.</p>
+    <p id="summary" class="lead">چند لحظه صبر کن تا وضعیت ۲۴ ساعت آینده تهران رو جمع‌بندی کنم.</p>
     <div class="meta">
       <div class="pill">🌡️ <span id="tempNow">—</span></div>
       <div class="pill">🌧️ <span id="rainNow">—</span></div>
       <div class="pill">💨 <span id="windNow">—</span></div>
     </div>
+    <div id="liveAlert" class="live-alert warn"></div>
   </section>
 
   <section class="card">
-    <div class="section-title">از صبح تا شب</div>
+    <div class="section-title">۲۴ ساعت آینده</div>
+    <div class="section-sub">هر یک ساعت یک وضعیت؛ از ساعت فعلی تا ۲۴ ساعت بعد</div>
     <div id="hours" class="hours"></div>
   </section>
 
   <section class="card">
-    <div class="section-title">مسیرهای من <span class="small">اختیاری</span></div>
+    <div class="section-title">مسیرهای من <span id="routeCount" class="count"></span></div>
+    <div class="section-sub">هر تعداد مسیر که خواستی داخل تهران اضافه کن. ارزیابی هر مسیر بر اساس ساعت رفت‌وبرگشت انجام می‌شود.</div>
     <div id="routes" class="routes"></div>
     <button id="addRouteBtn" class="btn secondary" style="margin-top:10px">+ اضافه کردن مسیر</button>
   </section>
 
   <section class="card">
-    <div class="section-title">اعلان صبح</div>
+    <div class="section-title">هشدار تغییر شرایط</div>
     <div class="notice">
-      نسخه‌ی فعلی اعلان تست را روی گوشی فعال می‌کند. برای نوتیفیکیشن خودکار دقیقاً ساعت ۶ صبح، باید این PWA روی HTTPS منتشر شود و Push Server فعال باشد.
+      وقتی اپ باز باشد، RideCast هر ۱۰ دقیقه شرایط فعلی تهران را دوباره بررسی می‌کند. اگر وضعیت از «مناسب» به «احتیاط» یا «ریسک بالا» تغییر کند، همان لحظه هشدار می‌دهد؛ لازم نیست ساعت رُند باشد.
     </div>
-    <button id="notifyBtn" class="btn" style="margin-top:10px">فعال‌کردن اعلان تست</button>
+    <button id="notifyBtn" class="btn" style="margin-top:10px">فعال‌کردن هشدار</button>
   </section>
 
-  <div class="foot">داده‌ی هوا: Open‑Meteo · موقعیت ثابت: تهران<br>این اپ برای تصمیم سریع طراحی شده، نه نمایش دیتای شلوغ هواشناسی.</div>
+  <div class="foot">داده‌ی هوا: Open‑Meteo · محدوده ثابت: تهران<br>هدف اپ: تصمیم سریع برای موتورسواری، نه نمایش دیتای شلوغ هواشناسی.</div>
 </div>
 
 <dialog id="routeDialog">
   <form id="routeForm">
-    <div class="section-title">مسیر جدید</div>
-    <div class="field"><label>اسم مسیر</label><input id="routeName" placeholder="مثلاً خانه → شرکت" required></div>
+    <div class="section-title">مسیر جدید داخل تهران</div>
+    <div class="grid">
+      <div class="field"><label>مبدأ</label><input id="routeFrom" placeholder="مثلاً صادقیه" required maxlength="80"></div>
+      <div class="field"><label>مقصد</label><input id="routeTo" placeholder="مثلاً ونک" required maxlength="80"></div>
+    </div>
     <div class="grid" style="margin-top:10px">
       <div class="field"><label>ساعت رفت</label><input id="goTime" type="time" required></div>
-      <div class="field"><label>ساعت برگشت</label><input id="backTime" type="time"></div>
+      <div class="field"><label>ساعت برگشت <span class="small">اختیاری</span></label><input id="backTime" type="time"></div>
     </div>
     <div class="actions">
       <button type="button" id="cancelRoute" class="btn secondary">انصراف</button>
-      <button class="btn">ذخیره</button>
+      <button class="btn">ذخیره مسیر</button>
     </div>
   </form>
 </dialog>
@@ -100,9 +110,23 @@
 <script>
 const LAT=35.6892, LON=51.3890, TZ="Asia/Tehran";
 const $=s=>document.querySelector(s);
-const faNum=n=>new Intl.NumberFormat('fa-IR',{maximumFractionDigits:0}).format(n);
+const faNum=n=>new Intl.NumberFormat('fa-IR',{maximumFractionDigits:0}).format(Number.isFinite(Number(n))?Number(n):0);
 const fmtTime=s=>new Intl.DateTimeFormat('fa-IR',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:TZ}).format(new Date(s));
-const weatherEmoji=(code)=> {
+const fmtDay=s=>new Intl.DateTimeFormat('fa-IR',{weekday:'short',timeZone:TZ}).format(new Date(s));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+function tehranNowParts(){
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+  const get=t=>parts.find(x=>x.type===t)?.value;
+  return {date:`${get('year')}-${get('month')}-${get('day')}`,hour:get('hour'),minute:get('minute')};
+}
+function addDay(dateStr){
+  const d=new Date(dateStr+'T00:00:00Z'); d.setUTCDate(d.getUTCDate()+1); return d.toISOString().slice(0,10);
+}
+function updateDate(){
+  $("#todayDate").textContent=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',year:'numeric',month:'long',day:'numeric',timeZone:TZ}).format(new Date());
+}
+const weatherEmoji=code=>{
   if([0].includes(code)) return '☀️';
   if([1,2].includes(code)) return '🌤️';
   if([3,45,48].includes(code)) return '☁️';
@@ -110,8 +134,8 @@ const weatherEmoji=(code)=> {
   if([71,73,75,77,85,86].includes(code)) return '🌨️';
   if([95,96,99].includes(code)) return '⛈️';
   return '🌤️';
-}
-function riskOf(rainProb, precip, wind, gust){
+};
+function riskOf(rainProb,precip,wind,gust){
   let score=0;
   if(rainProb>=70) score+=3; else if(rainProb>=40) score+=2; else if(rainProb>=20) score+=1;
   if(precip>=2) score+=3; else if(precip>=0.6) score+=2; else if(precip>0) score+=1;
@@ -119,88 +143,136 @@ function riskOf(rainProb, precip, wind, gust){
   if(wind>=35) score+=2; else if(wind>=25) score+=1;
   return score>=5?'bad':score>=2?'warn':'good';
 }
-function labelRisk(r){return r==='good'?'خوبه':r==='warn'?'با احتیاط':'بهتره موتور نبری'}
-function detailRisk(r){return r==='good'?'مناسب':r==='warn'?'احتیاط':'ریسک بالا'}
-function todayParts(hourly){
-  const now = new Date();
-  const parts = new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
-  const y=parts.find(x=>x.type==='year').value,m=parts.find(x=>x.type==='month').value,d=parts.find(x=>x.type==='day').value;
-  const day=`${y}-${m}-${d}`;
-  return hourly.time.map((t,i)=>({t,i})).filter(x=>x.t.startsWith(day));
+const riskRank=r=>({good:0,warn:1,bad:2}[r]??0);
+const labelRisk=r=>r==='good'?'خوبه':r==='warn'?'با احتیاط':'بهتره موتور نبری';
+const detailRisk=r=>r==='good'?'مناسب':r==='warn'?'احتیاط':'ریسک بالا';
+
+function getNext24(hourly){
+  const p=tehranNowParts();
+  const key=`${p.date}T${p.hour}:00`;
+  const all=hourly.time.map((t,i)=>({t,i}));
+  let start=all.findIndex(x=>x.t>=key);
+  if(start<0) start=0;
+  return all.slice(start,start+24);
 }
-async function loadWeather(){
-  $("#badge").className='status warn'; $("#badge").textContent='در حال بررسی...';
+
+async function loadWeather(silent=false){
+  if(!silent){$("#badge").className='status warn';$("#badge").textContent='در حال بررسی...'}
   try{
-    const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,visibility&current=temperature_2m,weather_code,wind_speed_10m&timezone=${encodeURIComponent(TZ)}&forecast_days=2`;
-    const res=await fetch(url); if(!res.ok) throw new Error('weather');
-    const data=await res.json(), h=data.hourly, rows=todayParts(h).map(({i})=>({
-      time:h.time[i], temp:h.temperature_2m[i], feels:h.apparent_temperature[i], prob:h.precipitation_probability[i]??0,
-      precip:h.precipitation[i]??0, code:h.weather_code[i], wind:h.wind_speed_10m[i]??0, gust:h.wind_gusts_10m[i]??0
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,visibility&current=temperature_2m,precipitation,rain,showers,snowfall,weather_code,wind_speed_10m,wind_gusts_10m&timezone=${encodeURIComponent(TZ)}&forecast_days=3`;
+    const res=await fetch(url,{cache:'no-store'}); if(!res.ok) throw new Error('weather');
+    const data=await res.json(),h=data.hourly;
+    const rows=getNext24(h).map(({i})=>({
+      time:h.time[i],temp:h.temperature_2m[i],feels:h.apparent_temperature[i],prob:h.precipitation_probability[i]??0,
+      precip:h.precipitation[i]??0,code:h.weather_code[i],wind:h.wind_speed_10m[i]??0,gust:h.wind_gusts_10m[i]??0
     }));
-    const active=rows.filter(x=>{const hh=+x.time.slice(11,13);return hh>=6&&hh<=23});
-    active.forEach(x=>x.risk=riskOf(x.prob,x.precip,x.wind,x.gust));
-    const bad=active.filter(x=>x.risk==='bad'), warns=active.filter(x=>x.risk==='warn');
-    const overall=bad.length>=2?'bad':(bad.length||warns.length>=3)?'warn':'good';
-    $("#badge").className='status '+overall; $("#badge").textContent=overall==='good'?'🟢 مناسب موتور':overall==='warn'?'🟡 با احتیاط':'🔴 بهتره موتور نبری';
+    rows.forEach(x=>x.risk=riskOf(x.prob,x.precip,x.wind,x.gust));
+    const bad=rows.filter(x=>x.risk==='bad'),warns=rows.filter(x=>x.risk==='warn');
+    const overall=bad.length>=2?'bad':(bad.length||warns.length>=4)?'warn':'good';
+
+    $("#badge").className='status '+overall;
+    $("#badge").textContent=overall==='good'?'🟢 مناسب موتور':overall==='warn'?'🟡 با احتیاط':'🔴 بهتره موتور نبری';
     $("#headline").textContent=labelRisk(overall);
-    const firstBad=bad[0], firstWarn=warns[0];
-    let summary='امروز شرایط کلی برای موتورسواری مناسبه.';
+
+    const firstBad=bad[0],firstWarn=warns[0];
+    let summary='در ۲۴ ساعت آینده شرایط کلی برای موتورسواری مناسبه.';
     if(firstBad) summary=`از حدود ${fmtTime(firstBad.time)} شرایط سخت‌تر می‌شه؛ ${firstBad.prob>=40?'احتمال بارون بالاست':''}${firstBad.gust>=40?' و تندباد هم جدیه':''}.`;
     else if(firstWarn) summary=`تا قبل از ${fmtTime(firstWarn.time)} شرایط بهتره؛ بعدش کمی احتیاط کن.`;
     $("#summary").textContent=summary;
-    $("#tempNow").textContent=`${faNum(data.current.temperature_2m)}°`;
-    const nearest=active.reduce((a,b)=>Math.abs(new Date(b.time)-Date.now())<Math.abs(new Date(a.time)-Date.now())?b:a,active[0]);
-    $("#rainNow").textContent=`${faNum(nearest.prob)}٪ بارش`;
-    $("#windNow").textContent=`${faNum(nearest.wind)} km/h`;
-    const preferred=[6,8,10,12,14,16,18,20,22];
-    $("#hours").innerHTML=active.filter(x=>preferred.includes(+x.time.slice(11,13))).map(x=>`
+
+    const current=data.current||{};
+    $("#tempNow").textContent=`${faNum(current.temperature_2m)}°`;
+    const currentPrecip=(current.precipitation??0)+(current.rain??0)+(current.showers??0)+(current.snowfall??0);
+    const nowRisk=riskOf(0,currentPrecip,current.wind_speed_10m??0,current.wind_gusts_10m??0);
+    $("#rainNow").textContent=currentPrecip>0?`${faNum(currentPrecip)} mm`:`${faNum(rows[0]?.prob??0)}٪ بارش`;
+    $("#windNow").textContent=`${faNum(current.wind_speed_10m??0)} km/h`;
+
+    $("#hours").innerHTML=rows.map(x=>`
       <div class="hour">
+        <div class="day">${fmtDay(x.time)}</div>
         <div class="t">${fmtTime(x.time)}</div>
         <div class="temp">${weatherEmoji(x.code)} ${faNum(x.temp)}°</div>
         <div class="small">بارش ${faNum(x.prob)}٪</div>
         <div class="small">باد ${faNum(x.wind)}</div>
         <div class="risk ${x.risk}">${detailRisk(x.risk)}</div>
       </div>`).join('');
-    window.__weatherRows=active;
+
+    window.__weatherRows=rows;
     renderRoutes();
+    maybeAlert(nowRisk,current);
+    window.__lastCurrentRisk=nowRisk;
   }catch(e){
-    $("#badge").className='status bad'; $("#badge").textContent='خطا در دریافت هوا';
-    $("#headline").textContent='اینترنت رو چک کن';
-    $("#summary").textContent='نتونستم دیتای زنده‌ی تهران رو بگیرم. دوباره تلاش کن.';
+    if(!silent){
+      $("#badge").className='status bad';$("#badge").textContent='خطا در دریافت هوا';
+      $("#headline").textContent='اینترنت رو چک کن';
+      $("#summary").textContent='نتونستم دیتای زنده‌ی تهران رو بگیرم. دوباره تلاش کن.';
+    }
+  }
+}
+
+function maybeAlert(newRisk,current){
+  const old=localStorage.getItem('ridecast-current-risk');
+  localStorage.setItem('ridecast-current-risk',newRisk);
+  if(old && riskRank(newRisk)>riskRank(old)){
+    const msg=newRisk==='bad'?'شرایط جوی تهران بدتر شده؛ برای موتورسواری ریسک بالاست.':'شرایط جوی تهران بدتر شده؛ با احتیاط موتورسواری کن.';
+    const box=$("#liveAlert"); box.className='live-alert show '+newRisk; box.textContent='⚠️ '+msg;
+    if(Notification.permission==='granted'){
+      try{new Notification('🏍️ هشدار RideCast',{body:msg})}catch(e){}
+    }
   }
 }
 function getRoutes(){try{return JSON.parse(localStorage.getItem('ridecast-routes')||'[]')}catch{return[]}}
 function saveRoutes(r){localStorage.setItem('ridecast-routes',JSON.stringify(r))}
+function targetForTime(time){
+  if(!time) return null;
+  const p=tehranNowParts(),nowClock=`${p.hour}:${p.minute}`;
+  const date=time>=nowClock?p.date:addDay(p.date);
+  return `${date}T${time}`;
+}
 function routeRisk(time){
   if(!window.__weatherRows||!time) return null;
-  const hh=+time.split(':')[0];
-  return window.__weatherRows.reduce((a,b)=>Math.abs(+b.time.slice(11,13)-hh)<Math.abs(+a.time.slice(11,13)-hh)?b:a,window.__weatherRows[0]);
+  const target=targetForTime(time);
+  return window.__weatherRows.reduce((a,b)=>Math.abs(new Date(b.time)-new Date(target))<Math.abs(new Date(a.time)-new Date(target))?b:a,window.__weatherRows[0]);
 }
 function renderRoutes(){
-  const routes=getRoutes(), box=$("#routes");
-  if(!routes.length){box.innerHTML='<div class="small">اگر خواستی مسیر و ساعت رفت‌وبرگشتت رو وارد کن؛ اجباری نیست.</div>';return}
+  const routes=getRoutes(),box=$("#routes");
+  $("#routeCount").textContent=routes.length?`(${faNum(routes.length)} مسیر)`:'';
+  if(!routes.length){box.innerHTML='<div class="small">هنوز مسیری اضافه نکردی. می‌تونی هر تعداد مسیر داخل تهران ثبت کنی.</div>';return}
   box.innerHTML=routes.map((r,idx)=>{
-    const go=routeRisk(r.go), back=routeRisk(r.back);
+    const go=routeRisk(r.go),back=routeRisk(r.back);
     const risk=[go?.risk,back?.risk].includes('bad')?'bad':[go?.risk,back?.risk].includes('warn')?'warn':'good';
-    return `<div class="route"><div><b>${r.name}</b><span class="small">رفت ${r.go}${r.back?' · برگشت '+r.back:''}</span></div><div><span class="status ${risk}" style="padding:5px 9px;font-size:12px">${detailRisk(risk)}</span> <button data-del="${idx}" style="background:none;border:0;color:#9aa4b2;font-size:18px">×</button></div></div>`;
+    const label=(r.from&&r.to)?`از ${esc(r.from)} به ${esc(r.to)}`:esc(r.name||'مسیر');
+    return `<div class="route">
+      <div class="route-text"><b>${label}</b><span class="small">رفت ${esc(r.go||'—')}${r.back?' · برگشت '+esc(r.back):''}</span></div>
+      <div class="route-side"><span class="status ${risk}" style="padding:5px 9px;font-size:12px">${detailRisk(risk)}</span><button data-del="${idx}" aria-label="حذف مسیر" style="background:none;border:0;color:#9aa4b2;font-size:22px">×</button></div>
+    </div>`;
   }).join('');
-  box.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{const r=getRoutes();r.splice(+b.dataset.del,1);saveRoutes(r);renderRoutes()}));
+  box.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
+    const r=getRoutes();r.splice(+b.dataset.del,1);saveRoutes(r);renderRoutes();
+  }));
 }
-$("#refreshBtn").addEventListener('click',loadWeather);
+
+$("#refreshBtn").addEventListener('click',()=>loadWeather(false));
 $("#addRouteBtn").addEventListener('click',()=>$("#routeDialog").showModal());
 $("#cancelRoute").addEventListener('click',()=>$("#routeDialog").close());
 $("#routeForm").addEventListener('submit',e=>{
-  e.preventDefault(); const r=getRoutes();
-  r.push({name:$("#routeName").value.trim(),go:$("#goTime").value,back:$("#backTime").value});
-  saveRoutes(r); e.target.reset(); $("#routeDialog").close(); renderRoutes();
+  e.preventDefault();
+  const routes=getRoutes();
+  routes.push({from:$("#routeFrom").value.trim(),to:$("#routeTo").value.trim(),go:$("#goTime").value,back:$("#backTime").value});
+  saveRoutes(routes);e.target.reset();$("#routeDialog").close();renderRoutes();
 });
 $("#notifyBtn").addEventListener('click',async()=>{
   if(!('Notification' in window)){alert('این مرورگر اعلان وب را پشتیبانی نمی‌کند.');return}
   const p=await Notification.requestPermission();
-  if(p==='granted') new Notification('🏍️ RideCast',{body:'اعلان فعاله. نسخه‌ی سروری می‌تونه هر روز ساعت ۶ وضعیت موتور رو بفرسته.'});
+  if(p==='granted'){
+    $("#notifyBtn").textContent='هشدار فعال شد ✓';
+    try{new Notification('🏍️ RideCast',{body:'هشدار تغییر شرایط تهران فعال شد.'})}catch(e){}
+  }
 });
-if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
-loadWeather();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+updateDate();
+loadWeather(false);
+setInterval(()=>loadWeather(true),10*60*1000);
 </script>
 </body>
 </html>
