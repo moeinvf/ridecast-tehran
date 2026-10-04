@@ -73,7 +73,7 @@ button,input{font:inherit}button{touch-action:manipulation}
 .pill{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"icon value" "icon key" "icon note";align-content:center;justify-content:center;column-gap:9px;row-gap:1px;padding:12px 10px;border-left:1px solid var(--line)}
 .pill:last-child{border-left:0}.stat-icon{grid-area:icon;width:30px;height:30px;align-self:center;color:#9ccaff}.stat-icon svg{width:28px;height:28px;display:block}.pill .k{grid-area:key;font-size:10px;color:var(--muted);text-align:right}.pill .v{grid-area:value;font-size:20px;font-weight:900;direction:ltr;text-align:right}.pill .note{grid-area:note;font-size:9px;color:#8da1b8;direction:rtl;text-align:right}
 .section-card{padding:16px;margin-bottom:13px;background:linear-gradient(145deg,#101d2d,#0b1726)}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px;direction:ltr}.section-title{font-size:17px;font-weight:900;direction:rtl}.section-note{font-size:11px;color:var(--blue);direction:rtl}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px;direction:rtl}.section-title{font-size:17px;font-weight:900;direction:rtl;text-align:right}.section-note{font-size:11px;color:var(--blue);direction:rtl;text-align:left}
 .forecast-shell{position:relative}.hours{display:flex;gap:7px;overflow-x:auto;scroll-snap-type:x proximity;padding:1px 0 12px;scrollbar-width:none;direction:rtl}.hours::-webkit-scrollbar{display:none}
 .hour{min-width:86px;scroll-snap-align:start;padding:11px 8px;border:1px solid rgba(166,190,220,.11);border-radius:14px;background:linear-gradient(180deg,#152235,#101d2e);text-align:center}
 .hour.now{border-color:rgba(95,169,255,.72);box-shadow:inset 0 0 0 1px rgba(95,169,255,.08);background:linear-gradient(180deg,#16304c,#102237)}
@@ -86,8 +86,8 @@ button,input{font:inherit}button{touch-action:manipulation}
 .route-status{font-size:10px;font-weight:900;padding:7px 10px;border-radius:999px;white-space:nowrap}.delete{position:absolute;left:4px;top:1px;border:0;background:transparent;color:#6e7e92;font-size:18px;cursor:pointer;padding:2px 5px}
 .addbtn{width:100%;min-height:43px;margin-top:10px;border:1px dashed rgba(95,169,255,.28);border-radius:14px;background:rgba(95,169,255,.05);color:#dbeaff;font-weight:900;cursor:pointer}
 .install-bar{margin:0 0 13px;padding:14px;background:linear-gradient(145deg,#101d2d,#0b1726);border:1px solid var(--line);border-radius:22px}.install-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;direction:ltr}
-.install-btn{min-height:64px;border-radius:16px;border:1px solid var(--line-strong);cursor:pointer;color:#f2f6fb;background:linear-gradient(145deg,#1b293c,#152235);font-weight:900;font-size:13px;direction:rtl}
-.install-btn.android{background:linear-gradient(135deg,#3b9cff,#2f68ed);border-color:rgba(93,161,255,.48)}.install-btn span{display:block;font-size:9px;font-weight:600;opacity:.65;margin-top:4px}
+.install-btn{min-height:64px;border-radius:16px;border:1px solid var(--line-strong);cursor:pointer;color:#f2f6fb;background:#0b1726;font-weight:900;font-size:13px;direction:rtl}
+.install-btn.android{background:#0b1726;border-color:var(--line-strong)}.install-btn span{display:block;font-size:9px;font-weight:600;opacity:.65;margin-top:4px}
 .foot{text-align:center;color:#6e7f94;font-size:10px;line-height:1.9;margin:13px 0 2px}.motto{font-size:11px;color:#8392a5;margin-bottom:5px}
 dialog{width:min(92vw,520px);max-height:min(82vh,700px);overflow:auto;border:1px solid var(--line-strong);border-radius:22px;background:#101d2d;color:#fff;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.55)}dialog::backdrop{background:rgba(2,7,13,.78);backdrop-filter:blur(4px)}
 .field{display:grid;gap:6px}.field label{font-size:11px;color:#c3cedc}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
@@ -106,7 +106,8 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
 @media(hover:hover) and (pointer:fine){
   .iconbtn:hover,.city-btn:hover{transform:translateY(-2px);background:#1b3048;border-color:rgba(125,184,245,.55);box-shadow:0 9px 24px rgba(0,0,0,.2)}
   .addbtn:hover{transform:translateY(-2px);background:rgba(95,169,255,.12);border-color:rgba(95,169,255,.58);box-shadow:0 10px 25px rgba(0,0,0,.17)}
-  .install-btn:hover,.btn:hover,.city-search-btn:hover{transform:translateY(-2px);filter:brightness(1.1);box-shadow:0 10px 25px rgba(0,0,0,.2)}
+  .install-btn:hover{transform:translateY(-2px);background:linear-gradient(135deg,#3b9cff,#2f68ed);border-color:rgba(93,161,255,.68);box-shadow:0 10px 25px rgba(30,104,210,.24)}
+  .btn:hover,.city-search-btn:hover{transform:translateY(-2px);filter:brightness(1.1);box-shadow:0 10px 25px rgba(0,0,0,.2)}
   .city-result:hover,.city-chip:hover{transform:translateY(-1px);background:#14263b;border-color:rgba(95,169,255,.48)}
   .delete:hover{transform:scale(1.12);color:#ff9aa2;background:rgba(255,125,134,.08);border-radius:8px}
 }
@@ -192,7 +193,7 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
   <section class="card section-card">
     <div class="section-head">
       <div class="section-title">پیش‌بینی ۲۴ ساعته</div>
-      <div class="section-note">جزئیات بیشتر ‹</div>
+      
     </div>
     <div class="forecast-shell">
       <div id="hours" class="hours"></div>
