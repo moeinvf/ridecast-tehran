@@ -253,7 +253,7 @@ async function loadWeather(silent=false){
     const old=localStorage.getItem('ridecast-current-risk');
     localStorage.setItem('ridecast-current-risk',currentRisk);
     if(old&&rank(currentRisk)>rank(old)&&'Notification'in window&&Notification.permission==='granted'){
-      try{new Notification('🏍️ وضعیت تهران بدتر شد',{body:currentRisk==='bad'?'شرایط برای موتورسواری پرریسک شده.':'شرایط نیاز به احتیاط بیشتری دارد.'})}catch(e){}
+      try{const reg=await navigator.serviceWorker.ready;await reg.showNotification('🏍️ وضعیت تهران بدتر شد',{body:currentRisk==='bad'?'شرایط برای موتورسواری پرریسک شده.':'شرایط نیاز به احتیاط بیشتری دارد.'})}catch(e){}
     }
   }catch(e){
     if(!silent){
@@ -307,7 +307,7 @@ $("#notifyBtn").addEventListener('click',async()=>{
   if(p==='granted'){
     $("#notifyBtn").textContent='✓';
     $("#notifyBtn").setAttribute('aria-label','اعلان فعال است');
-    try{new Notification('🏍️ RideCast',{body:'اعلان‌ها فعال شد.'})}catch(e){}
+    try{const reg=await navigator.serviceWorker.ready;await reg.showNotification('🏍️ RideCast',{body:'اعلان‌ها فعال شد.'})}catch(e){}
   }
 });
 $("#addRouteBtn").addEventListener('click',()=>$("#routeDialog").showModal());
