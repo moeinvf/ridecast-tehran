@@ -42,10 +42,17 @@ button,input{font:inherit}button{touch-action:manipulation}
 .city-btn,.iconbtn{height:40px;border:1px solid var(--line-strong);background:rgba(18,32,49,.88);color:var(--text);border-radius:13px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .city-btn{display:flex;align-items:center;gap:6px;padding:0 11px;font-size:12px;font-weight:850;white-space:nowrap;cursor:pointer}
 .city-chevron{font-size:11px;color:var(--muted)}.iconbtn{width:40px;display:grid;place-items:center;font-size:17px;cursor:pointer;position:relative}
-.iconbtn.notify-on{color:#87c7ff;background:rgba(45,105,176,.20);border-color:rgba(95,169,255,.48)}
-.iconbtn.notify-on::after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:#55d5ad;top:5px;right:5px;box-shadow:0 0 0 3px #15243a}
-.iconbtn.notify-off{color:#77879a;background:rgba(18,32,49,.58);border-color:rgba(168,190,220,.12);opacity:1}
-.iconbtn.notify-on svg,.iconbtn.notify-off svg{display:block;width:20px;height:20px}.date{font-size:11px;color:#b6c3d1;margin:4px 2px 12px}
+.iconbtn.notify-btn{width:44px;height:46px;flex:0 0 44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 2px;line-height:1}
+.iconbtn.notify-on{color:#a8d8ff;background:#173852;border-color:#589ed5}
+.iconbtn.notify-on::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#55d5ad;top:4px;right:4px;box-shadow:0 0 0 2px #173852}
+.iconbtn.notify-off{color:#d2dce8;background:#192a3e;border-color:#52647c;opacity:1}
+.iconbtn .notify-icon{display:block;width:22px;height:22px;flex:0 0 22px;overflow:visible;pointer-events:none}
+.notify-status{display:block;font-size:9px;line-height:11px;font-weight:700;white-space:nowrap;pointer-events:none}
+.notify-on .notify-bell{fill:currentColor;fill-opacity:.2}
+.notify-on .notify-slash{display:none}
+.notify-off .notify-slash{display:block}
+.notify-btn:focus-visible{outline:2px solid #a8d8ff;outline-offset:3px}
+.date{font-size:11px;color:#b6c3d1;margin:4px 2px 12px}
 .card{border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,var(--card),#0c1827);box-shadow:0 18px 45px rgba(0,0,0,.14)}
 .hero{position:relative;overflow:hidden;margin-bottom:14px;min-height:384px;padding:20px 20px 0;background:#111d2d}
 .hero-visual{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.98;display:block}
@@ -120,11 +127,14 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
     </div>
     <div class="header-actions">
       <button id="cityBtn" class="city-btn" type="button"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 21s6-5.3 6-12A6 6 0 1 0 6 9c0 6.7 6 12 6 12Z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9" r="2.2" fill="currentColor"/></svg></span><span id="cityName">تهران</span><span class="city-chevron">⌄</span></button>
-      <button id="notifyBtn" class="iconbtn notify-off" aria-label="فعال‌کردن اعلان" title="اعلان‌ها غیرفعال‌اند">
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true">
-    <path d="m4 4 16 16M6 9a6 6 0 0 1 9.6-4.8M18 10c0 4.2 1.1 5.8 2 7H9M10 21h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-  </svg>
-</button>
+      <button id="notifyBtn" class="iconbtn notify-btn notify-off" type="button" aria-pressed="false" aria-label="اعلان‌ها خاموش‌اند؛ برای فعال‌کردن بزن" title="اعلان‌ها خاموش‌اند">
+        <svg class="notify-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path class="notify-bell" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/>
+          <path d="M10 21h4"/>
+          <path class="notify-slash" d="m3 3 18 18"/>
+        </svg>
+        <span id="notifyStatus" class="notify-status" aria-hidden="true">خاموش</span>
+      </button>
       <button id="refreshBtn" class="iconbtn" aria-label="به‌روزرسانی"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M20 6v5h-5M4 18v-5h5M6.2 9A7 7 0 0 1 18 6.8L20 11M4 13l2 4.2A7 7 0 0 0 17.8 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </header>
@@ -561,24 +571,29 @@ function syncNotifyButton(){
   const btn=$("#notifyBtn");
   if(!btn)return;
   const enabled=appNotificationsEnabled();
-  btn.innerHTML=enabled
-    ?'<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 6.3-2.6 7.1-3 8h18c-.4-.9-3-1.7-3-8Z" fill="currentColor"/><path d="M9.7 20h4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
-    :'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true"><path d="m4 4 16 16M6 9a6 6 0 0 1 9.6-4.8M18 10c0 4.2 1.1 5.8 2 7H9M10 21h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  const status=$("#notifyStatus");
+  if(status)status.textContent=enabled?'فعال':'خاموش';
   btn.classList.toggle('notify-on',enabled);
   btn.classList.toggle('notify-off',!enabled);
   btn.setAttribute('aria-pressed',enabled?'true':'false');
-  btn.setAttribute('aria-label',enabled?'اعلان‌ها فعال‌اند؛ برای غیرفعال‌کردن بزن':'اعلان‌ها غیرفعال‌اند؛ برای فعال‌کردن بزن');
-  btn.title=enabled?'اعلان‌ها فعال‌اند':'اعلان‌ها غیرفعال‌اند';
+  btn.setAttribute('aria-label',enabled?'اعلان‌ها فعال‌اند؛ برای خاموش‌کردن بزن':'اعلان‌ها خاموش‌اند؛ برای فعال‌کردن بزن');
+  btn.title=enabled?'اعلان‌ها فعال‌اند':'اعلان‌ها خاموش‌اند';
 }
 $("#notifyBtn")?.addEventListener('click',async()=>{
-  if(!('Notification'in window)) return;
+  if(!('Notification'in window)){
+    showToast('این مرورگر از اعلان پشتیبانی نمی‌کند. در آیفون، اپ را به صفحهٔ اصلی اضافه کن و از همان‌جا باز کن.');
+    return;
+  }
   if(appNotificationsEnabled()){
     localStorage.setItem('ridecast-notifications-enabled','false');
     syncNotifyButton();
     return;
   }
   let permission=Notification.permission;
-  if(permission==='default') permission=await Notification.requestPermission();
+  if(permission==='default'){
+    try{permission=await Notification.requestPermission()}
+    catch(e){syncNotifyButton();showToast('درخواست مجوز اعلان انجام نشد. دوباره تلاش کن.');return}
+  }
   if(permission==='granted'){
     localStorage.setItem('ridecast-notifications-enabled','true');
     syncNotifyButton();
@@ -589,8 +604,11 @@ $("#notifyBtn")?.addEventListener('click',async()=>{
   }else{
     localStorage.setItem('ridecast-notifications-enabled','false');
     syncNotifyButton();
+    showToast(permission==='denied'?'اجازهٔ اعلان در مرورگر بسته است. از تنظیمات سایت، اعلان‌ها را مجاز کن.':'برای فعال‌شدن اعلان‌ها، اجازهٔ مرورگر را تأیید کن.');
   }
 });
+window.addEventListener('focus',syncNotifyButton);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncNotifyButton()});
 $("#addRouteBtn")?.addEventListener('click',()=>{if($("#routeDialogTitle"))$("#routeDialogTitle").textContent='مسیر جدید در '+currentCity.name;$("#routeDialog")?.showModal()});
 $("#cancelRoute")?.addEventListener('click',()=>$("#routeDialog")?.close());
 let toastTimer=null;
