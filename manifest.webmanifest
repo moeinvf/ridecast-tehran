@@ -1,5 +1,5 @@
 {
-  "name": "RideCast تهران",
+  "name": "RideCast",
   "short_name": "RideCast",
   "start_url": "./",
   "scope": "./",
@@ -8,7 +8,7 @@
   "theme_color": "#0b1020",
   "lang": "fa",
   "dir": "rtl",
-  "description": "هواشناسی ساده مخصوص موتورسواری در تهران",
+  "description": "هواشناسی ساده مخصوص موتورسواری",
   "icons": [
     {
       "src": "/icons/icon-192.png",
