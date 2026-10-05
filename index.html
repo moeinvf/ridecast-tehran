@@ -699,6 +699,7 @@ function selectCity(city){
   localStorage.setItem('ridecast-city',JSON.stringify(currentCity));
   window.__weatherRows=[];
   syncCityUI();
+  syncBackgroundNotificationSettings();
   $("#cityDialog")?.close();
   loadWeather(false);
   showToast('شهر روی «'+currentCity.name+'» تنظیم شد.');
@@ -796,6 +797,46 @@ async function ensureNotificationPermission(){
 $("#notifyBtn")?.addEventListener('click',()=>{syncNotifyDialog();$("#notifyDialog")?.showModal()});
 $("#closeNotify")?.addEventListener('click',()=>$("#notifyDialog")?.close());
 $("#dailyNotifyToggle")?.addEventListener('change',e=>{if($("#dailyNotifyTime"))$("#dailyNotifyTime").disabled=!e.target.checked});
+async function syncBackgroundNotificationSettings(){
+  if(!('serviceWorker'in navigator))return false;
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const worker=reg.active||navigator.serviceWorker.controller||reg.waiting;
+    if(!worker)return false;
+    const settings={
+      city:{id:currentCity.id,name:currentCity.name,latitude:currentCity.latitude,longitude:currentCity.longitude,timezone:currentCity.timezone||'auto'},
+      eventOn:eventNotificationsEnabled(),
+      dailyOn:dailyNotificationsEnabled(),
+      dailyTime:dailyNotificationTime()
+    };
+    const reply=await new Promise(resolve=>{
+      const ch=new MessageChannel();
+      const timeout=setTimeout(()=>resolve(null),1200);
+      ch.port1.onmessage=e=>{clearTimeout(timeout);resolve(e.data||null)};
+      worker.postMessage({type:'RIDECAST_BG_SETTINGS',settings},[ch.port2]);
+    });
+    if(reply?.lastDailyDate) localStorage.setItem('ridecast-daily-last:'+currentCity.id,reply.lastDailyDate);
+    if(reply?.lastRisk) localStorage.setItem('ridecast-current-risk',reply.lastRisk);
+    if('periodicSync'in reg){
+      try{
+        if(settings.eventOn||settings.dailyOn){
+          let allowed=true;
+          if(navigator.permissions?.query){
+            try{allowed=(await navigator.permissions.query({name:'periodic-background-sync'})).state==='granted'}catch(e){}
+          }
+          if(allowed)await reg.periodicSync.register('ridecast-weather-check',{minInterval:30*60*1000});
+        }else{
+          try{await reg.periodicSync.unregister('ridecast-weather-check')}catch(e){}
+        }
+      }catch(e){}
+    }
+    if('sync'in reg && (settings.eventOn||settings.dailyOn)){
+      try{await reg.sync.register('ridecast-weather-check-once')}catch(e){}
+    }
+    return true;
+  }catch(e){return false}
+}
+
 $("#saveNotifySettings")?.addEventListener('click',async()=>{
   const eventOn=!!$("#eventNotifyToggle")?.checked;
   const dailyOn=!!$("#dailyNotifyToggle")?.checked;
@@ -805,6 +846,7 @@ $("#saveNotifySettings")?.addEventListener('click',async()=>{
   localStorage.setItem('ridecast-daily-notifications-enabled',String(dailyOn));
   localStorage.setItem('ridecast-daily-notification-time',$("#dailyNotifyTime")?.value||'08:00');
   syncNotifyButton();
+  await syncBackgroundNotificationSettings();
   startDailyNotificationScheduler();
   $("#notifyDialog")?.close();
   showToast(dailyOn?'اعلان روزانه برای ساعت '+($("#dailyNotifyTime")?.value||'08:00')+' ذخیره شد.':'تنظیمات اعلان ذخیره شد.');
@@ -882,12 +924,12 @@ $("#routeForm").addEventListener('submit',e=>{
   renderRoutes();
   showToast('مسیر با موفقیت ذخیره شد.');
 });
-if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js?v=26').catch(()=>{});
 syncCityUI();
 initRideNote();
 loadWeather(false);
 setInterval(()=>loadWeather(true),10*60*1000);
-try{syncNotifyButton();startDailyNotificationScheduler()}catch(e){console.warn('notify ui',e)}
+try{syncNotifyButton();syncBackgroundNotificationSettings().finally(startDailyNotificationScheduler)}catch(e){console.warn('notify ui',e)}
 try{syncInstallUI()}catch(e){console.warn('install ui',e)}
 </script>
 </body>
