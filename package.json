@@ -1,0 +1,12 @@
+{
+  "name": "ridecast",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "web-push": "^3.6.7",
+    "workflow": "^4.1.0"
+  }
+}
