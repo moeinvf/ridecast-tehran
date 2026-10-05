@@ -141,9 +141,21 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
   .meta{min-height:92px}.pill .v{font-size:16px}.pill .note{font-size:8px}.section-card{padding:14px;border-radius:21px}.hour{min-width:76px;padding:9px 7px}.route{grid-template-columns:78px minmax(0,1fr) auto}.route-thumb{width:78px;height:58px}.install-bar{border-radius:21px}
 }
 @media(max-width:365px){
-  .city-sub{display:none}.brandrow{gap:7px}.app-logo{width:37px;height:37px;flex-basis:37px}.brand{font-size:17px}.city-btn{max-width:76px;font-size:11px;padding:0 7px}.iconbtn{width:36px;height:36px}.city-btn{height:36px}
+  .city-sub{display:none}.brandrow{gap:7px}.app-logo{width:37px;height:37px;flex-basis:37px}.brand{font-size:17px}.city-btn{max-width:76px;font-size:11px;padding:0 7px}.iconbtn{width:36px;height:36px}.iconbtn.notify-btn{width:36px;height:38px;flex-basis:36px}.city-btn{height:36px}
+  .city-btn #cityName{display:block;max-width:43px;overflow:hidden;text-overflow:ellipsis}.header-actions{gap:4px}
   .hero-copy{width:78%}.hero-visual{width:100%;opacity:.90}.verdict{font-size:21px}.meta{grid-template-columns:repeat(3,1fr)}.pill{padding:8px 5px}.pill .k{font-size:9px}.pill .v{font-size:14px}
   .route{grid-template-columns:64px minmax(0,1fr)}.route-thumb{width:64px;height:54px}.route-status{grid-column:2;justify-self:start}.install-options{grid-template-columns:1fr}.grid{grid-template-columns:1fr}
+}
+@media(max-width:340px){
+  .wrap{padding-right:calc(7px + env(safe-area-inset-right));padding-left:calc(7px + env(safe-area-inset-left))}
+  .top{gap:6px}.brandrow{gap:5px}.app-logo{width:34px;height:34px;flex-basis:34px;border-radius:11px}.brand{font-size:16px}
+  .header-actions{gap:3px}.city-btn{max-width:66px;height:34px;padding:0 5px;font-size:10px;gap:3px}.city-btn svg{width:14px;height:14px}.city-btn #cityName{max-width:36px}.city-chevron{display:none}
+  .iconbtn{width:34px;height:34px}.iconbtn.notify-btn{width:34px;height:36px;flex-basis:34px}.iconbtn .notify-icon{width:19px;height:19px;flex-basis:19px}.notify-status{font-size:8px}
+  .hero{min-height:352px;padding:14px 12px 0}.hero-copy{width:82%;padding-top:42px}.weather-orb{width:58px;height:58px;border-radius:18px}.verdict{font-size:20px}.reason{font-size:10px}
+  .meta{min-height:88px}.pill{padding:7px 4px}.pill .k{font-size:8px}.pill .v{font-size:13px}.pill .note{font-size:7px}.stat-icon svg{width:23px;height:23px}
+  .section-card{padding:12px}.section-title{font-size:15px}.section-note{font-size:9px}.hour{min-width:72px}.day-card{min-width:104px;padding:10px 8px}
+  dialog{width:calc(100vw - 14px);padding:14px;border-radius:18px}.city-search-row{grid-template-columns:minmax(0,1fr) auto}.city-search-btn{min-width:64px;padding:0 10px}
+  .ride-note{min-height:104px;padding:11px 12px}.install-bar{padding:11px}.install-btn{min-height:58px;font-size:12px}
 }
 
 .hero.risk-good .verdict{color:#9ee8cf}
