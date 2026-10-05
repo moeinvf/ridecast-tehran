@@ -79,6 +79,15 @@ button,input{font:inherit}button{touch-action:manipulation}
 .hour.now{border-color:rgba(95,169,255,.72);box-shadow:inset 0 0 0 1px rgba(95,169,255,.08);background:linear-gradient(180deg,#16304c,#102237)}
 .hour .day{font-size:10px;color:#c9d4e0;font-weight:800}.hour .time{font-size:10px;color:#8192a8;margin-top:3px}.hour .temp{font-size:18px;font-weight:950;margin:8px 0 5px;direction:ltr;text-align:center}.hour-weather{height:30px;display:grid;place-items:center;margin:5px 0}.hour-weather svg{width:28px;height:28px}.hour .mini{font-size:9px;color:#8d9daf;white-space:nowrap}.tag{display:none}
 .temp-chart{display:block;width:100%;height:38px;margin-top:-2px;overflow:visible}.temp-chart path{fill:none;stroke:#5ca8ff;stroke-width:2}.temp-chart circle{fill:#66afff}
+.days{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:1px 0 4px;scrollbar-width:none;direction:rtl}.days::-webkit-scrollbar{display:none}
+.day-card{min-width:112px;scroll-snap-align:start;padding:12px 10px;border:1px solid rgba(166,190,220,.11);border-radius:15px;background:linear-gradient(180deg,#152235,#101d2e);text-align:center}
+.day-card.today{border-color:rgba(95,169,255,.62);background:linear-gradient(180deg,#16304c,#102237)}
+.day-name{font-size:11px;font-weight:900;color:#d9e6f4}.day-date{font-size:9px;color:#788ca5;margin-top:2px}.day-weather{height:36px;display:grid;place-items:center;margin:7px 0 4px}.day-weather svg{width:32px;height:32px}
+.day-temp{display:flex;align-items:center;justify-content:center;gap:5px;direction:ltr;font-weight:950}.day-temp .low{color:#8195ad;font-size:12px}.day-temp .high{font-size:17px}
+.day-extra{display:flex;justify-content:center;gap:7px;margin-top:7px;color:#91a3b8;font-size:9px;white-space:nowrap}.day-risk{width:7px;height:7px;border-radius:50%;display:inline-block;margin-left:4px}.day-risk.good{background:var(--good)}.day-risk.warn{background:var(--warn)}.day-risk.bad{background:var(--bad)}
+.note-box{display:grid;gap:9px}.ride-note{width:100%;min-height:116px;resize:vertical;border:1px solid rgba(166,190,220,.14);border-radius:16px;background:#0b1726;color:#f5f8fc;padding:13px 14px;outline:none;font:inherit;line-height:1.9;direction:rtl}
+.ride-note:focus{border-color:rgba(95,169,255,.58);box-shadow:0 0 0 3px rgba(95,169,255,.07)}.ride-note::placeholder{color:#71839a}.note-meta{font-size:10px;color:#7f91a8;text-align:right}
+
 .routes{display:grid;gap:9px}.empty{padding:16px;border:1px dashed rgba(160,184,216,.18);border-radius:16px;color:var(--muted);font-size:12px;line-height:1.85;text-align:center;background:rgba(255,255,255,.012)}
 .route{display:grid;grid-template-columns:92px minmax(0,1fr) auto;align-items:center;gap:11px;padding:9px;border:1px solid rgba(164,187,219,.11);border-radius:17px;background:linear-gradient(145deg,#152438,#101d2f);position:relative;direction:ltr}
 .route-thumb{width:92px;height:66px;border-radius:13px;object-fit:cover;display:block;border:1px solid rgba(255,255,255,.06);background:#162437}
@@ -204,11 +213,21 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
 
   <section class="card section-card">
     <div class="section-head">
-      <div class="section-title">مسیرهای من</div>
-      <div id="routeCount" class="section-note">همه مسیرها ‹</div>
+      <div class="section-title">پیش‌بینی ۷ روز آینده</div>
+      <div class="section-note">روزانه</div>
     </div>
-    <div id="routes" class="routes"></div>
-    <button id="addRouteBtn" class="addbtn">+ افزودن مسیر در <span id="routeCityLabel">تهران</span></button>
+    <div id="days" class="days" aria-live="polite"></div>
+  </section>
+
+  <section class="card section-card">
+    <div class="section-head">
+      <div class="section-title">یادداشت من</div>
+      <div id="noteSaveState" class="section-note">خودکار ذخیره می‌شود</div>
+    </div>
+    <div class="note-box">
+      <textarea id="rideNote" class="ride-note" maxlength="1200" placeholder="مثلاً آخر هفته فشار باد لاستیک‌ها رو چک کنم..."></textarea>
+      <div class="note-meta">یک یادداشت ساده برای کارهای موتور، خرید قطعه یا هر چیزی که یادت نره.</div>
+    </div>
   </section>
 
   <div id="installBar" class="install-bar">
@@ -393,10 +412,36 @@ function heroText(r){
   return r==='good'?'امروز شرایط برای موتور خوبه':r==='warn'?'امروز با احتیاط برو':'امروز بهتره موتور نبری';
 }
 
+function dailyLabel(date,index){
+  try{
+    const d=new Date(date+'T12:00:00');
+    const day=index===0?'امروز':new Intl.DateTimeFormat('fa-IR',{weekday:'short',timeZone:currentCity.timezone||'Asia/Tehran'}).format(d);
+    const md=new Intl.DateTimeFormat('fa-IR',{day:'numeric',month:'short',timeZone:currentCity.timezone||'Asia/Tehran'}).format(d);
+    return {day,md};
+  }catch{return {day:index===0?'امروز':'—',md:''}}
+}
+function renderDailyForecast(d){
+  const box=$("#days");if(!box)return;
+  if(!d||!Array.isArray(d.time)){box.innerHTML='<div class="empty">پیش‌بینی هفتگی در دسترس نیست.</div>';return}
+  box.innerHTML=d.time.slice(0,7).map((date,i)=>{
+    const label=dailyLabel(date,i);
+    const max=d.temperature_2m_max?.[i],min=d.temperature_2m_min?.[i],prob=d.precipitation_probability_max?.[i]??0;
+    const precip=d.precipitation_sum?.[i]??0,wind=d.wind_speed_10m_max?.[i]??0,gust=d.wind_gusts_10m_max?.[i]??0;
+    const risk=riskOf(prob,precip,wind,gust);
+    return `<div class="day-card ${i===0?'today':''}">
+      <div class="day-name"><span class="day-risk ${risk}"></span>${label.day}</div>
+      <div class="day-date">${label.md}</div>
+      <div class="day-weather">${weatherSvg(d.weather_code?.[i])}</div>
+      <div class="day-temp"><span class="low">${faNum(min)}°</span><span> / </span><span class="high">${faNum(max)}°</span></div>
+      <div class="day-extra"><span>بارش ${faNum(prob)}٪</span><span>باد ${faNum(wind)}</span></div>
+    </div>`
+  }).join('');
+}
+
 async function loadWeather(silent=false){
   if(!silent){$("#badge").className='status warn';$("#badge").textContent='در حال بررسی...'}
   try{
-    const url=`https://api.open-meteo.com/v1/forecast?latitude=${currentCity.latitude}&longitude=${currentCity.longitude}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m&current=temperature_2m,precipitation,rain,showers,weather_code,wind_speed_10m,wind_gusts_10m&timezone=${encodeURIComponent(currentCity.timezone||'auto')}&forecast_days=3`;
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${currentCity.latitude}&longitude=${currentCity.longitude}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_gusts_10m&current=temperature_2m,precipitation,rain,showers,weather_code,wind_speed_10m,wind_gusts_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max&timezone=${encodeURIComponent(currentCity.timezone||'auto')}&forecast_days=7`;
     const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw new Error('weather');
     const data=await res.json(),h=data.hourly;
     const rows=next24(h).map(({i})=>({
@@ -434,6 +479,7 @@ async function loadWeather(silent=false){
       </div>`
     }).join('');
     drawTempChart(rows);
+    renderDailyForecast(data.daily);
 
     window.__weatherRows=rows;
     renderRoutes();
@@ -479,8 +525,10 @@ function routeRisk(time){
   return window.__weatherRows.reduce((a,b)=>Math.abs(new Date(b.time)-new Date(target))<Math.abs(new Date(a.time)-new Date(target))?b:a,window.__weatherRows[0]);
 }
 function renderRoutes(){
-  const routes=getRoutes(),box=$("#routes");
-  $("#routeCount").textContent=routes.length?`${faNum(routes.length)} مسیر`:'';
+  const box=$("#routes"),count=$("#routeCount");
+  if(!box||!count)return;
+  const routes=getRoutes();
+  count.textContent=routes.length?`${faNum(routes.length)} مسیر`:'';
   if(!routes.length){
     box.innerHTML=`<div class="empty">هنوز در ${esc(currentCity.name)} مسیری اضافه نکردی.<br>برای ساعت رفت‌وبرگشت خودت یک مسیر بساز.</div>`;return;
   }
@@ -503,6 +551,21 @@ function renderRoutes(){
   box.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
     const r=getRoutes();r.splice(+b.dataset.del,1);saveRoutes(r);renderRoutes();
   }));
+}
+
+function initRideNote(){
+  const note=$("#rideNote"),state=$("#noteSaveState");if(!note)return;
+  note.value=localStorage.getItem('ridecast-note')||'';
+  let timer=null;
+  note.addEventListener('input',()=>{
+    if(state)state.textContent='در حال ذخیره…';
+    clearTimeout(timer);
+    timer=setTimeout(()=>{
+      localStorage.setItem('ridecast-note',note.value);
+      if(state)state.textContent='ذخیره شد';
+      setTimeout(()=>{if(state)state.textContent='خودکار ذخیره می‌شود'},1400);
+    },450);
+  });
 }
 
 let deferredInstallPrompt=null;
@@ -821,6 +884,7 @@ $("#routeForm").addEventListener('submit',e=>{
 });
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 syncCityUI();
+initRideNote();
 loadWeather(false);
 setInterval(()=>loadWeather(true),10*60*1000);
 try{syncNotifyButton();startDailyNotificationScheduler()}catch(e){console.warn('notify ui',e)}
