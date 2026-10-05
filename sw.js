@@ -58,7 +58,7 @@ async function showRideNotification(title,body,tag){
 }
 async function backgroundWeatherCheck(){
   const s=await readSettings();
-  if(!s?.city||(!s.eventOn&&!s.dailyOn)||Notification.permission==='denied')return;
+  if(!s?.city||(!s.eventOn&&!s.dailyOn))return;
   try{
     const c=s.city;
     const url=`https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(c.latitude)}&longitude=${encodeURIComponent(c.longitude)}&current=temperature_2m,precipitation,rain,showers,weather_code,wind_speed_10m,wind_gusts_10m&hourly=precipitation_probability&forecast_hours=1&timezone=${encodeURIComponent(c.timezone||'auto')}`;
