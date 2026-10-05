@@ -288,14 +288,14 @@ input{width:100%;min-height:46px;border-radius:13px;border:1px solid var(--line-
     </label>
     <label class="notify-toggle">
       <input id="dailyNotifyToggle" type="checkbox">
-      <span class="notify-toggle-copy"><b>اعلان روزانه</b><span>هر روز در ساعت انتخابی، خلاصه وضعیت موتورسواری شهر فعلی را می‌بینی.</span></span>
+      <span class="notify-toggle-copy"><b>اعلان روزانه</b><span>هر روز در ساعت انتخابی، خلاصه هوای امروز را حتی وقتی اپ بسته است دریافت می‌کنی.</span></span>
     </label>
     <div class="daily-time-row">
       <label for="dailyNotifyTime">ساعت اعلان روزانه</label>
       <input id="dailyNotifyTime" type="time" value="08:00">
     </div>
   </div>
-  <div class="notify-note">برای اعلان‌ها باید دسترسی Notification مرورگر فعال باشد.</div>
+  <div class="notify-note">برای اعلان با اپ بسته، RideCast را نصب کن و دسترسی Notification را فعال نگه دار.</div>
   <div class="actions">
     <button type="button" id="closeNotify" class="btn secondary">بستن</button>
     <button type="button" id="saveNotifySettings" class="btn primary">ذخیره تنظیمات</button>
@@ -711,7 +711,11 @@ function selectCity(city){
   localStorage.setItem('ridecast-city',JSON.stringify(currentCity));
   window.__weatherRows=[];
   syncCityUI();
-  syncBackgroundNotificationSettings();
+  if(dailyNotificationsEnabled()&&localStorage.getItem('ridecast-daily-push-mode')==='server'){
+    setupDailyServerPush().then(()=>syncBackgroundNotificationSettings());
+  }else{
+    syncBackgroundNotificationSettings();
+  }
   $("#cityDialog")?.close();
   loadWeather(false);
   showToast('شهر روی «'+currentCity.name+'» تنظیم شد.');
@@ -818,7 +822,7 @@ async function syncBackgroundNotificationSettings(){
     const settings={
       city:{id:currentCity.id,name:currentCity.name,latitude:currentCity.latitude,longitude:currentCity.longitude,timezone:currentCity.timezone||'auto'},
       eventOn:eventNotificationsEnabled(),
-      dailyOn:dailyNotificationsEnabled(),
+      dailyOn:dailyNotificationsEnabled()&&localStorage.getItem('ridecast-daily-push-mode')!=='server',
       dailyTime:dailyNotificationTime()
     };
     const reply=await new Promise(resolve=>{
@@ -849,6 +853,79 @@ async function syncBackgroundNotificationSettings(){
   }catch(e){return false}
 }
 
+function bytesToBase64Url(bytes){
+  let bin='';
+  const arr=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);
+  for(const b of arr)bin+=String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function dailyServerPushSupported(){
+  return 'serviceWorker'in navigator&&'PushManager'in window&&!!window.crypto?.subtle;
+}
+async function unsubscribeDailyServerPush(){
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.getSubscription();
+    if(sub)await sub.unsubscribe();
+  }catch(e){}
+  localStorage.removeItem('ridecast-daily-push-mode');
+  localStorage.removeItem('ridecast-daily-push-run-id');
+}
+async function setupDailyServerPush(){
+  if(!dailyServerPushSupported())return false;
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const old=await reg.pushManager.getSubscription();
+    if(old)await old.unsubscribe();
+
+    const pair=await crypto.subtle.generateKey(
+      {name:'ECDSA',namedCurve:'P-256'},
+      true,
+      ['sign','verify']
+    );
+    const publicRaw=new Uint8Array(await crypto.subtle.exportKey('raw',pair.publicKey));
+    const privateJwk=await crypto.subtle.exportKey('jwk',pair.privateKey);
+    const vapidPublicKey=bytesToBase64Url(publicRaw);
+    const vapidPrivateKey=privateJwk.d;
+    if(!vapidPrivateKey)throw new Error('vapid');
+
+    const subscription=await reg.pushManager.subscribe({
+      userVisibleOnly:true,
+      applicationServerKey:publicRaw
+    });
+
+    const response=await fetch('/api/schedule-daily-push',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({
+        subscription:subscription.toJSON(),
+        vapidPublicKey,
+        vapidPrivateKey,
+        city:{
+          id:currentCity.id,
+          name:currentCity.name,
+          latitude:currentCity.latitude,
+          longitude:currentCity.longitude,
+          timezone:currentCity.timezone||'Asia/Tehran'
+        },
+        time:dailyNotificationTime()
+      })
+    });
+    if(!response.ok){
+      try{await subscription.unsubscribe()}catch(e){}
+      throw new Error('schedule');
+    }
+    const result=await response.json();
+    localStorage.setItem('ridecast-daily-push-mode','server');
+    if(result?.runId)localStorage.setItem('ridecast-daily-push-run-id',result.runId);
+    return true;
+  }catch(e){
+    console.warn('daily server push',e);
+    localStorage.removeItem('ridecast-daily-push-mode');
+    return false;
+  }
+}
+
 $("#saveNotifySettings")?.addEventListener('click',async()=>{
   const eventOn=!!$("#eventNotifyToggle")?.checked;
   const dailyOn=!!$("#dailyNotifyToggle")?.checked;
@@ -857,14 +934,30 @@ $("#saveNotifySettings")?.addEventListener('click',async()=>{
   localStorage.setItem('ridecast-notifications-enabled',String(eventOn));
   localStorage.setItem('ridecast-daily-notifications-enabled',String(dailyOn));
   localStorage.setItem('ridecast-daily-notification-time',$("#dailyNotifyTime")?.value||'08:00');
+
+  let serverPush=false;
+  if(dailyOn){
+    serverPush=await setupDailyServerPush();
+  }else{
+    await unsubscribeDailyServerPush();
+  }
+
   syncNotifyButton();
   await syncBackgroundNotificationSettings();
   startDailyNotificationScheduler();
   $("#notifyDialog")?.close();
-  showToast(dailyOn?'اعلان روزانه برای ساعت '+($("#dailyNotifyTime")?.value||'08:00')+' ذخیره شد.':'تنظیمات اعلان ذخیره شد.');
+
+  if(dailyOn&&serverPush){
+    showToast('اعلان روزانه ساعت '+($("#dailyNotifyTime")?.value||'08:00')+' فعال شد؛ حتی با اپ بسته ارسال می‌شود.');
+  }else if(dailyOn){
+    showToast('اعلان ذخیره شد، اما برای ارسال با اپ بسته باید RideCast به‌صورت PWA نصب و Push مرورگر فعال باشد.');
+  }else{
+    showToast('تنظیمات اعلان ذخیره شد.');
+  }
 });
 let dailyNotificationTimer=null;
 async function checkDailyNotification(){
+  if(localStorage.getItem('ridecast-daily-push-mode')==='server')return;
   if(!dailyNotificationsEnabled()||document.hidden)return;
   const n=nowParts(),target=dailyNotificationTime(),nowClock=n.hour+':'+n.minute;
   if(nowClock<target)return;
